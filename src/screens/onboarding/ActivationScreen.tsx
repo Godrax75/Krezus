@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 import {
   View,
   Text,
@@ -13,6 +13,8 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
+import { CameraView, useCameraPermissions } from 'expo-camera';
+import * as Haptics from 'expo-haptics';
 import { useTheme } from '../../theme';
 import { Spacing, BorderRadius, FontSize, FontWeight } from '../../theme';
 import { useApp } from '../../store/AppContext';
@@ -24,9 +26,12 @@ const ActivationScreen: React.FC = () => {
   const { setActivationCode } = useApp();
 
   const [showManualInput, setShowManualInput] = useState(false);
+  const [showScanner, setShowScanner] = useState(false);
   const [code, setCode] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
+
+  const [permission, requestPermission] = useCameraPermissions();
 
   const shakeAnim = useRef(new Animated.Value(0)).current;
   const successOpacity = useRef(new Animated.Value(0)).current;
@@ -55,17 +60,19 @@ const ActivationScreen: React.FC = () => {
     ]).start();
   };
 
-  const handleSubmit = () => {
-    const rawCode = code.replace(/-/g, '');
+  const validateAndSubmit = useCallback((codeValue: string) => {
+    const rawCode = codeValue.replace(/-/g, '');
 
     if (rawCode.length < 12) {
       setError('Code invalide. Veuillez réessayer.');
       triggerShake();
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
       return;
     }
 
-    setActivationCode(code);
+    setActivationCode(codeValue);
     setSuccess(true);
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
 
     Animated.timing(successOpacity, {
       toValue: 1,
@@ -76,11 +83,40 @@ const ActivationScreen: React.FC = () => {
     setTimeout(() => {
       navigation.navigate('Signup');
     }, 1500);
+  }, [setActivationCode, navigation, successOpacity, shakeAnim]);
+
+  const handleSubmit = () => {
+    validateAndSubmit(code);
   };
 
-  const handleScanQR = () => {
-    Alert.alert('Scanner QR', 'La caméra s\'ouvrira pour scanner le QR code de votre coffret.');
+  const handleScanQR = async () => {
+    if (!permission?.granted) {
+      const result = await requestPermission();
+      if (!result.granted) {
+        Alert.alert(
+          'Permission refusée',
+          'L\'accès à la caméra est nécessaire pour scanner le QR code. Vous pouvez entrer le code manuellement.',
+          [
+            {
+              text: 'Saisie manuelle',
+              onPress: () => {
+                setShowManualInput(true);
+              },
+            },
+          ],
+        );
+        return;
+      }
+    }
+    setShowScanner(true);
   };
+
+  const handleBarcodeScanned = useCallback(({ data }: { data: string }) => {
+    const formatted = formatCode(data);
+    setCode(formatted);
+    setShowScanner(false);
+    validateAndSubmit(formatted);
+  }, [validateAndSubmit]);
 
   if (success) {
     return (
@@ -90,6 +126,44 @@ const ActivationScreen: React.FC = () => {
           <Text style={[styles.successText, { color: colors.text }]}>Code validé !</Text>
         </Animated.View>
       </SafeAreaView>
+    );
+  }
+
+  if (showScanner) {
+    return (
+      <View style={styles.scannerContainer}>
+        <CameraView
+          style={StyleSheet.absoluteFillObject}
+          barcodeScannerSettings={{ barcodeTypes: ['qr'] }}
+          onBarcodeScanned={handleBarcodeScanned}
+        />
+        <View style={styles.scannerOverlay}>
+          <View style={styles.scannerTopBar}>
+            <TouchableOpacity
+              style={styles.scannerCloseButton}
+              onPress={() => setShowScanner(false)}
+              activeOpacity={0.7}
+            >
+              <Ionicons name="close" size={32} color="#FFFFFF" />
+            </TouchableOpacity>
+          </View>
+          <View style={styles.scannerFrameRow}>
+            <View style={styles.scannerSideMask} />
+            <View style={styles.scannerFrame}>
+              <View style={[styles.scannerCorner, styles.scannerCornerTL]} />
+              <View style={[styles.scannerCorner, styles.scannerCornerTR]} />
+              <View style={[styles.scannerCorner, styles.scannerCornerBL]} />
+              <View style={[styles.scannerCorner, styles.scannerCornerBR]} />
+            </View>
+            <View style={styles.scannerSideMask} />
+          </View>
+          <View style={styles.scannerBottomMask}>
+            <Text style={styles.scannerHintText}>
+              Placez le QR code de votre coffret dans le cadre
+            </Text>
+          </View>
+        </View>
+      </View>
     );
   }
 
@@ -155,6 +229,10 @@ const ActivationScreen: React.FC = () => {
   );
 };
 
+const SCANNER_FRAME_SIZE = 250;
+const CORNER_SIZE = 30;
+const CORNER_WIDTH = 4;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -214,6 +292,88 @@ const styles = StyleSheet.create({
     fontSize: FontSize.xxl,
     fontWeight: FontWeight.bold as any,
     marginTop: Spacing.md,
+  },
+  // Scanner styles
+  scannerContainer: {
+    flex: 1,
+    backgroundColor: '#000000',
+  },
+  scannerOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    justifyContent: 'space-between',
+  },
+  scannerTopBar: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-end',
+    paddingTop: 60,
+    paddingRight: 20,
+  },
+  scannerCloseButton: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  scannerFrameRow: {
+    flexDirection: 'row',
+    height: SCANNER_FRAME_SIZE,
+  },
+  scannerSideMask: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
+  },
+  scannerFrame: {
+    width: SCANNER_FRAME_SIZE,
+    height: SCANNER_FRAME_SIZE,
+  },
+  scannerCorner: {
+    position: 'absolute',
+    width: CORNER_SIZE,
+    height: CORNER_SIZE,
+  },
+  scannerCornerTL: {
+    top: 0,
+    left: 0,
+    borderTopWidth: CORNER_WIDTH,
+    borderLeftWidth: CORNER_WIDTH,
+    borderColor: '#C9A84C',
+  },
+  scannerCornerTR: {
+    top: 0,
+    right: 0,
+    borderTopWidth: CORNER_WIDTH,
+    borderRightWidth: CORNER_WIDTH,
+    borderColor: '#C9A84C',
+  },
+  scannerCornerBL: {
+    bottom: 0,
+    left: 0,
+    borderBottomWidth: CORNER_WIDTH,
+    borderLeftWidth: CORNER_WIDTH,
+    borderColor: '#C9A84C',
+  },
+  scannerCornerBR: {
+    bottom: 0,
+    right: 0,
+    borderBottomWidth: CORNER_WIDTH,
+    borderRightWidth: CORNER_WIDTH,
+    borderColor: '#C9A84C',
+  },
+  scannerBottomMask: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
+    alignItems: 'center',
+    paddingTop: 30,
+  },
+  scannerHintText: {
+    color: '#FFFFFF',
+    fontSize: FontSize.md,
+    textAlign: 'center',
+    paddingHorizontal: Spacing.xl,
   },
 });
 

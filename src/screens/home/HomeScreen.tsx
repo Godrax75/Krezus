@@ -5,17 +5,19 @@ import {
   ScrollView,
   StyleSheet,
   TouchableOpacity,
-  FlatList,
   RefreshControl,
+  Image,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import * as Haptics from 'expo-haptics';
 import { useTheme, Spacing, BorderRadius, FontSize, FontWeight } from '../../theme';
 import { useApp } from '../../store/AppContext';
 import { mockStocks, mockActivities, generateChartData } from '../../data/mockData';
 import { GlassCard } from '../../components/common/GlassCard';
 import { AnimatedNumber } from '../../components/common/AnimatedNumber';
+import { SkeletonLoader } from '../../components/common/SkeletonLoader';
 import { LineChart } from '../../components/charts/LineChart';
 import { TimePeriod, Position } from '../../types';
 
@@ -27,36 +29,55 @@ export const HomeScreen = () => {
   const navigation = useNavigation<any>();
   const [selectedPeriod, setSelectedPeriod] = useState<TimePeriod>('1M');
   const [refreshing, setRefreshing] = useState(false);
+  const [failedImages, setFailedImages] = useState<Set<string>>(new Set());
 
   const chartData = useMemo(() => generateChartData(selectedPeriod), [selectedPeriod]);
   const isPositive = portfolio.totalGain >= 0;
 
   const onRefresh = useCallback(() => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     setRefreshing(true);
     setTimeout(() => setRefreshing(false), 1500);
+  }, []);
+
+  const handlePeriodChange = useCallback((period: TimePeriod) => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    setSelectedPeriod(period);
   }, []);
 
   const getStockForPosition = (position: Position) => {
     return mockStocks[position.stockId.toUpperCase()] ?? null;
   };
 
-  const renderStockCard = ({ item }: { item: Position }) => {
+  const renderStockCard = (item: Position) => {
     const stock = getStockForPosition(item);
     if (!stock) return null;
     const dayPositive = stock.dayChange >= 0;
+    const showImage = stock.logoUrl && !failedImages.has(stock.id);
 
     return (
       <TouchableOpacity
+        key={item.stockId}
         activeOpacity={0.7}
         onPress={() => navigation.navigate('StockDetail', { stockId: item.stockId })}
         style={styles.stockCardWrapper}
       >
         <GlassCard style={styles.stockCard}>
-          <View style={[styles.stockLogo, { backgroundColor: colors.primary }]}>
-            <Text style={styles.stockLogoText}>
-              {stock.name.charAt(0)}
-            </Text>
-          </View>
+          {showImage ? (
+            <Image
+              source={{ uri: stock.logoUrl }}
+              style={styles.stockLogo}
+              onError={() =>
+                setFailedImages((prev) => new Set(prev).add(stock.id))
+              }
+            />
+          ) : (
+            <View style={[styles.stockLogo, { backgroundColor: colors.primary }]}>
+              <Text style={styles.stockLogoText}>
+                {stock.name.charAt(0)}
+              </Text>
+            </View>
+          )}
           <Text style={[styles.stockName, { color: colors.text }]} numberOfLines={1}>
             {stock.name}
           </Text>
@@ -134,11 +155,15 @@ export const HomeScreen = () => {
           <Text style={[styles.portfolioLabel, { color: colors.textSecondary }]}>
             Valeur du portefeuille
           </Text>
-          <AnimatedNumber
-            value={portfolio.totalValue}
-            suffix=" €"
-            style={[styles.portfolioValue, { color: colors.text }]}
-          />
+          {refreshing ? (
+            <SkeletonLoader width={200} height={40} />
+          ) : (
+            <AnimatedNumber
+              value={portfolio.totalValue}
+              suffix=" €"
+              style={[styles.portfolioValue, { color: colors.text }]}
+            />
+          )}
           <View style={styles.gainRow}>
             <Ionicons
               name={isPositive ? 'arrow-up' : 'arrow-down'}
@@ -170,7 +195,7 @@ export const HomeScreen = () => {
               return (
                 <TouchableOpacity
                   key={period}
-                  onPress={() => setSelectedPeriod(period)}
+                  onPress={() => handlePeriodChange(period)}
                   style={[
                     styles.periodButton,
                     active && { backgroundColor: colors.primary },
@@ -191,20 +216,35 @@ export const HomeScreen = () => {
           </View>
 
           {/* Chart */}
-          <LineChart data={chartData} height={200} isPositive={isPositive} />
+          {refreshing ? (
+            <SkeletonLoader width="100%" height={200} />
+          ) : (
+            <LineChart data={chartData} height={200} isPositive={isPositive} />
+          )}
         </GlassCard>
 
         {/* Mes Actions */}
         <View style={styles.section}>
           <Text style={[styles.sectionTitle, { color: colors.text }]}>Mes Actions</Text>
-          <FlatList
-            data={portfolio.positions}
-            renderItem={renderStockCard}
-            keyExtractor={(item) => item.stockId}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.stockListContent}
-          />
+          {refreshing ? (
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={styles.stockListContent}
+            >
+              {[0, 1, 2].map((i) => (
+                <SkeletonLoader key={i} width={160} height={200} />
+              ))}
+            </ScrollView>
+          ) : (
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={styles.stockListContent}
+            >
+              {portfolio.positions.map((item) => renderStockCard(item))}
+            </ScrollView>
+          )}
         </View>
 
         {/* Activite recente */}

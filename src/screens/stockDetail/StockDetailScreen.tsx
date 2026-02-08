@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import {
   View,
   Text,
@@ -10,10 +10,12 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
+import * as Haptics from 'expo-haptics';
 import { useTheme, Spacing, BorderRadius, FontSize, FontWeight } from '../../theme';
 import { useApp } from '../../store/AppContext';
 import { mockStocks, mockNews, generateStockChartData } from '../../data/mockData';
 import { GlassCard } from '../../components/common/GlassCard';
+import { SkeletonLoader } from '../../components/common/SkeletonLoader';
 import { LineChart } from '../../components/charts/LineChart';
 import { TimePeriod } from '../../types';
 
@@ -36,6 +38,14 @@ export const StockDetailScreen = () => {
   );
 
   const [selectedPeriod, setSelectedPeriod] = useState<TimePeriod>('1M');
+  const [chartLoading, setChartLoading] = useState(false);
+
+  const handlePeriodChange = useCallback((period: TimePeriod) => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    setChartLoading(true);
+    setSelectedPeriod(period);
+    setTimeout(() => setChartLoading(false), 300);
+  }, []);
 
   const chartData = useMemo(
     () => (stock ? generateStockChartData(selectedPeriod, stock.currentPrice) : []),
@@ -84,7 +94,7 @@ export const StockDetailScreen = () => {
               return (
                 <TouchableOpacity
                   key={period}
-                  onPress={() => setSelectedPeriod(period)}
+                  onPress={() => handlePeriodChange(period)}
                   style={[
                     styles.periodButton,
                     active && { backgroundColor: colors.primary },
@@ -103,7 +113,11 @@ export const StockDetailScreen = () => {
               );
             })}
           </View>
-          <LineChart data={chartData} height={220} isPositive={isPositive} />
+          {chartLoading ? (
+            <SkeletonLoader width="100%" height={220} />
+          ) : (
+            <LineChart data={chartData} height={220} isPositive={isPositive} />
+          )}
         </View>
 
         {/* Key Metrics */}

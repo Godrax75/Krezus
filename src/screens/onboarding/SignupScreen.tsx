@@ -8,6 +8,7 @@ import {
   StyleSheet,
   Platform,
   KeyboardAvoidingView,
+  Alert,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
@@ -16,6 +17,8 @@ import { useTheme } from '../../theme';
 import { Spacing, BorderRadius, FontSize, FontWeight } from '../../theme';
 import { useApp } from '../../store/AppContext';
 import { GoldButton } from '../../components/common/GoldButton';
+
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const SignupScreen: React.FC = () => {
   const { colors } = useTheme();
@@ -27,6 +30,7 @@ const SignupScreen: React.FC = () => {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [cguAccepted, setCguAccepted] = useState(false);
+  const [emailError, setEmailError] = useState('');
 
   const passwordStrength = useMemo(() => {
     if (password.length === 0) return 0;
@@ -42,11 +46,29 @@ const SignupScreen: React.FC = () => {
   const isFormValid = useMemo(() => {
     return (
       firstName.trim().length > 0 &&
-      email.trim().length > 0 &&
+      EMAIL_REGEX.test(email.trim()) &&
       password.length >= 8 &&
       cguAccepted
     );
   }, [firstName, email, password, cguAccepted]);
+
+  const handleEmailChange = (text: string) => {
+    setEmail(text);
+    if (text.trim().length === 0) {
+      setEmailError('');
+    } else if (!EMAIL_REGEX.test(text.trim())) {
+      setEmailError("Format d'email invalide");
+    } else {
+      setEmailError('');
+    }
+  };
+
+  const handleSocialPress = (provider: 'Apple' | 'Google') => {
+    Alert.alert(
+      'Bientôt disponible',
+      `L'inscription via ${provider} sera disponible prochainement.`
+    );
+  };
 
   const handleSubmit = () => {
     if (!isFormValid) return;
@@ -93,15 +115,25 @@ const SignupScreen: React.FC = () => {
           <View style={styles.fieldContainer}>
             <Text style={[styles.label, { color: colors.text, opacity: 0.7 }]}>Email</Text>
             <TextInput
-              style={[styles.input, { color: colors.text, borderColor: '#C9A84C55', backgroundColor: '#FFFFFF0A' }]}
+              style={[
+                styles.input,
+                {
+                  color: colors.text,
+                  borderColor: emailError ? '#FF4444' : '#C9A84C55',
+                  backgroundColor: '#FFFFFF0A',
+                },
+              ]}
               value={email}
-              onChangeText={setEmail}
+              onChangeText={handleEmailChange}
               placeholder="votre@email.com"
               placeholderTextColor="#FFFFFF44"
               keyboardType="email-address"
               autoCapitalize="none"
               autoCorrect={false}
             />
+            {emailError ? (
+              <Text style={styles.emailErrorText}>{emailError}</Text>
+            ) : null}
           </View>
 
           {/* Mot de passe */}
@@ -158,8 +190,9 @@ const SignupScreen: React.FC = () => {
 
           {/* Apple Button */}
           <TouchableOpacity
-            style={[styles.socialButton, { borderColor: '#FFFFFF33' }]}
+            style={[styles.socialButton, { borderColor: '#FFFFFF33', opacity: 0.6 }]}
             activeOpacity={0.7}
+            onPress={() => handleSocialPress('Apple')}
           >
             <Ionicons name="logo-apple" size={22} color="#FFFFFF" />
             <Text style={[styles.socialButtonText, { color: colors.text }]}>
@@ -169,14 +202,18 @@ const SignupScreen: React.FC = () => {
 
           {/* Google Button */}
           <TouchableOpacity
-            style={[styles.socialButton, { borderColor: '#FFFFFF33' }]}
+            style={[styles.socialButton, { borderColor: '#FFFFFF33', opacity: 0.6 }]}
             activeOpacity={0.7}
+            onPress={() => handleSocialPress('Google')}
           >
             <Ionicons name="logo-google" size={20} color="#FFFFFF" />
             <Text style={[styles.socialButtonText, { color: colors.text }]}>
               Continuer avec Google
             </Text>
           </TouchableOpacity>
+
+          {/* Social buttons hint */}
+          <Text style={styles.socialHintText}>Bientôt disponible</Text>
 
           {/* CGU Checkbox */}
           <TouchableOpacity
@@ -246,6 +283,11 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: BorderRadius.md,
   },
+  emailErrorText: {
+    color: '#FF4444',
+    fontSize: FontSize.sm,
+    marginTop: 4,
+  },
   passwordContainer: {
     position: 'relative',
   },
@@ -295,6 +337,12 @@ const styles = StyleSheet.create({
     fontSize: FontSize.md,
     fontWeight: FontWeight.semibold as any,
     marginLeft: Spacing.sm,
+  },
+  socialHintText: {
+    fontSize: FontSize.xs,
+    color: '#FFFFFF66',
+    textAlign: 'center',
+    marginBottom: Spacing.sm,
   },
   cguContainer: {
     flexDirection: 'row',

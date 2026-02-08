@@ -1,5 +1,6 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { useTheme } from '../theme';
 import SplashScreen from '../screens/onboarding/SplashScreen';
 import WelcomeScreen from '../screens/onboarding/WelcomeScreen';
 import ActivationScreen from '../screens/onboarding/ActivationScreen';
@@ -17,12 +18,14 @@ export type OnboardingStackParamList = {
 const Stack = createNativeStackNavigator<OnboardingStackParamList>();
 
 export const OnboardingNavigator = () => {
+  const { colors } = useTheme();
+
   return (
     <Stack.Navigator
       screenOptions={{
         headerShown: false,
         animation: 'fade',
-        contentStyle: { backgroundColor: '#0A0A0A' },
+        contentStyle: { backgroundColor: colors.background },
       }}
     >
       <Stack.Screen name="Splash" component={SplashScreen} />

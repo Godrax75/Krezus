@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import { View, StyleSheet, ViewStyle } from 'react-native';
+import { View, TouchableOpacity, StyleSheet, ViewStyle } from 'react-native';
 import { useTheme, BorderRadius, Spacing } from '../../theme';
 
 interface GlassCardProps {
@@ -8,18 +8,28 @@ interface GlassCardProps {
   onPress?: () => void;
 }
 
-export const GlassCard = ({ children, style }: GlassCardProps) => {
+export const GlassCard = ({ children, style, onPress }: GlassCardProps) => {
   const { colors } = useTheme();
 
+  const cardStyle = [
+    styles.card,
+    {
+      backgroundColor: colors.glass,
+      borderColor: colors.glassBorder,
+    },
+    style,
+  ];
+
+  if (onPress) {
+    return (
+      <TouchableOpacity activeOpacity={0.7} onPress={onPress} style={cardStyle}>
+        {children}
+      </TouchableOpacity>
+    );
+  }
+
   return (
-    <View style={[
-      styles.card,
-      {
-        backgroundColor: colors.glass,
-        borderColor: colors.glassBorder,
-      },
-      style,
-    ]}>
+    <View style={cardStyle}>
       {children}
     </View>
   );

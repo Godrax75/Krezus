@@ -59,8 +59,9 @@ export const LineChart = ({
   const lineColor = isPositive ? colors.positive : colors.negative;
 
   const panResponder = PanResponder.create({
-    onStartShouldSetPanResponder: () => true,
-    onMoveShouldSetPanResponder: () => true,
+    onStartShouldSetPanResponder: () => false,
+    onMoveShouldSetPanResponder: (_, gestureState) =>
+      Math.abs(gestureState.dx) > Math.abs(gestureState.dy) && Math.abs(gestureState.dx) > 10,
     onPanResponderGrant: (_, gestureState) => handleTouch(gestureState.x0),
     onPanResponderMove: (_, gestureState) => handleTouch(gestureState.moveX),
     onPanResponderRelease: () => setTooltipData(null),

@@ -286,27 +286,46 @@ export const mockGiftReveal: GiftReveal = {
   giftedBy: 'Marie',
 };
 
-export function generateChartData(period: string): ChartDataPoint[] {
-  const now = Date.now();
-  let points = 50;
-  let interval: number;
-  let baseValue = 1200;
+// Seeded PRNG for deterministic chart data (replaces Math.random())
+function seededRandom(seed: number): () => number {
+  let s = seed;
+  return () => {
+    s = (s * 16807 + 0) % 2147483647;
+    return (s - 1) / 2147483646;
+  };
+}
 
+// Cache generated chart data so curves don't change on re-render/navigation
+const chartDataCache = new Map<string, ChartDataPoint[]>();
+
+function getPeriodConfig(period: string): { interval: number; points: number } {
   switch (period) {
-    case '1J': interval = 5 * 60 * 1000; points = 78; break;
-    case '1S': interval = 2 * 60 * 60 * 1000; points = 84; break;
-    case '1M': interval = 24 * 60 * 60 * 1000; points = 30; break;
-    case '3M': interval = 24 * 60 * 60 * 1000; points = 90; break;
-    case '6M': interval = 24 * 60 * 60 * 1000; points = 180; break;
-    case '1A': interval = 7 * 24 * 60 * 60 * 1000; points = 52; break;
-    default: interval = 30 * 24 * 60 * 60 * 1000; points = 24; break;
+    case '1J': return { interval: 5 * 60 * 1000, points: 78 };
+    case '1S': return { interval: 2 * 60 * 60 * 1000, points: 84 };
+    case '1M': return { interval: 24 * 60 * 60 * 1000, points: 30 };
+    case '3M': return { interval: 24 * 60 * 60 * 1000, points: 90 };
+    case '6M': return { interval: 24 * 60 * 60 * 1000, points: 180 };
+    case '1A': return { interval: 7 * 24 * 60 * 60 * 1000, points: 52 };
+    default: return { interval: 30 * 24 * 60 * 60 * 1000, points: 24 };
   }
+}
+
+// TODO: Replace with real API call (Alpha Vantage / Finnhub) when backend is ready
+export function generateChartData(period: string): ChartDataPoint[] {
+  const cacheKey = `portfolio_${period}`;
+  const cached = chartDataCache.get(cacheKey);
+  if (cached) return cached;
+
+  const now = Date.now();
+  const { interval, points } = getPeriodConfig(period);
+  const baseValue = 1200;
+  const random = seededRandom(period.length * 1000 + 42);
 
   const data: ChartDataPoint[] = [];
   let value = baseValue;
 
   for (let i = 0; i < points; i++) {
-    const change = (Math.random() - 0.45) * 15;
+    const change = (random() - 0.45) * 15;
     value = Math.max(value + change, baseValue * 0.85);
     data.push({
       timestamp: now - (points - i) * interval,
@@ -314,29 +333,25 @@ export function generateChartData(period: string): ChartDataPoint[] {
     });
   }
 
+  chartDataCache.set(cacheKey, data);
   return data;
 }
 
+// TODO: Replace with real API call (Alpha Vantage / Finnhub) when backend is ready
 export function generateStockChartData(period: string, basePrice: number): ChartDataPoint[] {
-  const now = Date.now();
-  let points = 50;
-  let interval: number;
+  const cacheKey = `stock_${basePrice}_${period}`;
+  const cached = chartDataCache.get(cacheKey);
+  if (cached) return cached;
 
-  switch (period) {
-    case '1J': interval = 5 * 60 * 1000; points = 78; break;
-    case '1S': interval = 2 * 60 * 60 * 1000; points = 84; break;
-    case '1M': interval = 24 * 60 * 60 * 1000; points = 30; break;
-    case '3M': interval = 24 * 60 * 60 * 1000; points = 90; break;
-    case '6M': interval = 24 * 60 * 60 * 1000; points = 180; break;
-    case '1A': interval = 7 * 24 * 60 * 60 * 1000; points = 52; break;
-    default: interval = 30 * 24 * 60 * 60 * 1000; points = 24; break;
-  }
+  const now = Date.now();
+  const { interval, points } = getPeriodConfig(period);
+  const random = seededRandom(Math.round(basePrice * 100) + period.length * 777);
 
   const data: ChartDataPoint[] = [];
   let value = basePrice * 0.9;
 
   for (let i = 0; i < points; i++) {
-    const change = (Math.random() - 0.45) * (basePrice * 0.02);
+    const change = (random() - 0.45) * (basePrice * 0.02);
     value = Math.max(value + change, basePrice * 0.75);
     data.push({
       timestamp: now - (points - i) * interval,
@@ -344,5 +359,6 @@ export function generateStockChartData(period: string, basePrice: number): Chart
     });
   }
 
+  chartDataCache.set(cacheKey, data);
   return data;
 }

@@ -60,7 +60,14 @@ const RevealScreen: React.FC = () => {
       });
     }, 1000);
 
-    return () => clearTimeout(flipTimeout);
+    return () => {
+      clearTimeout(flipTimeout);
+      flipAnim.stopAnimation();
+      confettiPieces.forEach((piece) => {
+        piece.animY.stopAnimation();
+        piece.opacity.stopAnimation();
+      });
+    };
   }, []);
 
   const startConfetti = () => {

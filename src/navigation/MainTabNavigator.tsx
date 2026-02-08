@@ -26,9 +26,11 @@ const HomeStack = createNativeStackNavigator<HomeStackParamList>();
 const LearnStack = createNativeStackNavigator<LearnStackParamList>();
 const Tab = createBottomTabNavigator();
 
+// Fix 7: Use dynamic colors from theme instead of hardcoded '#0A0A0A'
 const HomeStackNavigator = () => {
+  const { colors } = useTheme();
   return (
-    <HomeStack.Navigator screenOptions={{ headerShown: false, contentStyle: { backgroundColor: '#0A0A0A' } }}>
+    <HomeStack.Navigator screenOptions={{ headerShown: false, contentStyle: { backgroundColor: colors.background } }}>
       <HomeStack.Screen name="HomeMain" component={HomeScreen} />
       <HomeStack.Screen name="StockDetail" component={StockDetailScreen} options={{ animation: 'slide_from_right' }} />
     </HomeStack.Navigator>
@@ -36,8 +38,9 @@ const HomeStackNavigator = () => {
 };
 
 const LearnStackNavigator = () => {
+  const { colors } = useTheme();
   return (
-    <LearnStack.Navigator screenOptions={{ headerShown: false, contentStyle: { backgroundColor: '#0A0A0A' } }}>
+    <LearnStack.Navigator screenOptions={{ headerShown: false, contentStyle: { backgroundColor: colors.background } }}>
       <LearnStack.Screen name="LearnMain" component={LearnScreen} />
       <LearnStack.Screen name="ModuleDetail" component={ModuleDetailScreen} options={{ animation: 'slide_from_right' }} />
     </LearnStack.Navigator>
@@ -52,6 +55,8 @@ export const MainTabNavigator = () => {
     <Tab.Navigator
       screenOptions={({ route }) => ({
         headerShown: false,
+        // Fix 13: subtle fade animation between tabs
+        animation: 'fade',
         tabBarStyle: {
           backgroundColor: colors.tabBar,
           borderTopColor: colors.border,
@@ -60,13 +65,15 @@ export const MainTabNavigator = () => {
           paddingBottom: 30,
           paddingTop: 8,
         },
+        // Fix 7: dynamic sceneStyle for tab screens
+        sceneStyle: { backgroundColor: colors.background },
         tabBarActiveTintColor: colors.primary,
         tabBarInactiveTintColor: colors.textTertiary,
         tabBarLabelStyle: {
           fontSize: FontSize.xs,
           fontWeight: FontWeight.medium,
         },
-        tabBarIcon: ({ focused, color, size }) => {
+        tabBarIcon: ({ focused, color }) => {
           let iconName: keyof typeof Ionicons.glyphMap = 'home';
 
           switch (route.name) {

@@ -10,6 +10,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
+import * as Haptics from 'expo-haptics';
 import { useTheme, Spacing, BorderRadius, FontSize, FontWeight } from '../../theme';
 import { useApp } from '../../store/AppContext';
 import { mockEducationModules } from '../../data/mockData';
@@ -61,6 +62,9 @@ export const ModuleDetailScreen = () => {
 
       setSelectedOption(optionIndex);
       const isCorrect = optionIndex === currentQuestion.correctIndex;
+      Haptics.notificationAsync(
+        isCorrect ? Haptics.NotificationFeedbackType.Success : Haptics.NotificationFeedbackType.Error
+      );
 
       setAnsweredQuestions((prev) => ({
         ...prev,
