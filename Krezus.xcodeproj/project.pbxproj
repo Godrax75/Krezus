@@ -42,6 +42,7 @@
 		63403A0B509F080045F927A6 /* SettingsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC1F3AD5CCE9D65ABB906C4D /* SettingsStore.swift */; };
 		64106E9ECA0DBB58B1A2D15F /* KrezusColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD941373818378FD892FBF3 /* KrezusColor.swift */; };
 		6465FCD0E00B6DE6E36D6567 /* OracleProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F78F64E6EAAC67527B8D3262 /* OracleProfileView.swift */; };
+		6A7CBC3080942109EAC426CF /* AcademyRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0CB9CF80F3B25933C04536F /* AcademyRepository.swift */; };
 		6B86DBAC3D0BE7F205BA7176 /* MarketDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3703310CFEC1EC8DCAC5B93B /* MarketDataService.swift */; };
 		6C1EDC48C2E839604DE4E7D0 /* SellScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E8CAEDC30E668847F943013 /* SellScreen.swift */; };
 		7207AB851B15B623D55467C0 /* Money.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5664F137F4595596AC828F5A /* Money.swift */; };
@@ -156,6 +157,7 @@
 		B6D9B82EABDE83897DCCBF86 /* OracleScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OracleScreen.swift; sourceTree = "<group>"; };
 		B926622A8811A66FD6197492 /* SettingsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsScreen.swift; sourceTree = "<group>"; };
 		BAB9FCB1243911E57EC11795 /* BuyScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuyScreen.swift; sourceTree = "<group>"; };
+		C0CB9CF80F3B25933C04536F /* AcademyRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcademyRepository.swift; sourceTree = "<group>"; };
 		C0FC3304F58E4550EB7C97F3 /* oracle_scenarios.en.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = oracle_scenarios.en.json; sourceTree = "<group>"; };
 		C20E25B9D7379FB7AFC179C8 /* OracleCoachView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OracleCoachView.swift; sourceTree = "<group>"; };
 		C313D8810D590C329C3D7DA0 /* PortfolioRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioRepository.swift; sourceTree = "<group>"; };
@@ -430,6 +432,7 @@
 		9DD82B2185154FCF31C0E8A4 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				C0CB9CF80F3B25933C04536F /* AcademyRepository.swift */,
 				852A1B438D5653FEABBFADFE /* AuthService.swift */,
 				F6F37CA26B15AFD3A4374D8A /* BiometricLock.swift */,
 				3703310CFEC1EC8DCAC5B93B /* MarketDataService.swift */,
@@ -620,6 +623,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6A7CBC3080942109EAC426CF /* AcademyRepository.swift in Sources */,
 				EC609521483DA6E01C4F6FBD /* AcademyScreen.swift in Sources */,
 				964CC2765063644D38786B3F /* AppConfig.swift in Sources */,
 				98430E9862461A396C43616B /* AppState.swift in Sources */,

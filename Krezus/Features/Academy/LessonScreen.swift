@@ -126,9 +126,21 @@ struct LessonScreen: View {
             KrzPrimaryButton(title: learning.isCompleted(lesson) ? t("common.go_back") : t("lesson.finish")) {
                 if learning.isCompleted(lesson) {
                     dismiss()
-                } else if let gained = try? learning.complete(lesson: lesson.position, quizCorrect: nil) {
-                    router.showToast(gained > 0 ? t("lesson.toast_xp", gained) : t("lesson.toast"))
-                    dismiss()
+                } else {
+                    Task {
+                        do {
+                            let gained = try await learning.complete(
+                                lesson: lesson.position, quizCorrect: nil)
+                            router.showToast(gained > 0 ? t("lesson.toast_xp", gained)
+                                                        : t("lesson.toast"))
+                            dismiss()
+                        } catch {
+                            // En mode serveur la validation peut échouer (réseau,
+                            // leçon Premium). Rester sur la leçon en le disant vaut
+                            // mieux que la fermer comme si elle était acquise.
+                            router.showToast(error.localizedDescription)
+                        }
+                    }
                 }
             }
         }

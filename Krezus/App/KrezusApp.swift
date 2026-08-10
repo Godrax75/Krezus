@@ -58,13 +58,15 @@ struct KrezusApp: App {
                     Task {
                         await profile.load(userID: userID)
                         await notifications.load(userID: userID)
-                        // Le portefeuille bascule sur le serveur ici, et
-                        // seulement ici : sans compte, ou sans secrets, il reste
-                        // en démo — mêmes écrans, données locales.
+                        // Les stores basculent sur le serveur ici, et seulement
+                        // ici : sans compte, ou sans secrets, ils restent en
+                        // démo — mêmes écrans, données locales.
                         if let userID {
                             await store.connect(userID: userID)
+                            await learning.connect(userID: userID)
                         } else {
                             store.disconnect()
+                            learning.disconnect()
                         }
                     }
                 }

@@ -16,6 +16,9 @@ struct QuizScreen: View {
     @State private var selected: Int?
     @State private var validated = false
     @State private var xpGained = 0
+    /// Échec de l'enregistrement côté serveur : la correction reste affichée,
+    /// mais il faut dire que la progression n'a pas été retenue.
+    @State private var saveError: String?
 
     private var lesson: AcademyLesson? { learning.lesson(at: position) }
     private var quiz: AcademyLesson.Quiz? { lesson?.quiz }
@@ -170,6 +173,12 @@ struct QuizScreen: View {
                     .font(KrezusFont.bodyMd).foregroundStyle(KrezusColor.fg2)
                     .lineSpacing(3)
                     .fixedSize(horizontal: false, vertical: true)
+
+                if let saveError {
+                    Text(t("quiz.not_saved", saveError))
+                        .font(KrezusFont.caption).foregroundStyle(KrezusColor.down)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
             }
         }
     }
@@ -192,9 +201,19 @@ struct QuizScreen: View {
         .background(KrezusColor.bg)
     }
 
+    /// L'explication s'affiche immédiatement ; l'XP arrive quand le serveur a
+    /// tranché. Faire attendre le retour réseau pour montrer la correction
+    /// punirait une bonne réponse d'une seconde de latence.
     private func validate() {
         guard selected != nil else { return }
         validated = true
-        xpGained = (try? learning.complete(lesson: position, quizCorrect: isCorrect)) ?? 0
+        saveError = nil
+        Task {
+            do {
+                xpGained = try await learning.complete(lesson: position, quizCorrect: isCorrect)
+            } catch {
+                saveError = error.localizedDescription
+            }
+        }
     }
 }

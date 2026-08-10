@@ -278,6 +278,7 @@ add({
     "quiz.nav_title": ("Quiz", "Quiz"),
     "quiz.none":      ("Cette leçon n'a pas de quiz.", "This lesson has no quiz."),
     "quiz.correct":   ("Bonne réponse !", "Correct!"),
+    "quiz.not_saved": ("Progression non enregistrée : %@", "Progress not saved: %@"),
     "quiz.incorrect": ("Pas tout à fait", "Not quite"),
 })
 
@@ -1076,6 +1077,28 @@ add({
     "backend.error.quote_stale":      ("Cours trop ancien, réessaie dans un instant.",
                                        "Price too old, try again in a moment."),
     "backend.error.invalid_amount":   ("Montant invalide.", "Invalid amount."),
+
+    # Codes KR020 et suivants. Les messages levés par PL/pgSQL sont en français
+    # dans les migrations : sans ces clés, un anglophone lirait le SQL brut.
+    "backend.error.unknown_mission":  ("Mission inconnue.", "Unknown mission."),
+    "backend.error.invalid_profile":  ("Réponses de profil incomplètes.",
+                                       "Incomplete profile answers."),
+    "backend.error.user_not_found":   ("Utilisateur introuvable.", "User not found."),
+    # KR041 couvre deux cas volontairement fondus côté serveur (soi-même, ou
+    # lien déjà existant) : le message doit rester vrai pour les deux.
+    "backend.error.friend_request_rejected": ("Cette demande d’ami n’est pas possible.",
+                                              "That friend request isn’t possible."),
+    "backend.error.no_pending_request": ("Aucune demande en attente de cette personne.",
+                                         "No pending request from that person."),
+    "backend.error.invalid_invite_code": ("Code d’invitation invalide.",
+                                          "Invalid invite code."),
+    "backend.error.already_in_group": ("Tu fais déjà partie de ce groupe.",
+                                       "You’re already in this group."),
+    "backend.error.hercule_quota":    ("Quota de questions épuisé pour aujourd’hui.",
+                                       "You’ve used today’s questions."),
+    "backend.error.hercule_message":  ("Message vide ou trop long.",
+                                       "Message empty or too long."),
+    "backend.error.invalid_receipt":  ("Reçu d’achat invalide.", "Invalid purchase receipt."),
 })
 
 # --------------------------------------------------------------- Génération

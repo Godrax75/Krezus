@@ -64,13 +64,28 @@ struct AcademyMission: Identifiable, Sendable {
 
 /// Progression de l'apprenant : XP, rang, série, missions, badges.
 ///
-/// En mode démo c'est la source de vérité. La logique reproduit celle des
-/// fonctions Postgres de `0005_academy.sql` — notamment le fait que l'XP vient
-/// des **missions du jour** et non de chaque leçon : sans ce plafond, enchaîner
-/// les 27 leçons d'un coup donnerait le rang maximal en une session.
+/// Deux sources derrière la même interface, comme pour `TradingStore` :
+///
+/// - **démo** — source de vérité en mémoire. La logique reproduit celle des
+///   fonctions Postgres de `0005_academy.sql`, notamment le fait que l'XP vient
+///   des **missions du jour** et non de chaque leçon : sans ce plafond,
+///   enchaîner les 27 leçons d'un coup donnerait le rang maximal en une session.
+/// - **serveur** — `complete_lesson` accorde l'XP et la série, l'app relit.
+///   Aucun calcul d'XP côté client : c'est la même règle que pour le cash,
+///   rejouer un appel ne doit rien fabriquer.
+///
+/// La bascule se fait dans `KrezusApp`, à la restauration de session.
 @MainActor
 @Observable
 final class LearningStore {
+
+    enum Source: Equatable { case demo, server }
+
+    private(set) var source: Source = .demo
+    private(set) var isLoading = false
+    /// Dernière erreur de chargement, affichable. Les erreurs de validation de
+    /// leçon sont levées à l'appelant, qui les montre dans son propre écran.
+    private(set) var lastError: String?
 
     private(set) var lessons: [AcademyLesson] = []
     private(set) var ranks: [AcademyRank] = []
@@ -98,8 +113,76 @@ final class LearningStore {
         .init(code: "quiz",     xp: 30, isDaily: true),
     ]
 
+    // Mode serveur
+    private let repository = AcademyRepository()
+    private var userID: UUID?
+
     init() {
         loadContent()
+        seedDemoProgress()
+    }
+
+    // MARK: Source de données
+
+    /// Bascule sur le serveur pour l'utilisateur connecté et charge tout.
+    func connect(userID: UUID) async {
+        guard AppConfig.isConfigured else { return }
+        self.userID = userID
+        source = .server
+        await reload()
+    }
+
+    /// Repasse en démo — déconnexion, ou app non configurée.
+    func disconnect() {
+        userID = nil
+        source = .demo
+        lastError = nil
+        seedDemoProgress()
+    }
+
+    /// Recharge XP, rang, série, leçons terminées, missions du jour et badges.
+    func reload() async {
+        guard source == .server, let userID else { return }
+        isLoading = true
+        defer { isLoading = false }
+        do {
+            let progress = try await repository.fetchProgress(userID: userID)
+            let lessonRows = try await repository.fetchLessonProgress(userID: userID)
+
+            xp = progress.xp
+            streakDays = progress.streakDays
+            bestStreakDays = max(bestStreakDays, progress.streakDays)
+            completed = Set(lessonRows.map(\.position))
+            quizPassed = Set(lessonRows.filter(\.quizCorrect).map(\.position))
+
+            try await refreshMissionsAndBadges(userID: userID)
+            lastError = nil
+        } catch {
+            lastError = error.localizedDescription
+        }
+    }
+
+    /// Missions du jour et badges — ce que `complete_lesson` fait bouger sans
+    /// le renvoyer. Relire ces deux listes coûte moins qu'un `reload()` complet
+    /// après chaque leçon.
+    private func refreshMissionsAndBadges(userID: UUID) async throws {
+        missionsDone = try await repository.fetchMissionsDone(userID: userID)
+        missionsDay = Calendar.current.startOfDay(for: Date())
+        earnedBadges = try await repository.fetchBadges(userID: userID)
+    }
+
+    /// Remet l'état de démonstration : progression vierge, activation acquise,
+    /// série d'usage du prototype.
+    private func seedDemoProgress() {
+        xp = 0
+        completed = []
+        quizPassed = []
+        earnedBadges = []
+        missionsDone = []
+        missionsDay = Calendar.current.startOfDay(for: Date())
+        lastActivityDay = nil
+        streakDays = 0
+
         // L'activation est acquise à la création du compte, comme le fait le
         // trigger `profiles_activate_mission` côté serveur.
         _ = completeMission("activate")
@@ -154,22 +237,54 @@ final class LearningStore {
     }
 
     enum LearningError: LocalizedError {
-        case locked, unknownLesson
+        case locked, unknownLesson, notSignedIn
         var errorDescription: String? {
             switch self {
             case .locked:        return t("learning.error.locked")
             case .unknownLesson: return t("lesson.not_found")
+            case .notSignedIn:   return t("order.error.not_signed_in")
             }
         }
     }
 
     /// Termine une leçon et renvoie l'XP réellement gagnée (0 si les missions
-    /// du jour étaient déjà validées). Miroir de `complete_lesson`.
+    /// du jour étaient déjà validées).
+    ///
+    /// En mode serveur, l'appel part vers `complete_lesson` et l'état revient
+    /// de la base. Le client n'additionne rien : c'est le serveur qui décide si
+    /// la mission du jour était déjà validée, donc si cette leçon rapporte.
     @discardableResult
-    func complete(lesson position: Int, quizCorrect: Bool?) throws -> Int {
+    func complete(lesson position: Int, quizCorrect: Bool?) async throws -> Int {
         guard let lesson = lesson(at: position) else { throw LearningError.unknownLesson }
         guard isUnlocked(lesson) else { throw LearningError.locked }
 
+        switch source {
+        case .demo:
+            return demoComplete(position: position, quizCorrect: quizCorrect)
+        case .server:
+            guard let userID else { throw LearningError.notSignedIn }
+            let outcome = try await repository.completeLesson(
+                userID: userID, position: position, quizCorrect: quizCorrect)
+
+            xp = outcome.xpTotal
+            streakDays = outcome.streakDays
+            bestStreakDays = max(bestStreakDays, outcome.streakDays)
+            lastActivityDay = Calendar.current.startOfDay(for: Date())
+            completed.insert(position)
+            if quizCorrect == true { quizPassed.insert(position) }
+
+            // Missions et badges ont pu bouger dans la même transaction.
+            // Un échec ici ne doit pas faire croire que la leçon a échoué :
+            // elle est validée côté serveur, seuls les compteurs d'affichage
+            // sont en retard, et le prochain reload les rattrapera.
+            try? await refreshMissionsAndBadges(userID: userID)
+
+            return outcome.xpGained
+        }
+    }
+
+    /// Miroir local de `complete_lesson`, pour le mode démo.
+    private func demoComplete(position: Int, quizCorrect: Bool?) -> Int {
         completed.insert(position)
         if quizCorrect == true { quizPassed.insert(position) }
 
@@ -208,7 +323,12 @@ final class LearningStore {
     }
 
     /// Au changement de jour, seules les missions quotidiennes se réarment.
+    ///
+    /// Sans effet en mode serveur : c'est `mission_progress.day` qui fait foi,
+    /// et réarmer localement afficherait des missions à refaire que le serveur
+    /// refuserait ensuite de créditer.
     private func rolloverIfNeeded() {
+        guard source == .demo else { return }
         let today = Calendar.current.startOfDay(for: Date())
         guard today != missionsDay else { return }
         missionsDay = today

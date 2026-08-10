@@ -1276,6 +1276,74 @@
         }
       }
     },
+    "backend.error.already_in_group": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tu fais déjà partie de ce groupe."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You’re already in this group."
+          }
+        }
+      }
+    },
+    "backend.error.friend_request_rejected": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cette demande d’ami n’est pas possible."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "That friend request isn’t possible."
+          }
+        }
+      }
+    },
+    "backend.error.hercule_message": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Message vide ou trop long."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Message empty or too long."
+          }
+        }
+      }
+    },
+    "backend.error.hercule_quota": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quota de questions épuisé pour aujourd’hui."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You’ve used today’s questions."
+          }
+        }
+      }
+    },
     "backend.error.invalid_amount": {
       "extractionState": "manual",
       "localizations": {
@@ -1289,6 +1357,74 @@
           "stringUnit": {
             "state": "translated",
             "value": "Invalid amount."
+          }
+        }
+      }
+    },
+    "backend.error.invalid_invite_code": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Code d’invitation invalide."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Invalid invite code."
+          }
+        }
+      }
+    },
+    "backend.error.invalid_profile": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Réponses de profil incomplètes."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Incomplete profile answers."
+          }
+        }
+      }
+    },
+    "backend.error.invalid_receipt": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reçu d’achat invalide."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Invalid purchase receipt."
+          }
+        }
+      }
+    },
+    "backend.error.no_pending_request": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aucune demande en attente de cette personne."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No pending request from that person."
           }
         }
       }
@@ -1357,6 +1493,40 @@
           "stringUnit": {
             "state": "translated",
             "value": "Price unavailable right now."
+          }
+        }
+      }
+    },
+    "backend.error.unknown_mission": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mission inconnue."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unknown mission."
+          }
+        }
+      }
+    },
+    "backend.error.user_not_found": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Utilisateur introuvable."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "User not found."
           }
         }
       }
@@ -6814,6 +6984,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "This lesson has no quiz."
+          }
+        }
+      }
+    },
+    "quiz.not_saved": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Progression non enregistrée : %@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Progress not saved: %@"
           }
         }
       }
