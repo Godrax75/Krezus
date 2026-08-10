@@ -3,7 +3,8 @@
 -- (univers complet : 82 titres, contre 38 dans le fichier canonique tronqué).
 -- Les valeurs fondamentales sont un instantané éditorial : le plan EODHD
 -- à 29,99 €/mois ne fournit pas les fondamentaux. Rafraîchir chaque trimestre.
--- ETF : eodhd_symbol NULL — tickers réels à vérifier contre Euronext avant activation.
+-- ETF : eodhd_symbol NULL ici, renseigné par la migration 0013 pour ceux dont le
+-- fonds a pu être identifié sans ambiguïté (voir le détail dans 0013).
 
 insert into public.securities (symbol, eodhd_symbol, mic, currency, asset_type,
   name, country_code, country, sector, founded, logo_asset, initials, dividend_yield,
