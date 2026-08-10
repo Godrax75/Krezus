@@ -3,6 +3,11 @@ import Foundation
 /// Catalogue de titres pour le mode démo. Valeurs éditoriales issues de la table
 /// `securities` seedée depuis le prototype (`supabase/seed/securities.sql`). En
 /// mode connecté, ce catalogue sera remplacé par la lecture de Supabase.
+///
+/// `logoAsset` doit porter le nom d'un imageset présent dans le catalogue —
+/// `KrzSecurityBadge` retombe silencieusement sur les initiales quand l'image
+/// est absente, ce qui rend un oubli invisible. Les logos s'importent avec
+/// `tools/import_design_assets.py`.
 enum DemoCatalog {
     static let stocks: [StockInfo] = [
         StockInfo(symbol: "NVDA", name: "Nvidia", cc: "US", sector: "Semi-conducteurs · IA",
@@ -13,7 +18,8 @@ enum DemoCatalog {
                   hercule: "Quand vous utilisez une IA ou jouez à un jeu récent, une puce Nvidia travaille souvent derrière. Vous possédez une part de cette machine-là.",
                   whatEn: "Nvidia designs the graphics processors that train and run artificial intelligence around the world.",
                   herculeEn: "When you use an AI or play a recent game, an Nvidia chip is often working behind the scenes. You own a share of that machinery.",
-                  logoAsset: nil, initials: "NV", tileHex: 0x1F2A44, open: 163.10, price: 165.42),
+                  logoAsset: "logo-nvidia", initials: "NV", tileHex: 0x1F2A44,
+                  open: 163.10, price: 165.42),
         StockInfo(symbol: "AI", name: "Air Liquide", cc: "FR", sector: "Gaz industriels",
                   sectorEn: "Industrial gases",
                   founded: "1902", dividendYield: 2.9, mcap: "112 Md€", pe: nil, peg: nil,
