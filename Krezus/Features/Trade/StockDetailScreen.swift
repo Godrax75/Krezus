@@ -53,19 +53,30 @@ struct StockDetailScreen: View {
     }
 
     private func priceBlock(_ s: StockInfo) -> some View {
-        let chg = (s.price - s.open) / s.open * 100
-        return VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: 8) {
             HStack(alignment: .firstTextBaseline, spacing: 10) {
-                Text(Money.euros(s.price)).font(KrezusFont.display(30, .heavy))
-                    .foregroundStyle(KrezusColor.ink).tabularNumbers()
-                Text(Money.percent(chg)).font(KrezusFont.body(14, .semibold))
-                    .foregroundStyle(chg >= 0 ? KrezusColor.up : KrezusColor.down).tabularNumbers()
-                HStack(spacing: 4) {
-                    Circle().fill(KrezusColor.up).frame(width: 6, height: 6)
-                    Text(t("common.live")).font(KrezusFont.body(10.5, .semibold)).foregroundStyle(KrezusColor.upDeep)
+                Text(s.hasQuote ? Money.euros(s.price) : "—")
+                    .font(KrezusFont.display(30, .heavy))
+                    .foregroundStyle(s.hasQuote ? KrezusColor.ink : KrezusColor.fg4)
+                    .tabularNumbers()
+                if let chg = s.changePct {
+                    Text(Money.percent(chg)).font(KrezusFont.body(14, .semibold))
+                        .foregroundStyle(chg >= 0 ? KrezusColor.up : KrezusColor.down)
+                        .tabularNumbers()
+                }
+                // La pastille « Live » ne s'affiche que s'il y a bien un cours à
+                // qualifier : l'annoncer sur un tiret serait une contradiction.
+                if s.hasQuote {
+                    HStack(spacing: 4) {
+                        Circle().fill(KrezusColor.up).frame(width: 6, height: 6)
+                        Text(t("common.live")).font(KrezusFont.body(10.5, .semibold))
+                            .foregroundStyle(KrezusColor.upDeep)
+                    }
                 }
             }
-            DetailSparkline(up: chg >= 0)
+            // Sans variation connue, la courbe part sur la teinte neutre du
+            // haussier plutôt que d'annoncer une baisse qu'on ne mesure pas.
+            DetailSparkline(up: (s.changePct ?? 0) >= 0)
                 .frame(height: 90)
         }
     }

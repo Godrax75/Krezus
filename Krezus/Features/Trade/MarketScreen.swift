@@ -82,11 +82,16 @@ struct MarketScreen: View {
             }
             Spacer(minLength: 8)
             VStack(alignment: .trailing, spacing: 2) {
-                Text(Money.euros(s.price)).font(KrezusFont.numeric)
-                    .foregroundStyle(KrezusColor.ink).tabularNumbers()
-                let chg = (s.price - s.open) / s.open * 100
-                Text(Money.percent(chg)).font(KrezusFont.body(12, .semibold))
-                    .foregroundStyle(chg >= 0 ? KrezusColor.up : KrezusColor.down).tabularNumbers()
+                // Un titre sans cotation affiche le tiret cadratin utilisé
+                // partout pour « donnée non publiée », pas un cours de 0 €.
+                Text(s.hasQuote ? Money.euros(s.price) : "—").font(KrezusFont.numeric)
+                    .foregroundStyle(s.hasQuote ? KrezusColor.ink : KrezusColor.fg4)
+                    .tabularNumbers()
+                if let chg = s.changePct {
+                    Text(Money.percent(chg)).font(KrezusFont.body(12, .semibold))
+                        .foregroundStyle(chg >= 0 ? KrezusColor.up : KrezusColor.down)
+                        .tabularNumbers()
+                }
             }
         }
         .padding(.vertical, 12)

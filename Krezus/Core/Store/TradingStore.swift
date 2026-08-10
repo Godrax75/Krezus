@@ -41,6 +41,25 @@ struct StockInfo: Identifiable, Sendable {
     let open: Double
     var price: Double
 
+    /// Vrai quand le titre a une cotation exploitable.
+    ///
+    /// Un titre sans cotation n'a pas un cours de 0 € : il a un cours **inconnu**.
+    /// Les 30 ETF du référentiel n'ont pas encore de symbole EODHD, et sur le
+    /// plan gratuit on ne rafraîchit qu'une poignée de titres par jour — le cas
+    /// est donc la règle plutôt que l'exception.
+    var hasQuote: Bool { price > 0 }
+
+    /// Variation du jour en %, `nil` quand elle n'a pas de sens.
+    ///
+    /// Sans cotation, `price` et `open` valent tous deux 0 : la division donnait
+    /// `0 / 0`, soit NaN, affiché tel quel à l'écran (« –NaN% »). Renvoyer 0 à la
+    /// place serait un autre mensonge — « inchangé » et « cours inconnu » ne
+    /// sont pas la même information.
+    var changePct: Double? {
+        guard hasQuote, open > 0 else { return nil }
+        return (price - open) / open * 100
+    }
+
     /// Le secteur dans la langue de l'interface. À n'utiliser qu'à l'affichage :
     /// tout ce qui compare ou regroupe des secteurs lit `sector`.
     var sectorLocalized: String {
