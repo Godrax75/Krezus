@@ -1,0 +1,12 @@
+# Xcode / build
+build/
+DerivedData/
+*.xcuserstate
+xcuserdata/
+Krezus.xcodeproj/xcuserdata/
+
+# Secrets — ne jamais versionner
+Krezus/Config/Secrets.xcconfig
+
+# macOS
+.DS_Store

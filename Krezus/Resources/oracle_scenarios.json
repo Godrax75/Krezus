@@ -1,0 +1,38 @@
+[
+  {
+    "id": "rates_down",
+    "emoji": "📉",
+    "title": "Les taux d'intérêt baissent",
+    "trigger": "Une banque centrale baisse ses taux pour relancer l'économie.",
+    "mechanism": "L'argent coûte moins cher à emprunter. Les entreprises investissent plus facilement, et les placements sans risque rapportent moins — ce qui rend les actions relativement plus attractives.",
+    "portfolio": "Les valeurs de croissance, qui vivent d'investissements futurs, réagissent en général le plus fort. Les banques, elles, voient leurs marges de prêt se resserrer.",
+    "lesson": "Une baisse de taux n'est pas une bonne nouvelle pour tout le monde en même temps. C'est le secteur qui décide."
+  },
+  {
+    "id": "inflation_up",
+    "emoji": "🔥",
+    "title": "L'inflation repart à la hausse",
+    "trigger": "Les prix augmentent plus vite que prévu pendant plusieurs mois.",
+    "mechanism": "Chaque euro achète moins qu'avant. Les banques centrales relèvent souvent leurs taux pour freiner la hausse, ce qui renchérit le crédit.",
+    "portfolio": "Les entreprises capables d'augmenter leurs prix sans perdre de clients — le luxe, certaines marques — encaissent mieux le choc que celles qui subissent la hausse de leurs coûts.",
+    "lesson": "Le vrai rendement d'un placement, c'est ce qu'il rapporte une fois l'inflation déduite."
+  },
+  {
+    "id": "recession",
+    "emoji": "🌧️",
+    "title": "L'économie entre en récession",
+    "trigger": "L'activité se contracte pendant deux trimestres consécutifs.",
+    "mechanism": "Les ménages et les entreprises dépensent moins. Les bénéfices reculent, et les marchés anticipent ce recul avant qu'il n'apparaisse dans les comptes.",
+    "portfolio": "Les secteurs dits défensifs — santé, alimentation, gaz industriels — reculent en général moins que les secteurs cycliques comme l'automobile ou le luxe.",
+    "lesson": "Les récessions font partie du cycle. Historiquement, les marchés les ont traversées — mais jamais selon un calendrier prévisible."
+  },
+  {
+    "id": "tech_concentration",
+    "emoji": "🤖",
+    "title": "La tech continue de tirer les indices",
+    "trigger": "Une poignée de très grandes entreprises technologiques concentre l'essentiel de la hausse des indices.",
+    "mechanism": "Quand quelques titres pèsent très lourd dans un indice, la performance de l'indice reflète surtout la leur — même si les centaines d'autres entreprises stagnent.",
+    "portfolio": "Un portefeuille qui semble diversifié peut en réalité suivre le même moteur que l'indice, si ses principales lignes appartiennent au même secteur.",
+    "lesson": "Diversifier, ce n'est pas multiplier les lignes : c'est multiplier les moteurs."
+  }
+]

@@ -1,0 +1,427 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		04AA0014C0220597CC1E66C3 /* HomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = F66724ECF3F6D5D9F55B0DAD /* HomeScreen.swift */; };
+		0E38BEE31C4B16B83B4E6B99 /* KrezusFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B2794B4AD431964DDBA973A /* KrezusFont.swift */; };
+		0F5D34C6E854CDAA00401B46 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 83A449C66F5C86F6D8254329 /* Assets.xcassets */; };
+		2C55FFA997624C97EC9F024E /* PortfolioScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3C6A1C2A0472FE6618D28F /* PortfolioScreen.swift */; };
+		64106E9ECA0DBB58B1A2D15F /* KrezusColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD941373818378FD892FBF3 /* KrezusColor.swift */; };
+		69573DB5D15F2C2EE8F4F329 /* TabPlaceholders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8705BC95E14BF77AEBF86058 /* TabPlaceholders.swift */; };
+		98430E9862461A396C43616B /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B994D7F118EB87FD9F6A77 /* AppState.swift */; };
+		9AA7976A93F21562F25E41B4 /* KrezusComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C89E97FD84109FF0DE731D0 /* KrezusComponents.swift */; };
+		ABABA96D1B11AEC5F47D0BCE /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5757272CB5A104C9A291D4D0 /* RootView.swift */; };
+		CCF5A06A1C0EE29FC15FDC25 /* KrezusApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3489994F8A08F69247B0C387 /* KrezusApp.swift */; };
+		EA0A4B49D27C40F2550080EB /* KrezusMetrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE30FFF74A82D1CD1713AA57 /* KrezusMetrics.swift */; };
+		FAE6456E2176DEB50E2AB8E2 /* DemoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D22EA5FBF39CC4ED8EAF467 /* DemoData.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		0B2794B4AD431964DDBA973A /* KrezusFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KrezusFont.swift; sourceTree = "<group>"; };
+		0E3C6A1C2A0472FE6618D28F /* PortfolioScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioScreen.swift; sourceTree = "<group>"; };
+		1D22EA5FBF39CC4ED8EAF467 /* DemoData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoData.swift; sourceTree = "<group>"; };
+		3489994F8A08F69247B0C387 /* KrezusApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KrezusApp.swift; sourceTree = "<group>"; };
+		4C803CEC06E2350490D7D53B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		5757272CB5A104C9A291D4D0 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		61B0FA018CBEDCDCDD25BB34 /* Krezus.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Krezus.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		83A449C66F5C86F6D8254329 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		8705BC95E14BF77AEBF86058 /* TabPlaceholders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabPlaceholders.swift; sourceTree = "<group>"; };
+		8BD941373818378FD892FBF3 /* KrezusColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KrezusColor.swift; sourceTree = "<group>"; };
+		8C89E97FD84109FF0DE731D0 /* KrezusComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KrezusComponents.swift; sourceTree = "<group>"; };
+		AE30FFF74A82D1CD1713AA57 /* KrezusMetrics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KrezusMetrics.swift; sourceTree = "<group>"; };
+		E6B994D7F118EB87FD9F6A77 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		F66724ECF3F6D5D9F55B0DAD /* HomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreen.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		02A8195A7223033698B56697 /* Krezus */ = {
+			isa = PBXGroup;
+			children = (
+				4C803CEC06E2350490D7D53B /* Info.plist */,
+				965CE4DD4D90B0177075B8B2 /* App */,
+				8C1E8EC38DBA9B64A16AC2F2 /* Core */,
+				FE42FEA2783107F5B95C9196 /* DesignSystem */,
+				37FE0924A738A9264B9F29CB /* Features */,
+				77AB2DCE67629745DAEE496B /* Resources */,
+			);
+			path = Krezus;
+			sourceTree = "<group>";
+		};
+		089B4DEC240E8118026AFE5D /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				1D22EA5FBF39CC4ED8EAF467 /* DemoData.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		171A456291DB3CF7B25087B3 /* Portfolio */ = {
+			isa = PBXGroup;
+			children = (
+				0E3C6A1C2A0472FE6618D28F /* PortfolioScreen.swift */,
+			);
+			path = Portfolio;
+			sourceTree = "<group>";
+		};
+		2DEFB7B90A7527FF68441C31 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				61B0FA018CBEDCDCDD25BB34 /* Krezus.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		37FE0924A738A9264B9F29CB /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				7AA5D23B82095ADA90A71BA5 /* Home */,
+				B3323FF1D00DF43A294B448B /* Placeholders */,
+				171A456291DB3CF7B25087B3 /* Portfolio */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		77AB2DCE67629745DAEE496B /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				83A449C66F5C86F6D8254329 /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		7AA5D23B82095ADA90A71BA5 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				F66724ECF3F6D5D9F55B0DAD /* HomeScreen.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		8C1E8EC38DBA9B64A16AC2F2 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				089B4DEC240E8118026AFE5D /* Models */,
+				9413D2F36858353039169613 /* Store */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		9413D2F36858353039169613 /* Store */ = {
+			isa = PBXGroup;
+			children = (
+				E6B994D7F118EB87FD9F6A77 /* AppState.swift */,
+			);
+			path = Store;
+			sourceTree = "<group>";
+		};
+		965CE4DD4D90B0177075B8B2 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				3489994F8A08F69247B0C387 /* KrezusApp.swift */,
+				5757272CB5A104C9A291D4D0 /* RootView.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		B3323FF1D00DF43A294B448B /* Placeholders */ = {
+			isa = PBXGroup;
+			children = (
+				8705BC95E14BF77AEBF86058 /* TabPlaceholders.swift */,
+			);
+			path = Placeholders;
+			sourceTree = "<group>";
+		};
+		D50C84786832325C3D4107C0 = {
+			isa = PBXGroup;
+			children = (
+				02A8195A7223033698B56697 /* Krezus */,
+				2DEFB7B90A7527FF68441C31 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		FE42FEA2783107F5B95C9196 /* DesignSystem */ = {
+			isa = PBXGroup;
+			children = (
+				8BD941373818378FD892FBF3 /* KrezusColor.swift */,
+				8C89E97FD84109FF0DE731D0 /* KrezusComponents.swift */,
+				0B2794B4AD431964DDBA973A /* KrezusFont.swift */,
+				AE30FFF74A82D1CD1713AA57 /* KrezusMetrics.swift */,
+			);
+			path = DesignSystem;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		D865DAA098BA916BD05B2B9D /* Krezus */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D42130278F4DF0B43FB8E8F5 /* Build configuration list for PBXNativeTarget "Krezus" */;
+			buildPhases = (
+				C12BEF7039B21BA9529C3529 /* Sources */,
+				F056FE6A4171575C68A146F9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Krezus;
+			packageProductDependencies = (
+			);
+			productName = Krezus;
+			productReference = 61B0FA018CBEDCDCDD25BB34 /* Krezus.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		9BEB4444A5C7C01058521432 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+				};
+			};
+			buildConfigurationList = 8687DA2FB47366C38500D5EB /* Build configuration list for PBXProject "Krezus" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = D50C84786832325C3D4107C0;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 2DEFB7B90A7527FF68441C31 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D865DAA098BA916BD05B2B9D /* Krezus */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		F056FE6A4171575C68A146F9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0F5D34C6E854CDAA00401B46 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C12BEF7039B21BA9529C3529 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				98430E9862461A396C43616B /* AppState.swift in Sources */,
+				FAE6456E2176DEB50E2AB8E2 /* DemoData.swift in Sources */,
+				04AA0014C0220597CC1E66C3 /* HomeScreen.swift in Sources */,
+				CCF5A06A1C0EE29FC15FDC25 /* KrezusApp.swift in Sources */,
+				64106E9ECA0DBB58B1A2D15F /* KrezusColor.swift in Sources */,
+				9AA7976A93F21562F25E41B4 /* KrezusComponents.swift in Sources */,
+				0E38BEE31C4B16B83B4E6B99 /* KrezusFont.swift in Sources */,
+				EA0A4B49D27C40F2550080EB /* KrezusMetrics.swift in Sources */,
+				2C55FFA997624C97EC9F024E /* PortfolioScreen.swift in Sources */,
+				ABABA96D1B11AEC5F47D0BCE /* RootView.swift in Sources */,
+				69573DB5D15F2C2EE8F4F329 /* TabPlaceholders.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		0330D28E138FCD568A6FFD2F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = Krezus/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.krezus.app;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		3035F5A2BF0A34F5B153CDDD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_LANGUAGE = fr;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 0.1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.9;
+			};
+			name = Debug;
+		};
+		59574D93D2D902A415DF0F14 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = Krezus/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.krezus.app;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		A01FD8AD0552FC502759B8D5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_LANGUAGE = fr;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 0.1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.9;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		8687DA2FB47366C38500D5EB /* Build configuration list for PBXProject "Krezus" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3035F5A2BF0A34F5B153CDDD /* Debug */,
+				A01FD8AD0552FC502759B8D5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		D42130278F4DF0B43FB8E8F5 /* Build configuration list for PBXNativeTarget "Krezus" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0330D28E138FCD568A6FFD2F /* Debug */,
+				59574D93D2D902A415DF0F14 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 9BEB4444A5C7C01058521432 /* Project object */;
+}

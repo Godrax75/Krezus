@@ -1,0 +1,47 @@
+{
+  "identifier" : "0F1E2D3C",
+  "nonRenewingSubscriptions" : [],
+  "products" : [],
+  "settings" : {
+    "_applicationInternalID" : "krezus",
+    "_developerTeamID" : "",
+    "_lastSynchronizedDate" : 0,
+    "_locale" : "fr_FR",
+    "_storefront" : "FRA",
+    "_storeKitErrors" : []
+  },
+  "subscriptionGroups" : [
+    {
+      "id" : "21398765",
+      "localizations" : [],
+      "name" : "Hercule",
+      "subscriptions" : [
+        {
+          "adHocOffers" : [],
+          "codeOffers" : [],
+          "displayPrice" : "5.99",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "31415926",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "Questions illimitées avec Hercule et accès aux 27 leçons.",
+              "displayName" : "Hercule Premium",
+              "locale" : "fr_FR"
+            }
+          ],
+          "productID" : "com.krezus.hercule.monthly",
+          "recurringSubscriptionPeriod" : "P1M",
+          "referenceName" : "Hercule Premium mensuel",
+          "subscriptionGroupID" : "21398765",
+          "type" : "RecurringSubscription"
+        }
+      ]
+    }
+  ],
+  "version" : {
+    "major" : 4,
+    "minor" : 0
+  }
+}

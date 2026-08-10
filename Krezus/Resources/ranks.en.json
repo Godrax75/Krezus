@@ -1,0 +1,50 @@
+[
+    {
+        "name": "Plebeian",
+        "emoji": "🏛️",
+        "level": 1,
+        "max_xp": 199,
+        "min_xp": 0,
+        "image_asset": "rank-1-plebeien"
+    },
+    {
+        "name": "Legionary",
+        "emoji": "🛡️",
+        "level": 2,
+        "max_xp": 399,
+        "min_xp": 200,
+        "image_asset": "rank-2-legionnaire"
+    },
+    {
+        "name": "Centurion",
+        "emoji": "⚔️",
+        "level": 3,
+        "max_xp": 599,
+        "min_xp": 400,
+        "image_asset": "rank-3-centurion"
+    },
+    {
+        "name": "Senator",
+        "emoji": "📜",
+        "level": 4,
+        "max_xp": 799,
+        "min_xp": 600,
+        "image_asset": "rank-4-senateur"
+    },
+    {
+        "name": "Consul",
+        "emoji": "👑",
+        "level": 5,
+        "max_xp": 999,
+        "min_xp": 800,
+        "image_asset": "rank-5-consul"
+    },
+    {
+        "name": "Emperor",
+        "emoji": "🦅",
+        "level": 6,
+        "max_xp": null,
+        "min_xp": 1000,
+        "image_asset": "rank-6-empereur"
+    }
+]

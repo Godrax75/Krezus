@@ -1,0 +1,56 @@
+[
+  {
+    "id": "horizon",
+    "question": "How soon do you think you'll need this money?",
+    "options": [
+      { "label": "Less than 2 years",     "patience": 10, "prudence": 90, "curiosite": 30, "regularite": 40 },
+      { "label": "Between 2 and 5 years", "patience": 45, "prudence": 60, "curiosite": 50, "regularite": 55 },
+      { "label": "More than 10 years",    "patience": 95, "prudence": 35, "curiosite": 70, "regularite": 70 }
+    ]
+  },
+  {
+    "id": "drawdown",
+    "question": "Your portfolio drops 20% in a month. What do you do?",
+    "options": [
+      { "label": "Sell to limit the damage",   "patience": 10, "prudence": 95, "curiosite": 25, "regularite": 30 },
+      { "label": "Wait and change nothing",    "patience": 80, "prudence": 55, "curiosite": 50, "regularite": 65 },
+      { "label": "Take the chance to buy more", "patience": 90, "prudence": 20, "curiosite": 85, "regularite": 75 }
+    ]
+  },
+  {
+    "id": "goal",
+    "question": "What are you after first?",
+    "options": [
+      { "label": "Protecting what I have", "patience": 55, "prudence": 95, "curiosite": 30, "regularite": 60 },
+      { "label": "Growing steadily",       "patience": 75, "prudence": 55, "curiosite": 60, "regularite": 80 },
+      { "label": "Chasing performance",    "patience": 50, "prudence": 15, "curiosite": 90, "regularite": 45 }
+    ]
+  },
+  {
+    "id": "knowledge",
+    "question": "How would you describe your knowledge of the stock market?",
+    "options": [
+      { "label": "Complete beginner",      "patience": 50, "prudence": 80, "curiosite": 60, "regularite": 40 },
+      { "label": "I know the basics",      "patience": 60, "prudence": 55, "curiosite": 70, "regularite": 60 },
+      { "label": "I follow markets closely", "patience": 55, "prudence": 35, "curiosite": 95, "regularite": 70 }
+    ]
+  },
+  {
+    "id": "rhythm",
+    "question": "How often do you expect to invest?",
+    "options": [
+      { "label": "Whenever it crosses my mind", "patience": 40, "prudence": 50, "curiosite": 50, "regularite": 15 },
+      { "label": "A set amount every month",    "patience": 85, "prudence": 60, "curiosite": 55, "regularite": 95 },
+      { "label": "Large one-off amounts",       "patience": 45, "prudence": 40, "curiosite": 65, "regularite": 35 }
+    ]
+  },
+  {
+    "id": "volatility",
+    "question": "A stock that swings 5% a day is, to you…",
+    "options": [
+      { "label": "Far too stressful",         "patience": 45, "prudence": 95, "curiosite": 35, "regularite": 55 },
+      { "label": "Fine for part of a portfolio", "patience": 70, "prudence": 55, "curiosite": 65, "regularite": 65 },
+      { "label": "Just how markets work",     "patience": 75, "prudence": 20, "curiosite": 90, "regularite": 60 }
+    ]
+  }
+]

@@ -1,0 +1,650 @@
+[
+    {
+        "quiz": {
+            "a": 1,
+            "q": "What do you own when you buy a share?",
+            "why": "A share is a piece of ownership: you become a shareholder, not a lender.",
+            "opts": [
+                "A loan made to the company",
+                "A piece of ownership in the company",
+                "A subscription to its products"
+            ]
+        },
+        "title": "What is a share?",
+        "is_free": true,
+        "duration": "2 min",
+        "examples": [
+            "With 0.45 of an Nvidia share, you own a small piece of every chip sold, every patent filed, every data centre equipped.",
+            "If Nvidia doubles in value, your 0.45 share is worth twice as much — without you having to do anything."
+        ],
+        "position": 1,
+        "paragraphs": [
+            "A share is a piece of ownership in a company. Holding one, even a fraction of one, makes you a shareholder: a part-owner.",
+            "If the company creates value, your share can gain value too. If it loses value, your share can fall. That is what risk means."
+        ]
+    },
+    {
+        "quiz": {
+            "a": 0,
+            "q": "Where does a dividend come from?",
+            "why": "A dividend is a slice of the company's profits paid out to shareholders.",
+            "opts": [
+                "From the company's profits",
+                "From a bank loan",
+                "From your own payments"
+            ]
+        },
+        "title": "Dividends",
+        "is_free": true,
+        "duration": "3 min",
+        "examples": [
+            "Air Liquide pays a dividend of roughly 2.9% a year. With 0.21 of a share, you will receive your first slice of profits next May.",
+            "A company that pays out 40% of its profits as a dividend keeps the other 60% to invest in its own growth."
+        ],
+        "position": 2,
+        "paragraphs": [
+            "Some companies hand part of their profits back to their shareholders: that is the dividend, usually paid quarterly or once a year.",
+            "Not all of them do. Fast-growing companies would rather reinvest their profits."
+        ]
+    },
+    {
+        "quiz": {
+            "a": 1,
+            "q": "Why diversify a portfolio?",
+            "why": "Spreading your investment reduces the impact of any single fall.",
+            "opts": [
+                "To pay less tax",
+                "To reduce overall risk",
+                "To make money faster"
+            ]
+        },
+        "title": "Diversification",
+        "is_free": true,
+        "duration": "3 min",
+        "examples": [
+            "Nvidia (tech, United States) plus Air Liquide (industry, France): two very different engines. That is already the beginning of diversification.",
+            "A portfolio concentrated in a single stock can lose 50% in a day; spread across ten stocks, one collapse is cushioned."
+        ],
+        "position": 3,
+        "paragraphs": [
+            "Putting every egg in one basket is risky. Diversifying means spreading your investment across several companies, sectors and countries.",
+            "When one falls, another may rise: your portfolio becomes steadier over time."
+        ]
+    },
+    {
+        "quiz": {
+            "a": 1,
+            "q": "What does ten years of market history show?",
+            "why": "Over long periods, markets have historically rewarded patience.",
+            "opts": [
+                "A continuous decline",
+                "Patience rewarded despite the crises",
+                "Complete stagnation"
+            ]
+        },
+        "title": "Thinking long term",
+        "is_free": true,
+        "duration": "2 min",
+        "examples": [
+            "€100 invested in the world's largest companies in 2014 was worth about €320 ten years later — having lived through two crises.",
+            "Selling after a 10% fall to buy back later usually means missing the rebound that follows."
+        ],
+        "position": 4,
+        "paragraphs": [
+            "Over a single day, the stock market is unpredictable. Over ten years, markets have historically rewarded patience.",
+            "An investor is not a speculator: you do not check your portfolio every hour, you let time do the work."
+        ]
+    },
+    {
+        "quiz": {
+            "a": 1,
+            "q": "Why reinvest your gains?",
+            "why": "Reinvesting creates a snowball effect: your gains put your gains to work.",
+            "opts": [
+                "It makes no difference",
+                "The gains themselves generate gains",
+                "It is a legal requirement"
+            ]
+        },
+        "title": "Compound interest",
+        "is_free": false,
+        "duration": "3 min",
+        "examples": [
+            "€25 a month at 7% a year: about €4,300 after 10 years, of which €1,300 comes from interest alone.",
+            "Without reinvesting, that same €25 a month would only earn simple interest — roughly €3,000 less over 10 years."
+        ],
+        "position": 5,
+        "paragraphs": [
+            "Reinvesting your gains puts the gains themselves to work. It is a snowball effect: slow at first, powerful with time.",
+            "The key is not the amount, it is the duration. Start early and do not interrupt."
+        ]
+    },
+    {
+        "quiz": {
+            "a": 0,
+            "q": "What does \"Nvidia +1.4% today\" mean?",
+            "why": "The change compares the current price with the previous close.",
+            "opts": [
+                "The stock is worth 1.4% more than yesterday",
+                "The company gained 1.4% more customers",
+                "The dividend is rising by 1.4%"
+            ]
+        },
+        "title": "Reading a share price",
+        "is_free": false,
+        "duration": "2 min",
+        "examples": [
+            "Nvidia \"+1.4% today\": the share is worth 1.4% more than at yesterday's close. Nothing more, nothing less.",
+            "Heavy trading volume often signals that important news about the company has just been published."
+        ],
+        "position": 6,
+        "paragraphs": [
+            "A price reflects where buyers and sellers agree, continuously. It moves because expectations move.",
+            "Open, close, volume, change: four numbers are enough to read the essentials."
+        ]
+    },
+    {
+        "quiz": {
+            "a": 1,
+            "q": "What does an index like the CAC 40 measure?",
+            "why": "An index groups several companies together to reflect the health of a market.",
+            "opts": [
+                "A single company",
+                "A basket of a market's largest companies",
+                "The central bank's interest rate"
+            ]
+        },
+        "title": "Indices: CAC 40 & S&P 500",
+        "is_free": false,
+        "duration": "3 min",
+        "examples": [
+            "When people say \"the market is up\", they usually mean an index — not every stock.",
+            "The S&P 500 has risen more than tenfold since 2009, despite several crises along the way."
+        ],
+        "position": 7,
+        "paragraphs": [
+            "An index is a basket of shares that measures the health of an entire market.",
+            "CAC 40: the 40 largest French companies. S&P 500: the 500 largest American ones."
+        ]
+    },
+    {
+        "quiz": {
+            "a": 1,
+            "q": "What are you buying with a share of an S&P 500 ETF?",
+            "why": "An ETF replicates a whole index in a single purchase.",
+            "opts": [
+                "A single American stock",
+                "A fund that replicates the 500 largest US companies",
+                "A government bond"
+            ]
+        },
+        "title": "What is an ETF?",
+        "is_free": false,
+        "duration": "3 min",
+        "examples": [
+            "An S&P 500 ETF makes you a shareholder in the 500 largest American companies in a single purchase.",
+            "A CAC 40 ETF makes you a shareholder in the 40 largest French companies in a single portfolio line."
+        ],
+        "position": 8,
+        "paragraphs": [
+            "An ETF is a listed fund that replicates an entire index. One share = hundreds of companies.",
+            "It is the simplest diversification tool there is, with very low fees."
+        ]
+    },
+    {
+        "quiz": {
+            "a": 1,
+            "q": "What does high volatility mean?",
+            "why": "Volatility measures how widely a price swings.",
+            "opts": [
+                "The price barely moves",
+                "The price swings sharply",
+                "The company is bankrupt"
+            ]
+        },
+        "title": "Risk and volatility",
+        "is_free": false,
+        "duration": "3 min",
+        "examples": [
+            "Nvidia can move 5% in a day; Air Liquide rarely more than 2%. Two profiles, two roles in a portfolio.",
+            "A volatile stock is not necessarily a bad one — it simply asks for steadier nerves."
+        ],
+        "position": 9,
+        "paragraphs": [
+            "Volatility is how widely a price swings. High volatility means strong emotions.",
+            "Risk can be managed: diversification, a long horizon, and only investing money you do not need."
+        ]
+    },
+    {
+        "quiz": {
+            "a": 1,
+            "q": "Why are fees \"the invisible enemy\"?",
+            "why": "Every fee charged is return lost, and that return can never be reinvested.",
+            "opts": [
+                "They are illegal",
+                "They cut a return that will never compound",
+                "They grow larger over time"
+            ]
+        },
+        "title": "Fees, the invisible enemy",
+        "is_free": false,
+        "duration": "2 min",
+        "examples": [
+            "Withdrawing €50 with a €9.99 fee means losing 20% of the amount. Better to withdraw rarely, and all at once.",
+            "Two identical funds charging 0.2% and 1.5% a year can end up thousands of euros apart after 20 years."
+        ],
+        "position": 10,
+        "paragraphs": [
+            "Every fee charged is return lost — return that will never compound.",
+            "Comparing fees before investing pays off more than hunting for \"the right stock\"."
+        ]
+    },
+    {
+        "quiz": {
+            "a": 1,
+            "q": "When are gains taxed in France?",
+            "why": "Gains are taxed when you sell, not before.",
+            "opts": [
+                "Automatically every year",
+                "At the moment of the sale",
+                "Never"
+            ]
+        },
+        "title": "Tax for beginners",
+        "is_free": false,
+        "duration": "3 min",
+        "examples": [
+            "Your €12 gain on Nvidia will only be taxed the day you sell.",
+            "Holding a stock rather than selling it every year avoids triggering tax each time."
+        ],
+        "position": 11,
+        "paragraphs": [
+            "In France, gains are taxed at 30% (the \"flat tax\") at the moment of the sale — not before.",
+            "As long as you do not sell, you pay nothing: the long term is a tax advantage too."
+        ]
+    },
+    {
+        "quiz": {
+            "a": 0,
+            "q": "What should a good investment plan contain?",
+            "why": "A simple plan comes down to three things: a goal, a regular amount, a time horizon.",
+            "opts": [
+                "A goal, a regular amount, a horizon",
+                "Nothing but a large lump sum",
+                "A single sector to favour"
+            ]
+        },
+        "title": "Building your investment plan",
+        "is_free": false,
+        "duration": "3 min",
+        "examples": [
+            "\"€25 a month for 10 years to fund my studies\": that is a complete plan.",
+            "A plan written down in black and white is far easier to stick to than a vague intention to \"save better\"."
+        ],
+        "position": 12,
+        "paragraphs": [
+            "A good plan fits in three lines: a goal, a regular amount, a time horizon.",
+            "The best plan is the one you will keep to without thinking about it — hence recurring investment."
+        ]
+    },
+    {
+        "quiz": {
+            "a": 1,
+            "q": "What is the real difference between a share and a bond?",
+            "why": "A shareholder owns a piece of the company; a bondholder has simply lent it money.",
+            "opts": [
+                "None, they are synonyms",
+                "A share makes you an owner, a bond makes you a creditor",
+                "A bond always pays more"
+            ]
+        },
+        "title": "Share or bond?",
+        "is_free": false,
+        "duration": "2 min",
+        "examples": [
+            "Lending €1,000 to the French state at 3% a year is a bond: you get your capital back at maturity, plus the interest.",
+            "Buying an Nvidia share is a bet on its future growth — with no guaranteed return, but no ceiling either."
+        ],
+        "position": 13,
+        "paragraphs": [
+            "A share makes you an owner of a company. A bond makes you its creditor: you lend it money in exchange for fixed interest.",
+            "A share can climb far higher… but it can also fall further. A bond is more predictable, with a generally lower return."
+        ]
+    },
+    {
+        "quiz": {
+            "a": 1,
+            "q": "What is the main benefit of DCA?",
+            "why": "Investing regularly means buying at a range of prices, which averages out your entry cost without having to guess the right moment.",
+            "opts": [
+                "Guaranteeing a gain",
+                "Smoothing your average purchase price over time",
+                "Avoiding declines entirely"
+            ]
+        },
+        "title": "Recurring investment (DCA)",
+        "is_free": false,
+        "duration": "2 min",
+        "examples": [
+            "€25 invested in Nvidia every month, whether the price rises or falls: sometimes you buy dear, sometimes cheap — on average, a reasonable price.",
+            "An investor who has been waiting for \"the right moment\" since 2020 has probably missed a rise of more than 150% on world indices."
+        ],
+        "position": 14,
+        "paragraphs": [
+            "Dollar-cost averaging means investing the same amount at regular intervals, rather than one large sum at once.",
+            "The method smooths your average purchase price over time and removes the pressure of \"finding the right moment\"."
+        ]
+    },
+    {
+        "quiz": {
+            "a": 1,
+            "q": "What does the P/E ratio measure?",
+            "why": "The P/E ratio compares the share price with the company's annual earnings per share.",
+            "opts": [
+                "The size of the dividend paid",
+                "How many years of earnings the share price is worth",
+                "The company's risk of bankruptcy"
+            ]
+        },
+        "title": "Understanding the P/E ratio",
+        "is_free": false,
+        "duration": "3 min",
+        "examples": [
+            "A €100 share earning €5 a year has a P/E of 20: you are paying 20 times its annual earnings.",
+            "Nvidia has historically carried a high P/E because investors are betting on its growth in AI; a mature industrial company will often have a lower one."
+        ],
+        "position": 15,
+        "paragraphs": [
+            "The P/E ratio (price-earnings ratio) compares a share's price with its earnings per share. It tells you how many years of earnings you are paying for.",
+            "A high P/E means the market expects strong future growth; a low P/E can signal an overlooked stock — or one in trouble."
+        ]
+    },
+    {
+        "quiz": {
+            "a": 0,
+            "q": "What does equity represent?",
+            "why": "Equity is what would be left for shareholders if the company sold all its assets and repaid all its debts.",
+            "opts": [
+                "The difference between assets and debts",
+                "Annual revenue",
+                "The share price on the market"
+            ]
+        },
+        "title": "Reading a balance sheet, simply",
+        "is_free": false,
+        "duration": "3 min",
+        "examples": [
+            "Air Liquide owns plants and patents worth billions: those are its assets, financed partly by debt and partly by its shareholders.",
+            "Debt that far exceeds assets is a warning sign, even when the share price looks attractive."
+        ],
+        "position": 16,
+        "paragraphs": [
+            "A balance sheet lists what a company owns (assets) and what it owes (debts). The difference is its equity.",
+            "A healthy company generally has more assets than debts, and equity that grows from one year to the next."
+        ]
+    },
+    {
+        "quiz": {
+            "a": 1,
+            "q": "Is a company with huge revenue necessarily profitable?",
+            "why": "Profit does not depend on sales alone, but also on the costs of making them.",
+            "opts": [
+                "Yes, always",
+                "No, it all depends on its costs",
+                "Only if it is listed in the CAC 40"
+            ]
+        },
+        "title": "Revenue is not profit",
+        "is_free": false,
+        "duration": "2 min",
+        "examples": [
+            "A chain selling €10 million of goods but spending €11 million on wages, rent and raw materials is loss-making despite impressive revenue.",
+            "LVMH posts both high revenue and a high profit margin: it is the second figure that really reassures investors."
+        ],
+        "position": 17,
+        "paragraphs": [
+            "Revenue is everything a company takes in by selling its products. Profit is what is left once all its costs are paid.",
+            "A company can post enormous revenue and still lose money if its costs are too high."
+        ]
+    },
+    {
+        "quiz": {
+            "a": 1,
+            "q": "What happens when you buy an Nvidia share today?",
+            "why": "Except during an IPO, trades happen between investors on the secondary market.",
+            "opts": [
+                "You buy it directly from Nvidia",
+                "You buy it from another investor on the secondary market",
+                "You take part in its stock market listing"
+            ]
+        },
+        "title": "Primary market vs secondary market",
+        "is_free": false,
+        "duration": "2 min",
+        "examples": [
+            "A company's stock market listing is a rare event; nearly all daily trading happens afterwards, on the secondary market.",
+            "Krezus lets you buy and sell on the secondary market, at prices set continuously by supply and demand."
+        ],
+        "position": 18,
+        "paragraphs": [
+            "The primary market is when a company sells its shares for the first time (the stock market listing). The secondary market is the trading between investors that follows.",
+            "When you buy an Nvidia share today, you buy it from another investor — not from Nvidia itself."
+        ]
+    },
+    {
+        "quiz": {
+            "a": 0,
+            "q": "How is market capitalisation calculated?",
+            "why": "Market capitalisation reflects the company's total value on the market, not just the price of one share.",
+            "opts": [
+                "Share price × total number of shares",
+                "Revenue × 10",
+                "Annual profit ÷ dividend"
+            ]
+        },
+        "title": "What is market capitalisation?",
+        "is_free": false,
+        "duration": "2 min",
+        "examples": [
+            "A €900 share with 20 million shares outstanding is worth less in market capitalisation than a €50 share with 2 billion shares.",
+            "Nvidia passed $3 trillion in market capitalisation in 2024 — one of the highest valuations ever reached."
+        ],
+        "position": 19,
+        "paragraphs": [
+            "Market capitalisation is a company's total value on the stock market: the price of one share multiplied by the total number of shares.",
+            "It lets you compare the size of two companies, even when their per-share prices are very different."
+        ]
+    },
+    {
+        "quiz": {
+            "a": 0,
+            "q": "What is herd bias?",
+            "why": "This bias means acting like the majority, for fear of missing out, rather than on your own analysis.",
+            "opts": [
+                "Following the crowd without thinking for yourself",
+                "Diversifying your portfolio",
+                "Investing for the long term"
+            ]
+        },
+        "title": "Herd bias",
+        "is_free": false,
+        "duration": "2 min",
+        "examples": [
+            "Buying a stock just because it is buzzing on social media, without understanding what the company does, is a classic case of herd bias.",
+            "Hercule warns you when your behaviour looks like trend-following rather than a considered decision."
+        ],
+        "position": 20,
+        "paragraphs": [
+            "Herd bias pushes you to buy because \"everyone is buying\", and to sell because \"everyone is panicking\" — without thinking for yourself.",
+            "This behaviour amplifies bubbles and crashes. The calmest investors think against the current."
+        ]
+    },
+    {
+        "quiz": {
+            "a": 0,
+            "q": "Why is FOMO risky when investing?",
+            "why": "Buying in a hurry after a rise usually means paying the highest price.",
+            "opts": [
+                "It pushes you to buy after a sharp rise, often at the worst moment",
+                "It makes decisions more rational",
+                "It has no real effect"
+            ]
+        },
+        "title": "Fear of missing out (FOMO)",
+        "is_free": false,
+        "duration": "2 min",
+        "examples": [
+            "After a 20% rise in a week, buying in a hurry usually means buying at the highest price.",
+            "Krezus measures your FOMO score to help you spot these reflexes before you act."
+        ],
+        "position": 21,
+        "paragraphs": [
+            "FOMO pushes you to buy urgently after a sharp rise, for fear of \"missing the train\". That is often the worst moment to invest.",
+            "A decision taken in the grip of emotion is rarely a good financial decision."
+        ]
+    },
+    {
+        "quiz": {
+            "a": 1,
+            "q": "What should you do about a temporary market fall?",
+            "why": "Temporary falls are part of how markets normally work; panic-selling locks in a loss that could have healed.",
+            "opts": [
+                "Sell immediately to limit losses",
+                "Stay calm and think long term",
+                "Invest more without thinking"
+            ]
+        },
+        "title": "Accepting losses, a normal day on the market",
+        "is_free": false,
+        "duration": "2 min",
+        "examples": [
+            "A stock can lose 3% on a Monday and gain 4% the following Tuesday: reacting to every daily move is rarely useful.",
+            "Investors who panic-sold during the falls of 2020 missed the recovery that came a few months later."
+        ],
+        "position": 22,
+        "paragraphs": [
+            "A stock that falls on a given day does not mean a bad investment: that is the normal volatility of markets.",
+            "Panic-selling after a fall turns a temporary loss into a permanent one."
+        ]
+    },
+    {
+        "quiz": {
+            "a": 1,
+            "q": "What is an emergency fund for?",
+            "why": "It covers the unexpected without forcing you to liquidate investments, sometimes at the worst possible moment.",
+            "opts": [
+                "Investing more on the stock market",
+                "Avoiding having to sell your shares when something unexpected happens",
+                "Paying less tax"
+            ]
+        },
+        "title": "Building an emergency fund",
+        "is_free": false,
+        "duration": "2 min",
+        "examples": [
+            "An €800 car breakdown should not force you to sell shares in the middle of a market fall.",
+            "With €1,500 of monthly spending, an emergency fund would be somewhere between €4,500 and €9,000."
+        ],
+        "position": 23,
+        "paragraphs": [
+            "Before investing, it is wise to set aside 3 to 6 months of everyday spending, easy to access.",
+            "That cushion means you never have to sell your shares at the wrong moment when something unexpected happens."
+        ]
+    },
+    {
+        "quiz": {
+            "a": 0,
+            "q": "Why start investing early, even with small amounts?",
+            "why": "The longer you stay invested, the more time compound interest has to do its work.",
+            "opts": [
+                "Time amplifies the effect of compound interest",
+                "It avoids paying tax",
+                "It guarantees an immediate gain"
+            ]
+        },
+        "title": "Budget: spend, save, invest",
+        "is_free": false,
+        "duration": "2 min",
+        "examples": [
+            "A common rule: 50% essential spending, 30% wants, 20% saving and investing.",
+            "Investing €25 a month from age 20 builds a far larger pot than €100 a month from age 35, thanks to time."
+        ],
+        "position": 24,
+        "paragraphs": [
+            "A simple rule splits income into three blocks: essential spending, an emergency fund, and long-term investment.",
+            "Even small amounts invested regularly make a real difference over ten or twenty years."
+        ]
+    },
+    {
+        "quiz": {
+            "a": 1,
+            "q": "Why understand what a company does before investing?",
+            "why": "Over time, a share price reflects the real health of the company's business.",
+            "opts": [
+                "It is not necessary, only the price matters",
+                "It helps you understand why the price moves",
+                "It guarantees a gain"
+            ]
+        },
+        "title": "What does a listed company actually do?",
+        "is_free": false,
+        "duration": "2 min",
+        "examples": [
+            "Nvidia does not \"go up\" by magic: it sells chips used in artificial intelligence, and demand keeps growing.",
+            "Air Liquide never makes headlines, but supplies industrial gases that factories worldwide depend on — a quiet, stable business."
+        ],
+        "position": 25,
+        "paragraphs": [
+            "Behind every share sits a real company, with employees, products and customers.",
+            "Understanding what a company does before investing tells you why its price might rise — or fall."
+        ]
+    },
+    {
+        "quiz": {
+            "a": 1,
+            "q": "Why is it useful to know the sectors?",
+            "why": "Knowing the sectors helps you understand why two stocks can react differently to the same news.",
+            "opts": [
+                "They guarantee a fixed return",
+                "They react differently to the same economic events",
+                "They are all correlated in the same way"
+            ]
+        },
+        "title": "Business sectors",
+        "is_free": false,
+        "duration": "2 min",
+        "examples": [
+            "Nvidia (technology), LVMH (luxury) and Air Liquide (industry) represent three very different sectors in one portfolio.",
+            "When interest rates rise, technology stocks often react more sharply than industrial ones."
+        ],
+        "position": 26,
+        "paragraphs": [
+            "Listed companies are grouped into sectors: technology, healthcare, industry, luxury, energy…",
+            "Each sector reacts differently to the economy: tech can soar in times of innovation, energy follows commodity prices."
+        ]
+    },
+    {
+        "quiz": {
+            "a": 0,
+            "q": "What advantage is often associated with listed family companies?",
+            "why": "A founding family, usually a long-term shareholder, tends to favour endurance over quarterly performance.",
+            "opts": [
+                "A stronger long-term view",
+                "Compulsory higher dividends",
+                "A complete absence of risk"
+            ]
+        },
+        "title": "Family companies vs multinationals",
+        "is_free": false,
+        "duration": "2 min",
+        "examples": [
+            "LVMH is still run by the Arnault family, its majority shareholder, which encourages a very long-term view.",
+            "Other large companies have no dominant family shareholder: decisions there are taken collectively by a board."
+        ],
+        "position": 27,
+        "paragraphs": [
+            "Some listed companies are still run by their founding family; others are held by millions of shareholders scattered around the world.",
+            "That form of governance sometimes shapes decisions: a family company often thinks in decades, not just about the next quarter."
+        ]
+    }
+]

@@ -1,0 +1,47 @@
+[
+  {
+    "date": "2026-07-20",
+    "open": 505.1,
+    "high": 509.4,
+    "low": 503.2,
+    "close": 508.9,
+    "adjusted_close": 508.9,
+    "volume": 389201
+  },
+  {
+    "date": "2026-07-21",
+    "open": 509.0,
+    "high": 514.6,
+    "low": 507.8,
+    "close": 513.2,
+    "adjusted_close": 511.05,
+    "volume": 402118
+  },
+  {
+    "date": "2026-07-22",
+    "open": 513.5,
+    "high": 516.0,
+    "low": 509.9,
+    "close": 511.3,
+    "adjusted_close": "NA",
+    "volume": 355780
+  },
+  {
+    "date": "not-a-date",
+    "open": 1.0,
+    "high": 1.0,
+    "low": 1.0,
+    "close": 1.0,
+    "adjusted_close": 1.0,
+    "volume": 1
+  },
+  {
+    "date": "2026-07-23",
+    "open": 512.4,
+    "high": 519.8,
+    "low": 510.2,
+    "close": "NA",
+    "adjusted_close": "NA",
+    "volume": 0
+  }
+]

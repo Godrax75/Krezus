@@ -1,0 +1,66 @@
+[
+  {
+    "id": "512847",
+    "question": "Will the Fed cut interest rates in September 2026?",
+    "outcomePrices": "[\"0.72\", \"0.28\"]",
+    "volume": "4821993.21",
+    "endDate": "2026-09-18T00:00:00Z",
+    "category": "Economics"
+  },
+  {
+    "id": 512848,
+    "question": "Will US inflation be above 3% in Q4 2026?",
+    "outcomePrices": ["0.41", "0.59"],
+    "volume": 1902341.5,
+    "endDate": "2027-01-15T00:00:00Z",
+    "category": "Economics"
+  },
+  {
+    "id": "512849",
+    "question": "Will the S&P 500 close above 7000 in 2026?",
+    "outcomePrices": "[\"0.335\", \"0.665\"]",
+    "volume": "882110",
+    "endDate": "2026-12-31T00:00:00Z",
+    "category": "Markets"
+  },
+  {
+    "id": "512850",
+    "question": "Who will win the 2026 World Cup?",
+    "outcomePrices": "[\"0.18\", \"0.82\"]",
+    "volume": "31882110",
+    "endDate": "2026-07-19T00:00:00Z",
+    "category": "Sports"
+  },
+  {
+    "id": "512851",
+    "question": "Will the ECB hold rates at its next meeting?",
+    "outcomePrices": "[\"0.88\", \"0.12\"]",
+    "volume": "412000",
+    "endDate": "2026-09-11T00:00:00Z",
+    "category": "Economics"
+  },
+  {
+    "id": "512852",
+    "question": "Will oil close above $95 this year?",
+    "outcomePrices": "malformed",
+    "volume": "220000",
+    "endDate": "2026-12-31T00:00:00Z",
+    "category": "Commodities"
+  },
+  {
+    "id": "512853",
+    "question": "Will recession be declared in the US before 2027?",
+    "outcomePrices": "[\"1.4\", \"-0.4\"]",
+    "volume": "119000",
+    "endDate": "2026-12-31T00:00:00Z",
+    "category": "Economics"
+  },
+  {
+    "id": "",
+    "question": "Will CPI surprise to the upside?",
+    "outcomePrices": "[\"0.5\", \"0.5\"]",
+    "volume": "5000",
+    "endDate": null,
+    "category": "Economics"
+  }
+]

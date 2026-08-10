@@ -1,0 +1,38 @@
+[
+  {
+    "id": "rates_down",
+    "emoji": "📉",
+    "title": "Interest rates come down",
+    "trigger": "A central bank cuts its rates to stimulate the economy.",
+    "mechanism": "Money becomes cheaper to borrow. Companies invest more readily, and risk-free savings pay less — which makes shares relatively more attractive.",
+    "portfolio": "Growth stocks, which live off future investment, usually react the most. Banks, on the other hand, see their lending margins squeezed.",
+    "lesson": "A rate cut is not good news for everyone at once. The sector decides."
+  },
+  {
+    "id": "inflation_up",
+    "emoji": "🔥",
+    "title": "Inflation picks up again",
+    "trigger": "Prices rise faster than expected for several months.",
+    "mechanism": "Every euro buys less than before. Central banks often raise rates to slow the rise, which makes credit more expensive.",
+    "portfolio": "Companies able to raise their prices without losing customers — luxury, certain brands — absorb the shock better than those stuck with rising costs.",
+    "lesson": "The real return on an investment is what it earns once inflation is deducted."
+  },
+  {
+    "id": "recession",
+    "emoji": "🌧️",
+    "title": "The economy enters a recession",
+    "trigger": "Activity contracts for two consecutive quarters.",
+    "mechanism": "Households and companies spend less. Profits fall, and markets price that fall in before it shows up in the accounts.",
+    "portfolio": "So-called defensive sectors — healthcare, food, industrial gases — usually fall less than cyclical ones such as carmakers or luxury.",
+    "lesson": "Recessions are part of the cycle. Historically markets have come through them — but never on a predictable schedule."
+  },
+  {
+    "id": "tech_concentration",
+    "emoji": "🤖",
+    "title": "Tech keeps pulling the indices along",
+    "trigger": "A handful of very large technology companies accounts for most of the rise in the indices.",
+    "mechanism": "When a few stocks weigh heavily in an index, the index's performance mostly reflects theirs — even if the hundreds of other companies are flat.",
+    "portfolio": "A portfolio that looks diversified can in fact run on the same engine as the index, if its main holdings belong to the same sector.",
+    "lesson": "Diversifying is not about multiplying holdings: it is about multiplying engines."
+  }
+]

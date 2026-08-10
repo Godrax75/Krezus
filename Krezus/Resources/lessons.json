@@ -1,0 +1,650 @@
+[
+    {
+        "quiz": {
+            "a": 1,
+            "q": "Que possédez-vous en achetant une action ?",
+            "why": "Une action est une part de propriété : vous devenez actionnaire, pas prêteur.",
+            "opts": [
+                "Un prêt fait à l’entreprise",
+                "Une part de propriété de l’entreprise",
+                "Un abonnement à ses produits"
+            ]
+        },
+        "title": "C’est quoi une action ?",
+        "is_free": true,
+        "duration": "2 min",
+        "examples": [
+            "Avec 0,45 action Nvidia, vous possédez une petite part de chaque puce vendue, de chaque brevet déposé, de chaque data center équipé.",
+            "Si Nvidia double de valeur, vos 0,45 action valent deux fois plus — sans que vous ayez rien à faire."
+        ],
+        "position": 1,
+        "paragraphs": [
+            "Une action est une part de propriété d’une entreprise. En posséder une, même une fraction, fait de vous un actionnaire : un co-propriétaire.",
+            "Si l’entreprise crée de la valeur, votre part peut en prendre aussi. Si elle en perd, votre part peut baisser. C’est le principe du risque."
+        ]
+    },
+    {
+        "quiz": {
+            "a": 0,
+            "q": "D’où vient le dividende ?",
+            "why": "Le dividende est une part des bénéfices reversée aux actionnaires.",
+            "opts": [
+                "Des bénéfices de l’entreprise",
+                "D’un prêt bancaire",
+                "De vos propres versements"
+            ]
+        },
+        "title": "Le dividende",
+        "is_free": true,
+        "duration": "3 min",
+        "examples": [
+            "Air Liquide verse un dividende d’environ 2,9 % par an. Avec 0,21 action, vous recevrez votre première part de bénéfices en mai prochain.",
+            "Une entreprise qui verse 40 % de ses bénéfices en dividende garde les 60 % restants pour investir dans sa croissance."
+        ],
+        "position": 2,
+        "paragraphs": [
+            "Certaines entreprises reversent une partie de leurs bénéfices à leurs actionnaires : c’est le dividende, souvent versé chaque trimestre ou chaque année.",
+            "Toutes ne le font pas. Les entreprises en forte croissance préfèrent réinvestir leurs bénéfices."
+        ]
+    },
+    {
+        "quiz": {
+            "a": 1,
+            "q": "Pourquoi diversifier son portefeuille ?",
+            "why": "Répartir son investissement réduit l’impact d’une baisse isolée.",
+            "opts": [
+                "Pour payer moins d’impôts",
+                "Pour réduire le risque global",
+                "Pour gagner plus vite"
+            ]
+        },
+        "title": "La diversification",
+        "is_free": true,
+        "duration": "3 min",
+        "examples": [
+            "Nvidia (tech, États-Unis) + Air Liquide (industrie, France) : deux moteurs très différents. C’est déjà un début de diversification.",
+            "Un portefeuille concentré sur une seule action peut perdre 50 % en une journée ; réparti sur dix actions, l’impact d’une seule chute est amorti."
+        ],
+        "position": 3,
+        "paragraphs": [
+            "Mettre tous ses œufs dans le même panier, c’est risqué. Diversifier, c’est répartir son investissement entre plusieurs entreprises, secteurs et pays.",
+            "Quand l’un baisse, l’autre peut monter : votre portefeuille devient plus stable dans le temps."
+        ]
+    },
+    {
+        "quiz": {
+            "a": 1,
+            "q": "Que montre l’historique des marchés sur dix ans ?",
+            "why": "Sur longue durée, les marchés ont historiquement récompensé la patience.",
+            "opts": [
+                "Une baisse continue",
+                "La patience récompensée malgré les crises",
+                "Une stagnation totale"
+            ]
+        },
+        "title": "Penser long terme",
+        "is_free": true,
+        "duration": "2 min",
+        "examples": [
+            "100 € investis dans les grandes entreprises mondiales en 2014 valaient environ 320 € dix ans plus tard — en traversant deux crises.",
+            "Vendre après une baisse de 10 % pour racheter plus tard revient souvent à rater la remontée qui suit."
+        ],
+        "position": 4,
+        "paragraphs": [
+            "Sur un jour, la bourse est imprévisible. Sur dix ans, les marchés ont historiquement récompensé la patience.",
+            "Un investisseur n’est pas un spéculateur : on ne regarde pas son portefeuille toutes les heures, on laisse le temps travailler."
+        ]
+    },
+    {
+        "quiz": {
+            "a": 1,
+            "q": "Pourquoi réinvestir ses gains ?",
+            "why": "Réinvestir crée un effet boule de neige : vos gains font travailler vos gains.",
+            "opts": [
+                "Ça ne change rien",
+                "Les gains génèrent eux-mêmes des gains",
+                "C’est obligatoire légalement"
+            ]
+        },
+        "title": "Les intérêts composés",
+        "is_free": false,
+        "duration": "3 min",
+        "examples": [
+            "25 € par mois à 7 % par an : environ 4 300 € au bout de 10 ans, dont 1 300 € générés par les seuls intérêts.",
+            "Sans réinvestir, ces mêmes 25 €/mois ne rapporteraient que les intérêts simples — environ 3 000 € de moins sur 10 ans."
+        ],
+        "position": 5,
+        "paragraphs": [
+            "Réinvestir vos gains fait travailler vos gains eux-mêmes. C’est un effet boule de neige : lent au début, puissant avec le temps.",
+            "La clé n’est pas le montant, c’est la durée. Commencer tôt et ne pas interrompre."
+        ]
+    },
+    {
+        "quiz": {
+            "a": 0,
+            "q": "Que signifie « Nvidia +1,4 % aujourd’hui » ?",
+            "why": "La variation compare le cours actuel à la clôture précédente.",
+            "opts": [
+                "Le titre vaut 1,4 % de plus qu’hier",
+                "L’entreprise a gagné 1,4 % de clients",
+                "Le dividende augmente de 1,4 %"
+            ]
+        },
+        "title": "Lire un cours de bourse",
+        "is_free": false,
+        "duration": "2 min",
+        "examples": [
+            "Nvidia « +1,4 % aujourd’hui » : l’action vaut 1,4 % de plus qu’à la clôture d’hier. Ni plus, ni moins.",
+            "Un volume d’échanges élevé signale souvent qu’une information importante vient d’être publiée sur l’entreprise."
+        ],
+        "position": 6,
+        "paragraphs": [
+            "Un cours reflète le prix auquel acheteurs et vendeurs s’accordent, en continu. Il bouge parce que les attentes bougent.",
+            "Ouverture, clôture, volume, variation : quatre chiffres suffisent pour lire l’essentiel."
+        ]
+    },
+    {
+        "quiz": {
+            "a": 1,
+            "q": "Que mesure un indice comme le CAC 40 ?",
+            "why": "Un indice regroupe plusieurs entreprises pour refléter la santé d’un marché.",
+            "opts": [
+                "Une seule entreprise",
+                "Un panier des plus grandes entreprises d’un marché",
+                "Le taux d’intérêt de la banque centrale"
+            ]
+        },
+        "title": "Les indices : CAC 40 & S&P 500",
+        "is_free": false,
+        "duration": "3 min",
+        "examples": [
+            "Quand on dit « la bourse monte », on parle en général d’un indice — pas de toutes les actions.",
+            "Le S&P 500 a été multiplié par plus de 10 depuis 2009, malgré plusieurs crises en chemin."
+        ],
+        "position": 7,
+        "paragraphs": [
+            "Un indice est un panier d’actions qui mesure la santé d’un marché entier.",
+            "CAC 40 : les 40 plus grandes entreprises françaises. S&P 500 : les 500 plus grandes américaines."
+        ]
+    },
+    {
+        "quiz": {
+            "a": 1,
+            "q": "Qu’achetez-vous avec une part d’ETF S&P 500 ?",
+            "why": "Un ETF réplique un indice entier en un seul achat.",
+            "opts": [
+                "Une seule action américaine",
+                "Un fonds qui réplique les 500 plus grandes entreprises US",
+                "Une obligation d’État"
+            ]
+        },
+        "title": "Les ETF, c’est quoi ?",
+        "is_free": false,
+        "duration": "3 min",
+        "examples": [
+            "Un ETF S&P 500 vous rend actionnaire des 500 plus grandes entreprises américaines en un seul achat.",
+            "Un ETF CAC 40 vous rend actionnaire des 40 plus grandes entreprises françaises en une seule ligne de portefeuille."
+        ],
+        "position": 8,
+        "paragraphs": [
+            "Un ETF est un fonds coté qui réplique un indice entier. Une seule part = des centaines d’entreprises.",
+            "C’est l’outil de diversification le plus simple qui existe, avec des frais très bas."
+        ]
+    },
+    {
+        "quiz": {
+            "a": 1,
+            "q": "Que signifie une forte volatilité ?",
+            "why": "La volatilité mesure l’ampleur des variations de prix.",
+            "opts": [
+                "Le prix varie peu",
+                "Le prix varie fortement",
+                "L’entreprise est en faillite"
+            ]
+        },
+        "title": "Le risque et la volatilité",
+        "is_free": false,
+        "duration": "3 min",
+        "examples": [
+            "Nvidia peut bouger de 5 % en un jour ; Air Liquide rarement plus de 2 %. Deux profils, deux rôles dans un portefeuille.",
+            "Une action volatile n’est pas forcément mauvaise — elle demande simplement des nerfs plus solides."
+        ],
+        "position": 9,
+        "paragraphs": [
+            "La volatilité, c’est l’ampleur des variations d’un prix. Forte volatilité = fortes émotions.",
+            "Le risque se gère : diversification, long terme, et n’investir que l’argent dont on n’a pas besoin."
+        ]
+    },
+    {
+        "quiz": {
+            "a": 1,
+            "q": "Pourquoi les frais sont-ils « l’ennemi invisible » ?",
+            "why": "Chaque frais prélevé est un rendement en moins, qui ne pourra jamais se réinvestir.",
+            "opts": [
+                "Ils sont illégaux",
+                "Ils réduisent un rendement qui ne composera jamais",
+                "Ils augmentent avec le temps"
+            ]
+        },
+        "title": "Les frais, l’ennemi invisible",
+        "is_free": false,
+        "duration": "2 min",
+        "examples": [
+            "Retirer 50 € avec 9,99 € de frais, c’est perdre 20 % de la somme. Mieux vaut retirer rarement, et en une fois.",
+            "Deux fonds identiques à 0,2 % et 1,5 % de frais annuels peuvent finir avec un écart de plusieurs milliers d’euros après 20 ans."
+        ],
+        "position": 10,
+        "paragraphs": [
+            "Chaque frais prélevé est un rendement en moins — qui ne composera jamais.",
+            "Comparer les frais avant d’investir rapporte plus que chercher « la bonne action »."
+        ]
+    },
+    {
+        "quiz": {
+            "a": 1,
+            "q": "Quand les gains sont-ils imposés en France ?",
+            "why": "Les gains sont imposés au moment de la vente, pas avant.",
+            "opts": [
+                "Chaque année automatiquement",
+                "Au moment de la vente",
+                "Jamais"
+            ]
+        },
+        "title": "La fiscalité du débutant",
+        "is_free": false,
+        "duration": "3 min",
+        "examples": [
+            "Vos 12 € de plus-value Nvidia ne seront imposés que le jour où vous vendrez.",
+            "Conserver une action plutôt que la revendre chaque année évite de déclencher l’imposition à chaque fois."
+        ],
+        "position": 11,
+        "paragraphs": [
+            "En France, les gains sont imposés à 30 % (la « flat tax ») au moment de la vente — pas avant.",
+            "Tant que vous ne vendez pas, vous ne payez rien : le long terme est aussi un avantage fiscal."
+        ]
+    },
+    {
+        "quiz": {
+            "a": 0,
+            "q": "Que doit contenir un bon plan d’investissement ?",
+            "why": "Un plan simple tient en trois éléments : objectif, montant régulier, horizon de temps.",
+            "opts": [
+                "Un objectif, un montant régulier, un horizon",
+                "Uniquement une somme importante",
+                "Un secteur unique à privilégier"
+            ]
+        },
+        "title": "Construire son plan d’investissement",
+        "is_free": false,
+        "duration": "3 min",
+        "examples": [
+            "« 25 € par mois pendant 10 ans pour financer mes études » : voilà un plan complet.",
+            "Un plan écrit noir sur blanc est bien plus facile à tenir qu’une intention vague de « mieux épargner »."
+        ],
+        "position": 12,
+        "paragraphs": [
+            "Un bon plan tient en trois lignes : un objectif, un montant régulier, un horizon de temps.",
+            "Le meilleur plan est celui que vous tiendrez sans y penser — d’où l’investissement programmé."
+        ]
+    },
+    {
+        "quiz": {
+            "a": 1,
+            "q": "Quelle est la vraie différence entre action et obligation ?",
+            "why": "L’actionnaire possède une part de l’entreprise ; l’obligataire lui a simplement prêté de l’argent.",
+            "opts": [
+                "Aucune, ce sont des synonymes",
+                "L’action rend propriétaire, l’obligation rend créancier",
+                "L’obligation rapporte toujours plus"
+            ]
+        },
+        "title": "Action ou obligation ?",
+        "is_free": false,
+        "duration": "2 min",
+        "examples": [
+            "Prêter 1 000 € à l’État français à 3 % par an, c’est une obligation : vous récupérez votre capital à l’échéance, plus les intérêts.",
+            "Acheter une action Nvidia, c’est parier sur sa croissance future — sans garantie de retour, mais sans plafond non plus."
+        ],
+        "position": 13,
+        "paragraphs": [
+            "Une action fait de vous propriétaire d’une entreprise. Une obligation fait de vous son créancier : vous lui prêtez de l’argent contre un intérêt fixe.",
+            "L’action peut monter beaucoup plus haut… mais aussi baisser davantage. L’obligation est plus prévisible, avec un rendement généralement plus faible."
+        ]
+    },
+    {
+        "quiz": {
+            "a": 1,
+            "q": "Quel est l’avantage principal du DCA ?",
+            "why": "En investissant régulièrement, on achète à des prix variés, ce qui moyenne le coût d’entrée sans avoir à deviner le bon moment.",
+            "opts": [
+                "Garantir un gain",
+                "Lisser le prix d’achat moyen dans le temps",
+                "Éviter totalement les baisses"
+            ]
+        },
+        "title": "L’investissement programmé (DCA)",
+        "is_free": false,
+        "duration": "2 min",
+        "examples": [
+            "25 € investis chaque mois sur Nvidia, que le cours monte ou baisse : vous achetez parfois cher, parfois moins cher — en moyenne, un prix raisonnable.",
+            "Un investisseur qui attend « le bon moment » depuis 2020 a probablement raté une hausse de plus de 150 % sur les indices mondiaux."
+        ],
+        "position": 14,
+        "paragraphs": [
+            "Le Dollar-Cost Averaging consiste à investir un même montant à intervalles réguliers, plutôt qu’une grosse somme d’un coup.",
+            "Cette méthode lisse le prix d’achat moyen dans le temps et retire la pression de « trouver le bon moment »."
+        ]
+    },
+    {
+        "quiz": {
+            "a": 1,
+            "q": "Que mesure le PER ?",
+            "why": "Le PER rapporte le prix de l’action à son bénéfice annuel par action.",
+            "opts": [
+                "Le montant du dividende versé",
+                "Le nombre d’années de bénéfices que vaut le prix de l’action",
+                "Le risque de faillite de l’entreprise"
+            ]
+        },
+        "title": "Comprendre le PER",
+        "is_free": false,
+        "duration": "3 min",
+        "examples": [
+            "Une action à 100 € qui gagne 5 € par an a un PER de 20 : vous payez 20 fois son bénéfice annuel.",
+            "Nvidia affiche historiquement un PER élevé car les investisseurs parient sur sa croissance dans l’IA ; une entreprise industrielle mature aura souvent un PER plus bas."
+        ],
+        "position": 15,
+        "paragraphs": [
+            "Le PER (Price Earnings Ratio) compare le prix d’une action à son bénéfice par action. Il indique combien d’années de bénéfices vous payez.",
+            "Un PER élevé signifie que le marché attend une forte croissance future ; un PER bas peut signaler une action délaissée — ou en difficulté."
+        ]
+    },
+    {
+        "quiz": {
+            "a": 0,
+            "q": "Que représentent les capitaux propres ?",
+            "why": "Les capitaux propres sont ce qu’il resterait aux actionnaires si l’entreprise vendait tous ses actifs et remboursait toutes ses dettes.",
+            "opts": [
+                "La différence entre actifs et dettes",
+                "Le chiffre d’affaires annuel",
+                "Le prix de l’action en bourse"
+            ]
+        },
+        "title": "Lire un bilan simplement",
+        "is_free": false,
+        "duration": "3 min",
+        "examples": [
+            "Air Liquide possède des usines et des brevets valant des milliards : ce sont ses actifs, financés en partie par de la dette et en partie par ses actionnaires.",
+            "Une dette qui dépasse largement les actifs est un signal d’alerte, même si le cours de l’action semble attractif."
+        ],
+        "position": 16,
+        "paragraphs": [
+            "Un bilan liste ce qu’une entreprise possède (actifs) et ce qu’elle doit (dettes). La différence, c’est ses capitaux propres.",
+            "Une entreprise en bonne santé a généralement plus d’actifs que de dettes, et des capitaux propres qui augmentent d’année en année."
+        ]
+    },
+    {
+        "quiz": {
+            "a": 1,
+            "q": "Une entreprise avec un chiffre d’affaires énorme est-elle forcément rentable ?",
+            "why": "Le bénéfice ne dépend pas que des ventes, mais aussi des coûts à payer pour les réaliser.",
+            "opts": [
+                "Oui, toujours",
+                "Non, tout dépend de ses charges",
+                "Seulement si elle est cotée au CAC 40"
+            ]
+        },
+        "title": "Le chiffre d’affaires n’est pas le bénéfice",
+        "is_free": false,
+        "duration": "2 min",
+        "examples": [
+            "Une chaîne qui vend 10 millions d’euros de produits mais dépense 11 millions en salaires, loyers et matières premières est déficitaire malgré un chiffre d’affaires impressionnant.",
+            "LVMH affiche à la fois un chiffre d’affaires et une marge bénéficiaire élevés : c’est ce second chiffre qui rassure vraiment les investisseurs."
+        ],
+        "position": 17,
+        "paragraphs": [
+            "Le chiffre d’affaires, c’est tout ce qu’une entreprise encaisse en vendant ses produits. Le bénéfice, c’est ce qu’il reste après avoir payé toutes ses charges.",
+            "Une entreprise peut afficher un chiffre d’affaires énorme et pourtant perdre de l’argent si ses coûts sont trop élevés."
+        ]
+    },
+    {
+        "quiz": {
+            "a": 1,
+            "q": "Que se passe-t-il quand vous achetez une action Nvidia aujourd’hui ?",
+            "why": "Sauf lors d’une introduction en bourse, les échanges se font entre investisseurs sur le marché secondaire.",
+            "opts": [
+                "Vous l’achetez directement à Nvidia",
+                "Vous l’achetez à un autre investisseur sur le marché secondaire",
+                "Vous participez à son introduction en bourse"
+            ]
+        },
+        "title": "Marché primaire vs marché secondaire",
+        "is_free": false,
+        "duration": "2 min",
+        "examples": [
+            "L’introduction en bourse d’une entreprise est un événement rare ; l’essentiel des échanges quotidiens se fait ensuite sur le marché secondaire.",
+            "Krezus vous permet d’acheter et vendre sur le marché secondaire, aux prix fixés en continu par l’offre et la demande."
+        ],
+        "position": 18,
+        "paragraphs": [
+            "Le marché primaire, c’est quand une entreprise vend ses actions pour la première fois (l’introduction en bourse). Le marché secondaire, c’est l’échange entre investisseurs ensuite.",
+            "Quand vous achetez une action Nvidia aujourd’hui, vous l’achetez à un autre investisseur — pas directement à Nvidia."
+        ]
+    },
+    {
+        "quiz": {
+            "a": 0,
+            "q": "Comment calcule-t-on la capitalisation boursière ?",
+            "why": "La capitalisation reflète la valeur totale de l’entreprise sur le marché, pas seulement le prix d’une action.",
+            "opts": [
+                "Prix de l’action × nombre total d’actions",
+                "Chiffre d’affaires × 10",
+                "Bénéfice annuel ÷ dividende"
+            ]
+        },
+        "title": "Qu’est-ce qu’une capitalisation boursière ?",
+        "is_free": false,
+        "duration": "2 min",
+        "examples": [
+            "Une action à 900 € avec 20 millions d’actions vaut moins en capitalisation qu’une action à 50 € avec 2 milliards d’actions.",
+            "Nvidia a dépassé les 3 000 milliards de dollars de capitalisation en 2024 — l’une des plus fortes valorisations jamais atteintes."
+        ],
+        "position": 19,
+        "paragraphs": [
+            "La capitalisation boursière, c’est la valeur totale d’une entreprise en bourse : le prix d’une action multiplié par le nombre total d’actions.",
+            "Elle permet de comparer la taille de deux entreprises, même si leurs cours par action sont très différents."
+        ]
+    },
+    {
+        "quiz": {
+            "a": 0,
+            "q": "Qu’est-ce que le biais du troupeau ?",
+            "why": "Ce biais consiste à agir comme la majorité, par peur de rater quelque chose, plutôt que sur une analyse propre.",
+            "opts": [
+                "Suivre la foule sans réflexion personnelle",
+                "Diversifier son portefeuille",
+                "Investir sur le long terme"
+            ]
+        },
+        "title": "Le biais du troupeau",
+        "is_free": false,
+        "duration": "2 min",
+        "examples": [
+            "Acheter une action juste parce qu’elle « buzz » sur les réseaux sociaux, sans en comprendre l’activité, est un exemple classique du biais du troupeau.",
+            "Hercule vous alerte si votre comportement ressemble à un suivi de tendance plutôt qu’à une décision réfléchie."
+        ],
+        "position": 20,
+        "paragraphs": [
+            "Le biais du troupeau pousse à acheter parce que « tout le monde achète », et à vendre parce que « tout le monde panique » — sans réfléchir soi-même.",
+            "Ce comportement amplifie les bulles et les krachs. Les investisseurs les plus sereins pensent à contre-courant."
+        ]
+    },
+    {
+        "quiz": {
+            "a": 0,
+            "q": "Pourquoi le FOMO est-il risqué en investissement ?",
+            "why": "Acheter dans la précipitation après une hausse revient souvent à payer le prix le plus élevé.",
+            "opts": [
+                "Il pousse à acheter après une forte hausse, souvent au plus mauvais moment",
+                "Il rend les décisions plus rationnelles",
+                "Il n’a aucun effet réel"
+            ]
+        },
+        "title": "La peur de rater quelque chose (FOMO)",
+        "is_free": false,
+        "duration": "2 min",
+        "examples": [
+            "Après une hausse de 20 % en une semaine, acheter dans la précipitation revient souvent à acheter au prix le plus haut.",
+            "Krezus mesure votre score FOMO pour vous aider à repérer ces réflexes avant d’agir."
+        ],
+        "position": 21,
+        "paragraphs": [
+            "Le FOMO pousse à acheter en urgence après une forte hausse, par peur de « rater le train ». C’est souvent le pire moment pour investir.",
+            "Une décision prise sous le coup de l’émotion est rarement une bonne décision financière."
+        ]
+    },
+    {
+        "quiz": {
+            "a": 1,
+            "q": "Que faire face à une baisse ponctuelle du marché ?",
+            "why": "Les baisses ponctuelles font partie du fonctionnement normal des marchés ; vendre en panique fige une perte qui aurait pu se résorber.",
+            "opts": [
+                "Vendre immédiatement pour limiter les pertes",
+                "Garder son calme et penser long terme",
+                "Investir davantage sans réfléchir"
+            ]
+        },
+        "title": "Accepter la perte, un jour normal en bourse",
+        "is_free": false,
+        "duration": "2 min",
+        "examples": [
+            "Une action peut perdre 3 % un lundi et regagner 4 % le mardi suivant : réagir à chaque mouvement quotidien est rarement utile.",
+            "Les investisseurs qui ont vendu en panique lors des baisses de 2020 ont manqué la reprise qui a suivi quelques mois plus tard."
+        ],
+        "position": 22,
+        "paragraphs": [
+            "Une action qui baisse un jour donné ne signifie pas un mauvais investissement : c’est la volatilité normale des marchés.",
+            "Vendre en panique après une baisse transforme une perte temporaire en perte définitive."
+        ]
+    },
+    {
+        "quiz": {
+            "a": 1,
+            "q": "À quoi sert une épargne de précaution ?",
+            "why": "Elle couvre les imprévus sans avoir à liquider des placements, parfois au pire moment.",
+            "opts": [
+                "À investir davantage en bourse",
+                "À éviter de vendre ses actions en cas d’imprévu",
+                "À payer moins d’impôts"
+            ]
+        },
+        "title": "Se constituer une épargne de précaution",
+        "is_free": false,
+        "duration": "2 min",
+        "examples": [
+            "Une panne de voiture à 800 € ne devrait pas obliger à vendre des actions en pleine baisse du marché.",
+            "Avec 1 500 € de dépenses mensuelles, une épargne de précaution représenterait entre 4 500 € et 9 000 €."
+        ],
+        "position": 23,
+        "paragraphs": [
+            "Avant d’investir, il est conseillé de garder de côté 3 à 6 mois de dépenses courantes, facilement accessibles.",
+            "Cette épargne évite de devoir vendre ses actions au mauvais moment en cas d’imprévu."
+        ]
+    },
+    {
+        "quiz": {
+            "a": 0,
+            "q": "Pourquoi commencer à investir tôt, même avec de petits montants ?",
+            "why": "Plus la durée d’investissement est longue, plus les intérêts composés ont le temps de produire leur effet.",
+            "opts": [
+                "Le temps amplifie l’effet des intérêts composés",
+                "Cela évite de payer des impôts",
+                "Cela garantit un gain immédiat"
+            ]
+        },
+        "title": "Budget : dépenser, épargner, investir",
+        "is_free": false,
+        "duration": "2 min",
+        "examples": [
+            "Une règle courante : 50 % dépenses essentielles, 30 % envies, 20 % épargne et investissement.",
+            "Investir 25 € par mois dès 20 ans construit un capital bien plus important qu’investir 100 € par mois à partir de 35 ans, grâce au temps."
+        ],
+        "position": 24,
+        "paragraphs": [
+            "Une règle simple répartit les revenus en trois blocs : les dépenses essentielles, l’épargne de précaution, et l’investissement long terme.",
+            "Même de petits montants investis régulièrement font une vraie différence sur dix ou vingt ans."
+        ]
+    },
+    {
+        "quiz": {
+            "a": 1,
+            "q": "Pourquoi comprendre l’activité d’une entreprise avant d’investir ?",
+            "why": "Le cours d’une action reflète, à terme, la santé réelle de l’activité de l’entreprise.",
+            "opts": [
+                "Ce n’est pas nécessaire, seul le cours compte",
+                "Cela aide à comprendre pourquoi le cours évolue",
+                "Cela garantit un gain"
+            ]
+        },
+        "title": "Que fait vraiment une entreprise cotée ?",
+        "is_free": false,
+        "duration": "2 min",
+        "examples": [
+            "Nvidia ne « monte » pas par magie : elle vend des puces utilisées dans l’intelligence artificielle, de plus en plus demandées.",
+            "Air Liquide ne fait pas de gros titres, mais fournit des gaz industriels essentiels à des usines du monde entier — un métier discret et stable."
+        ],
+        "position": 25,
+        "paragraphs": [
+            "Derrière chaque action se cache une vraie entreprise, avec des salariés, des produits et des clients.",
+            "Comprendre ce que fait une entreprise avant d’investir permet de savoir pourquoi son cours peut monter — ou baisser."
+        ]
+    },
+    {
+        "quiz": {
+            "a": 1,
+            "q": "Pourquoi les secteurs sont-ils utiles à connaître ?",
+            "why": "Connaître les secteurs aide à comprendre pourquoi deux actions peuvent réagir différemment à la même actualité.",
+            "opts": [
+                "Ils garantissent un rendement fixe",
+                "Ils réagissent différemment aux mêmes événements économiques",
+                "Ils sont tous corrélés de la même façon"
+            ]
+        },
+        "title": "Les secteurs d’activité",
+        "is_free": false,
+        "duration": "2 min",
+        "examples": [
+            "Nvidia (technologie), LVMH (luxe) et Air Liquide (industrie) représentent trois secteurs très différents dans un même portefeuille.",
+            "En période de hausse des taux d’intérêt, les valeurs technologiques réagissent souvent plus fortement que les valeurs industrielles."
+        ],
+        "position": 26,
+        "paragraphs": [
+            "Les entreprises cotées sont classées par secteurs : technologie, santé, industrie, luxe, énergie…",
+            "Chaque secteur réagit différemment à l’économie : la tech peut s’envoler en période d’innovation, l’énergie suit les prix des matières premières."
+        ]
+    },
+    {
+        "quiz": {
+            "a": 0,
+            "q": "Quel est un avantage souvent associé aux entreprises familiales cotées ?",
+            "why": "Une famille fondatrice, souvent actionnaire de long terme, a tendance à privilégier la pérennité sur la performance trimestrielle.",
+            "opts": [
+                "Une vision à long terme plus marquée",
+                "Des dividendes obligatoires plus élevés",
+                "Une absence totale de risque"
+            ]
+        },
+        "title": "Les entreprises familiales vs les multinationales",
+        "is_free": false,
+        "duration": "2 min",
+        "examples": [
+            "LVMH reste dirigée par la famille Arnault, actionnaire majoritaire, ce qui favorise une vision à très long terme.",
+            "D’autres grandes entreprises n’ont aucun actionnaire familial dominant : les décisions y sont prises collectivement par un conseil d’administration."
+        ],
+        "position": 27,
+        "paragraphs": [
+            "Certaines entreprises cotées restent dirigées par leur famille fondatrice ; d’autres sont détenues par des millions d’actionnaires dispersés dans le monde.",
+            "Ce mode de gouvernance influence parfois les décisions : une entreprise familiale pense souvent sur des décennies, pas seulement au trimestre suivant."
+        ]
+    }
+]

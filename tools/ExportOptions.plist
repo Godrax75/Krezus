@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Options d'export de l'archive vers un .ipa destiné à App Store Connect
+	     (et donc à TestFlight, qui est le même pipeline). Utilisé par
+	     tools/archive.sh, qui y injecte l'identifiant d'équipe. -->
+	<key>method</key>
+	<string>app-store-connect</string>
+
+	<key>destination</key>
+	<string>export</string>
+
+	<key>signingStyle</key>
+	<string>automatic</string>
+
+	<!-- Les symboles alimentent les rapports de plantage lisibles dans
+	     Xcode Organizer ; sans eux, chaque trace est une liste d'adresses. -->
+	<key>uploadSymbols</key>
+	<true/>
+
+	<!-- Xcode réécrit le bitcode/thinning selon l'appareil côté App Store. -->
+	<key>stripSwiftSymbols</key>
+	<true/>
+
+	<key>teamID</key>
+	<string>TEAM_ID_PLACEHOLDER</string>
+</dict>
+</plist>

@@ -1,0 +1,56 @@
+[
+  {
+    "id": "horizon",
+    "question": "Dans combien de temps penses-tu avoir besoin de cet argent ?",
+    "options": [
+      { "label": "Moins de 2 ans",       "patience": 10, "prudence": 90, "curiosite": 30, "regularite": 40 },
+      { "label": "Entre 2 et 5 ans",     "patience": 45, "prudence": 60, "curiosite": 50, "regularite": 55 },
+      { "label": "Plus de 10 ans",       "patience": 95, "prudence": 35, "curiosite": 70, "regularite": 70 }
+    ]
+  },
+  {
+    "id": "drawdown",
+    "question": "Ton portefeuille perd 20 % en un mois. Tu fais quoi ?",
+    "options": [
+      { "label": "Je vends pour limiter la casse", "patience": 10, "prudence": 95, "curiosite": 25, "regularite": 30 },
+      { "label": "J'attends sans rien changer",    "patience": 80, "prudence": 55, "curiosite": 50, "regularite": 65 },
+      { "label": "J'en profite pour renforcer",    "patience": 90, "prudence": 20, "curiosite": 85, "regularite": 75 }
+    ]
+  },
+  {
+    "id": "goal",
+    "question": "Qu'est-ce que tu cherches d'abord ?",
+    "options": [
+      { "label": "Protéger ce que j'ai",        "patience": 55, "prudence": 95, "curiosite": 30, "regularite": 60 },
+      { "label": "Faire croître régulièrement", "patience": 75, "prudence": 55, "curiosite": 60, "regularite": 80 },
+      { "label": "Viser la performance",        "patience": 50, "prudence": 15, "curiosite": 90, "regularite": 45 }
+    ]
+  },
+  {
+    "id": "knowledge",
+    "question": "Comment décrirais-tu tes connaissances en bourse ?",
+    "options": [
+      { "label": "Je débute complètement",     "patience": 50, "prudence": 80, "curiosite": 60, "regularite": 40 },
+      { "label": "Je connais les bases",       "patience": 60, "prudence": 55, "curiosite": 70, "regularite": 60 },
+      { "label": "Je suis les marchés de près", "patience": 55, "prudence": 35, "curiosite": 95, "regularite": 70 }
+    ]
+  },
+  {
+    "id": "rhythm",
+    "question": "À quelle fréquence penses-tu investir ?",
+    "options": [
+      { "label": "Quand j'y pense",            "patience": 40, "prudence": 50, "curiosite": 50, "regularite": 15 },
+      { "label": "Une somme chaque mois",      "patience": 85, "prudence": 60, "curiosite": 55, "regularite": 95 },
+      { "label": "De grosses sommes ponctuelles", "patience": 45, "prudence": 40, "curiosite": 65, "regularite": 35 }
+    ]
+  },
+  {
+    "id": "volatility",
+    "question": "Une action qui varie de 5 % par jour, pour toi c'est…",
+    "options": [
+      { "label": "Beaucoup trop stressant",  "patience": 45, "prudence": 95, "curiosite": 35, "regularite": 55 },
+      { "label": "Acceptable sur une part",  "patience": 70, "prudence": 55, "curiosite": 65, "regularite": 65 },
+      { "label": "Le jeu normal du marché",  "patience": 75, "prudence": 20, "curiosite": 90, "regularite": 60 }
+    ]
+  }
+]

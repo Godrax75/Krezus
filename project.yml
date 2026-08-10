@@ -1,0 +1,120 @@
+name: Krezus
+options:
+  bundleIdPrefix: com.krezus
+  deploymentTarget:
+    iOS: "17.0"
+  createIntermediateGroups: true
+
+packages:
+  Supabase:
+    url: https://github.com/supabase/supabase-swift
+    from: "2.0.0"
+
+settings:
+  base:
+    MARKETING_VERSION: "0.1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    SWIFT_VERSION: "5.9"
+    DEVELOPMENT_LANGUAGE: fr
+    GENERATE_INFOPLIST_FILE: NO
+
+targets:
+  Krezus:
+    type: application
+    platform: iOS
+    sources:
+      - path: Krezus
+        excludes:
+          - "Config/*.xcconfig"
+          # Configuration StoreKit de développement : référencée par le schéma
+          # pour tester l'achat au simulateur, elle n'a rien à faire dans le
+          # bundle livré.
+          - "Resources/*.storekit"
+    configFiles:
+      Debug: Krezus/Config/Secrets.xcconfig
+      Release: Krezus/Config/Secrets.xcconfig
+    dependencies:
+      - package: Supabase
+        product: Supabase
+    entitlements:
+      path: Krezus/Krezus.entitlements
+      properties:
+        com.apple.developer.applesignin:
+          - Default
+        aps-environment: development
+    info:
+      path: Krezus/Info.plist
+      properties:
+        CFBundleDisplayName: Krezus
+        # Verrou biométrique optionnel (Réglages → Sécurité). Sans cette clé,
+        # iOS tue l'app à la première évaluation de politique.
+        NSFaceIDUsageDescription: Déverrouiller Krezus avec Face ID.
+        CFBundleShortVersionString: "$(MARKETING_VERSION)"
+        CFBundleVersion: "$(CURRENT_PROJECT_VERSION)"
+        # Krezus n'utilise que HTTPS et les primitives du système : chiffrement
+        # exempté. Sans cette clé, App Store Connect repose la question de
+        # conformité export à chaque envoi et bloque la distribution en
+        # attendant la réponse.
+        ITSAppUsesNonExemptEncryption: false
+        SUPABASE_PROJECT_REF: "$(SUPABASE_PROJECT_REF)"
+        SUPABASE_ANON_KEY: "$(SUPABASE_ANON_KEY)"
+        GOOGLE_OAUTH_CLIENT_ID: "$(GOOGLE_OAUTH_CLIENT_ID)"
+        UILaunchScreen:
+          UIColorName: LaunchBackground
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+        UIApplicationSceneManifest:
+          UIApplicationSupportsMultipleScenes: false
+        CFBundleLocalizations:
+          - fr
+          - en
+        CFBundleURLTypes:
+          - CFBundleURLName: com.krezus.app
+            CFBundleURLSchemes:
+              - com.krezus.app
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.krezus.app
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+        TARGETED_DEVICE_FAMILY: "1"
+        CODE_SIGN_STYLE: Automatic
+        # L'identifiant d'équipe vit dans Secrets.xcconfig, non versionné :
+        # c'est une donnée de compte, elle n'a pas à voyager avec le code.
+        # Vide, la compilation simulateur fonctionne quand même ; seul
+        # l'archivage signé l'exige.
+        DEVELOPMENT_TEAM: "$(KREZUS_TEAM_ID)"
+
+  KrezusTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: KrezusTests
+    dependencies:
+      - target: Krezus
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+        # Les tests s'exécutent dans le processus de l'app : `Bundle.main` est
+        # alors le bundle de Krezus, donc `L10n` retrouve fr.lproj et en.lproj.
+        # Sans hôte, chaque appel à `t(…)` échouerait sur une clé absente.
+        TEST_HOST: "$(BUILT_PRODUCTS_DIR)/Krezus.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Krezus"
+        BUNDLE_LOADER: "$(TEST_HOST)"
+
+schemes:
+  Krezus:
+    build:
+      targets:
+        Krezus: all
+        KrezusTests: [test]
+    run:
+      config: Debug
+      # Permet de tester l'achat Premium au simulateur sans App Store Connect.
+      storeKitConfiguration: Krezus/Resources/Krezus.storekit
+    test:
+      config: Debug
+      targets:
+        - KrezusTests
+      gatherCoverageData: true
+    archive:
+      config: Release
