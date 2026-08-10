@@ -92,12 +92,62 @@ final class OracleStore {
     private(set) var scenarios: [OracleScenario] = []
     private(set) var questions: [InvestorQuestion] = []
 
+    enum Source: Equatable { case demo, server }
+
+    private(set) var source: Source = .demo
+    private(set) var lastError: String?
+
     /// Réponses en cours : identifiant de question → index d'option choisie.
     private(set) var answers: [String: Int] = [:]
     private(set) var archetype: InvestorArchetype?
 
+    /// Clé stable de l'archétype courant (« guardian »), dont `archetype`
+    /// n'est que l'habillage traduit. C'est elle qu'on enregistre.
+    private(set) var archetypeKey: String?
+
+    // Mode serveur
+    private let repository = OracleRepository()
+    private var userID: UUID?
+
     init() {
         loadContent()
+    }
+
+    // MARK: Source de données
+
+    /// Bascule sur le serveur et recharge le profil déjà rempli, s'il existe.
+    func connect(userID: UUID) async {
+        guard AppConfig.isConfigured else { return }
+        self.userID = userID
+        source = .server
+        await reload()
+    }
+
+    func disconnect() {
+        userID = nil
+        source = .demo
+        lastError = nil
+        reset()
+    }
+
+    /// Relit le profil enregistré. Seules les **réponses** sont restaurées :
+    /// l'archétype et l'ADN en sont recalculés, ce qui garantit qu'ils suivent
+    /// la langue courante et la version actuelle du questionnaire.
+    func reload() async {
+        guard source == .server, let userID else { return }
+        do {
+            guard let stored = try await repository.fetchProfile(userID: userID) else {
+                answers = [:]
+                archetype = nil
+                archetypeKey = nil
+                return
+            }
+            answers = stored.answers
+            if isComplete { computeArchetype() } else { archetype = nil; archetypeKey = nil }
+            lastError = nil
+        } catch {
+            lastError = error.localizedDescription
+        }
     }
 
     /// (Re)charge scénarios et questionnaire dans la langue courante. Les
@@ -226,14 +276,44 @@ final class OracleStore {
 
     func select(question id: String, option index: Int) {
         answers[id] = index
-        if answers.count == questions.count { computeArchetype() }
+        guard answers.count == questions.count else { return }
+        computeArchetype()
+        save()
     }
 
     var isComplete: Bool { !questions.isEmpty && answers.count == questions.count }
 
+    /// Recommence le questionnaire.
+    ///
+    /// En mode serveur, le profil déjà enregistré n'est **pas** supprimé : il
+    /// le sera par écrasement quand les six réponses seront à nouveau
+    /// complètes. Abandonner en cours de route retrouve donc l'ancien profil au
+    /// prochain lancement, ce qui vaut mieux que de perdre un profil rempli
+    /// parce qu'on a touché « Recommencer » par curiosité.
     func reset() {
         answers.removeAll()
         archetype = nil
+        archetypeKey = nil
+    }
+
+    /// Enregistre le profil complété. Volontairement sans `await` à l'appelant :
+    /// répondre à la sixième question doit afficher l'archétype tout de suite,
+    /// l'aller-retour réseau n'a pas à retenir l'écran. Un échec se lit dans
+    /// `lastError` plutôt que d'interrompre le parcours.
+    private func save() {
+        guard source == .server, let userID,
+              let key = archetypeKey, let archetype else { return }
+        let dna = Dictionary(uniqueKeysWithValues: archetype.dna.map { ($0.key, $0.value) })
+        let answers = answers
+        Task {
+            do {
+                try await repository.saveProfile(userID: userID, answers: answers,
+                                                 archetypeKey: key, dna: dna)
+                lastError = nil
+            } catch {
+                lastError = error.localizedDescription
+            }
+        }
     }
 
     func computeArchetype() {
@@ -249,7 +329,7 @@ final class OracleStore {
             regularite += option.regularite
             count += 1
         }
-        guard count > 0 else { archetype = nil; return }
+        guard count > 0 else { archetype = nil; archetypeKey = nil; return }
 
         let dna = [
             InvestorArchetype.DnaTrait(key: "dna.patience",   value: patience / count),
@@ -271,6 +351,7 @@ final class OracleStore {
             (key, emoji) = ("balanced", "⚖️")
         }
 
+        archetypeKey = key
         archetype = InvestorArchetype(
             name: t("archetype.\(key).name"),
             emoji: emoji,

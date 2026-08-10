@@ -144,24 +144,28 @@ struct ArenaGroupsView: View {
 
     private func join() {
         error = nil
-        do {
-            let group = try arena.joinGroup(code: joinCode)
-            joinCode = ""
-            router.showToast(t("arena.toast.joined", group.name))
-        } catch {
-            self.error = error.localizedDescription
+        Task {
+            do {
+                let group = try await arena.joinGroup(code: joinCode)
+                joinCode = ""
+                router.showToast(t("arena.toast.joined", group.name))
+            } catch {
+                self.error = error.localizedDescription
+            }
         }
     }
 
     private func create() {
         error = nil
-        do {
-            let group = try arena.createGroup(named: newGroupName)
-            newGroupName = ""
-            showCreate = false
-            router.showToast(t("arena.toast.group_created", group.inviteCode))
-        } catch {
-            self.error = error.localizedDescription
+        Task {
+            do {
+                let group = try await arena.createGroup(named: newGroupName)
+                newGroupName = ""
+                showCreate = false
+                router.showToast(t("arena.toast.group_created", group.inviteCode))
+            } catch {
+                self.error = error.localizedDescription
+            }
         }
     }
 }

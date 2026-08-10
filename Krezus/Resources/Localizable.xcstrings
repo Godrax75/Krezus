@@ -647,6 +647,23 @@
         }
       }
     },
+    "arena.error.demo_unavailable": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Crée un compte pour rejoindre l’Arena."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Create an account to join the Arena."
+          }
+        }
+      }
+    },
     "arena.error.empty_name": {
       "extractionState": "manual",
       "localizations": {

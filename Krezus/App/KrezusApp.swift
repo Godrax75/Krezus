@@ -64,9 +64,15 @@ struct KrezusApp: App {
                         if let userID {
                             await store.connect(userID: userID)
                             await learning.connect(userID: userID)
+                            await oracle.connect(userID: userID)
+                            await arena.connect(userID: userID)
+                            await hercule.connect(userID: userID)
                         } else {
                             store.disconnect()
                             learning.disconnect()
+                            oracle.disconnect()
+                            arena.disconnect()
+                            hercule.disconnect()
                         }
                     }
                 }

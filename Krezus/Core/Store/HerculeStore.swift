@@ -18,9 +18,17 @@ struct HerculeMessage: Identifiable, Sendable {
 /// En mode démo, les réponses viennent d'un jeu scripté : la Claude API n'est
 /// jamais appelée depuis l'app (la clé serait extractible du binaire), et sans
 /// backend configuré il n'y a personne pour l'appeler à sa place.
+///
+/// En mode serveur, c'est la Edge Function `hercule` qui répond, elle seule
+/// détenant la clé Anthropic — et elle seule décomptant le quota.
 @MainActor
 @Observable
 final class HerculeStore {
+
+    enum Source: Equatable { case demo, server }
+
+    private(set) var source: Source = .demo
+    private(set) var lastError: String?
 
     private(set) var messages: [HerculeMessage] = []
     private(set) var isThinking = false
@@ -28,6 +36,10 @@ final class HerculeStore {
     /// Crédits restants aujourd'hui ; `nil` = illimité (abonné).
     private(set) var remaining: Int? = HerculeStore.freeDailyQuota
     var isPremium = false
+
+    // Mode serveur
+    private let repository = HerculeRepository()
+    private var userID: UUID?
 
     /// Miroir de `hercule_limits.free_daily_quota`.
     static let freeDailyQuota = 5
@@ -42,6 +54,50 @@ final class HerculeStore {
         messages = [.init(role: .hercule, text: t("hercule.greeting"))]
     }
 
+    // MARK: Source de données
+
+    func connect(userID: UUID) async {
+        guard AppConfig.isConfigured else { return }
+        self.userID = userID
+        source = .server
+        await reload()
+    }
+
+    func disconnect() {
+        userID = nil
+        source = .demo
+        lastError = nil
+        isPremium = false
+        remaining = Self.freeDailyQuota
+        messages = [.init(role: .hercule, text: t("hercule.greeting"))]
+    }
+
+    /// Relit le quota du jour et l'historique de la conversation.
+    func reload() async {
+        guard source == .server, let userID else { return }
+        do {
+            let quota = try await repository.fetchQuota(userID: userID)
+            isPremium = quota.isPremium
+            remaining = quota.isPremium ? nil : quota.remaining
+
+            let history = try await repository.fetchHistory(userID: userID)
+            if history.isEmpty {
+                messages = [.init(role: .hercule, text: t("hercule.greeting"))]
+            } else {
+                // Le salut n'est pas stocké : il ouvre la conversation, il n'en
+                // fait pas partie. On le remet en tête de l'historique relu.
+                messages = [.init(role: .hercule, text: t("hercule.greeting"))]
+                    + history.map {
+                        HerculeMessage(role: $0.role == "user" ? .user : .hercule,
+                                       text: $0.content)
+                    }
+            }
+            lastError = nil
+        } catch {
+            lastError = error.localizedDescription
+        }
+    }
+
     var canSend: Bool {
         guard !isThinking else { return false }
         return isPremium || (remaining ?? 0) > 0
@@ -53,17 +109,38 @@ final class HerculeStore {
         let trimmed = question.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmed.isEmpty, canSend else { return }
 
-        messages.append(.init(role: .user, text: String(trimmed.prefix(Self.maxMessageChars))))
+        let sent = String(trimmed.prefix(Self.maxMessageChars))
+        messages.append(.init(role: .user, text: sent))
         isThinking = true
+        lastError = nil
 
         Task {
-            // Latence simulée : sans elle, l'indicateur de réflexion clignote
-            // et l'échange paraît faux.
-            try? await Task.sleep(for: .milliseconds(900))
-            let reply = Self.scriptedAnswer(for: trimmed)
-            messages.append(reply)
-            if !isPremium, let left = remaining { remaining = max(0, left - 1) }
-            isThinking = false
+            defer { isThinking = false }
+
+            switch source {
+            case .demo:
+                // Latence simulée : sans elle, l'indicateur de réflexion
+                // clignote et l'échange paraît faux.
+                try? await Task.sleep(for: .milliseconds(900))
+                messages.append(Self.scriptedAnswer(for: sent))
+                if !isPremium, let left = remaining { remaining = max(0, left - 1) }
+
+            case .server:
+                do {
+                    let reply = try await repository.ask(sent)
+                    messages.append(.init(role: .hercule, text: reply.answer,
+                                          refused: reply.refused ?? false))
+                    // Le quota vient du serveur : ne jamais le décrémenter ici,
+                    // sinon l'affichage dérive dès qu'une requête échoue.
+                    remaining = isPremium ? nil : reply.remaining
+                } catch {
+                    lastError = error.localizedDescription
+                    // La question reste affichée : la retirer donnerait
+                    // l'impression qu'elle n'a jamais été posée, alors qu'il
+                    // suffit peut-être de réessayer.
+                    if case KrezusError.herculeQuotaReached = error { remaining = 0 }
+                }
+            }
         }
     }
 

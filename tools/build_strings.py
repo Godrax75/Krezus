@@ -481,6 +481,8 @@ add({
     "arena.error.unknown_code":     ("Code d'invitation invalide.", "Invalid invite code."),
     "arena.error.already_member":   ("Tu fais déjà partie de ce groupe.", "You are already in this group."),
     "arena.error.empty_name":       ("Donne un nom à ton groupe.", "Give your group a name."),
+    "arena.error.demo_unavailable": ("Crée un compte pour rejoindre l’Arena.",
+                                     "Create an account to join the Arena."),
     "feed.verb.buy":     ("a acheté", "bought"),
     "feed.verb.sell":    ("a vendu", "sold"),
     "feed.verb.lesson":  ("a terminé", "completed"),

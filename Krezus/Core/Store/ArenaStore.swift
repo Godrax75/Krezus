@@ -69,9 +69,19 @@ struct ArenaGroup: Identifiable, Sendable {
 /// En mode démo, source de vérité en mémoire. La logique reproduit celle de
 /// `0007_arena.sql` : amitié symétrique, demandes non rejouables, adhésion par
 /// code insensible à la casse.
+///
+/// En mode serveur, tout passe par `ArenaRepository`. Le classement vient de
+/// `v_arena_leaderboard`, qui n'expose aucun montant : on ne peut donc pas
+/// afficher la fortune d'un ami, même par erreur.
 @MainActor
 @Observable
 final class ArenaStore {
+
+    enum Source: Equatable { case demo, server }
+
+    private(set) var source: Source = .demo
+    private(set) var isLoading = false
+    private(set) var lastError: String?
 
     private(set) var friends: [ArenaPlayer] = []
     private(set) var requests: [FriendRequest] = []
@@ -81,7 +91,96 @@ final class ArenaStore {
     /// Groupe dont le classement est affiché ; `nil` = cercle d'amis.
     var selectedGroup: ArenaGroup?
 
+    // Mode serveur
+    private let repository = ArenaRepository()
+    private var userID: UUID?
+    /// Appartenance aux groupes du serveur, pour restreindre le classement.
+    private var serverGroupMembers: [UUID: Set<UUID>] = [:]
+    /// Rangs embarqués, pour traduire un niveau en emoji : le classement
+    /// renvoie `rank_level`, pas l'emoji, et rapatrier la table des rangs à
+    /// chaque ligne serait absurde pour six valeurs fixes.
+    ///
+    /// `@ObservationIgnored` est obligatoire : `@Observable` transforme les
+    /// propriétés stockées en propriétés calculées, et `lazy` ne s'applique pas
+    /// à une propriété calculée. Ce n'est de toute façon pas un état d'interface.
+    @ObservationIgnored
+    private lazy var rankEmojis: [Int: String] = {
+        let ranks: [AcademyRank] = Bundle.main.decodeJSON("ranks.json") ?? []
+        return Dictionary(uniqueKeysWithValues: ranks.map { ($0.level, $0.emoji) })
+    }()
+
     init() { seedDemo() }
+
+    // MARK: Source de données
+
+    func connect(userID: UUID) async {
+        guard AppConfig.isConfigured else { return }
+        self.userID = userID
+        source = .server
+        await reload()
+    }
+
+    func disconnect() {
+        userID = nil
+        source = .demo
+        lastError = nil
+        serverGroupMembers = [:]
+        selectedGroup = nil
+        seedDemo()
+    }
+
+    /// Recharge amis, classement, demandes, groupes et feed.
+    func reload() async {
+        guard source == .server, let userID else { return }
+        isLoading = true
+        defer { isLoading = false }
+        do {
+            let friendIDs = try await repository.fetchFriendIDs(userID: userID)
+            let rows = try await repository.fetchLeaderboard(userIDs: friendIDs)
+            friends = rows.map { player(from: $0) }
+
+            requests = try await repository.fetchPendingRequests(userID: userID).map {
+                FriendRequest(id: $0.requesterID,
+                              username: $0.username,
+                              rankEmoji: emoji(for: $0.rankLevel),
+                              // Les amis en commun ne sont pas calculés côté
+                              // serveur : afficher un nombre inventé serait pire
+                              // que de ne rien afficher.
+                              mutualFriends: 0)
+            }
+
+            let groupRows = try await repository.fetchGroups(userID: userID)
+            groups = groupRows.map {
+                ArenaGroup(id: $0.id, name: $0.name,
+                           inviteCode: $0.inviteCode, memberCount: $0.memberCount)
+            }
+            for group in groupRows {
+                serverGroupMembers[group.id] = try await repository.memberIDs(groupID: group.id)
+            }
+
+            feed = try await repository.fetchFeed().map { row in
+                FeedEvent(id: row.id,
+                          actor: row.actorName,
+                          kind: FeedEvent.Kind(rawValue: row.kind) ?? .buy,
+                          subject: row.subject,
+                          minutesAgo: max(0, Int(Date().timeIntervalSince(row.createdAt) / 60)))
+            }
+            lastError = nil
+        } catch {
+            lastError = error.localizedDescription
+        }
+    }
+
+    private func player(from row: ArenaRepository.LeaderboardRow) -> ArenaPlayer {
+        ArenaPlayer(id: row.userID,
+                    username: row.username ?? "—",
+                    rankLevel: row.rankLevel,
+                    rankEmoji: emoji(for: row.rankLevel),
+                    streakDays: row.streakDays,
+                    performancePct: row.performancePct ?? 0)
+    }
+
+    private func emoji(for level: Int) -> String { rankEmojis[level] ?? "🏛️" }
 
     // MARK: Classement
 
@@ -98,7 +197,10 @@ final class ArenaStore {
         var pool = friends
         if let group = selectedGroup {
             // Un groupe restreint le classement à ses membres.
-            pool = friends.filter { Self.groupMembers[group.id]?.contains($0.id) ?? false }
+            let members = source == .server
+                ? serverGroupMembers[group.id]
+                : Self.groupMembers[group.id]
+            pool = friends.filter { members?.contains($0.id) ?? false }
         }
 
         return (pool + [me]).sorted { $0.performancePct > $1.performancePct }
@@ -108,14 +210,26 @@ final class ArenaStore {
 
     enum ArenaError: LocalizedError {
         case alreadyFriends, unknownCode, alreadyMember, emptyName
+        /// Action qui n'a pas de sens hors compte : en démo, il n'y a personne
+        /// en face. Le dire vaut mieux que d'échouer en silence.
+        case demoUnavailable
         var errorDescription: String? {
             switch self {
-            case .alreadyFriends: return t("arena.error.already_friends")
-            case .unknownCode:    return t("arena.error.unknown_code")
-            case .alreadyMember:  return t("arena.error.already_member")
-            case .emptyName:      return t("arena.error.empty_name")
+            case .alreadyFriends:  return t("arena.error.already_friends")
+            case .unknownCode:     return t("arena.error.unknown_code")
+            case .alreadyMember:   return t("arena.error.already_member")
+            case .emptyName:       return t("arena.error.empty_name")
+            case .demoUnavailable: return t("arena.error.demo_unavailable")
             }
         }
+    }
+
+    /// Envoie une demande d'ami par pseudo. Uniquement en mode serveur : en
+    /// démo il n'y a personne à qui l'envoyer.
+    func sendRequest(to username: String) async throws {
+        guard source == .server, let userID else { throw ArenaError.demoUnavailable }
+        let otherID = try await repository.findUser(username: username)
+        try await repository.sendFriendRequest(from: userID, to: otherID)
     }
 
     /// Accepte une demande : elle disparaît de la liste et l'ami rejoint le
@@ -124,14 +238,42 @@ final class ArenaStore {
         guard let index = requests.firstIndex(where: { $0.id == request.id }) else { return }
         requests.remove(at: index)
 
-        friends.append(ArenaPlayer(
-            id: request.id, username: request.username, rankLevel: 2,
-            rankEmoji: request.rankEmoji, streakDays: 1,
-            performancePct: Double.random(in: -4...6).rounded(toPlaces: 2)))
+        switch source {
+        case .demo:
+            friends.append(ArenaPlayer(
+                id: request.id, username: request.username, rankLevel: 2,
+                rankEmoji: request.rankEmoji, streakDays: 1,
+                performancePct: Double.random(in: -4...6).rounded(toPlaces: 2)))
+        case .server:
+            guard let userID else { return }
+            // La demande disparaît tout de suite — c'est un geste, il doit
+            // répondre — et le classement se remplit au rechargement, une fois
+            // que le serveur a la performance réelle du nouvel ami.
+            Task {
+                do {
+                    try await repository.acceptFriendRequest(userID: userID,
+                                                             requesterID: request.id)
+                    await reload()
+                } catch {
+                    lastError = error.localizedDescription
+                    await reload()
+                }
+            }
+        }
     }
 
     func decline(_ request: FriendRequest) {
         requests.removeAll { $0.id == request.id }
+        guard source == .server, let userID else { return }
+        Task {
+            do {
+                try await repository.declineFriendRequest(userID: userID,
+                                                          requesterID: request.id)
+            } catch {
+                lastError = error.localizedDescription
+                await reload()
+            }
+        }
     }
 
     /// Retire un ami. La suppression est symétrique côté serveur : le lien
@@ -141,41 +283,87 @@ final class ArenaStore {
         for key in Self.groupMembers.keys {
             Self.groupMembers[key]?.remove(player.id)
         }
+        for key in serverGroupMembers.keys {
+            serverGroupMembers[key]?.remove(player.id)
+        }
+
+        guard source == .server, let userID else { return }
+        Task {
+            do {
+                try await repository.removeFriend(userID: userID, otherID: player.id)
+            } catch {
+                lastError = error.localizedDescription
+                await reload()
+            }
+        }
     }
 
     // MARK: Groupes
 
     @discardableResult
-    func createGroup(named name: String) throws -> ArenaGroup {
+    func createGroup(named name: String) async throws -> ArenaGroup {
         let trimmed = name.trimmingCharacters(in: .whitespacesAndNewlines)
         guard trimmed.count >= 2 else { throw ArenaError.emptyName }
 
-        let group = ArenaGroup(id: UUID(), name: trimmed,
-                               inviteCode: Self.makeInviteCode(), memberCount: 1)
-        groups.append(group)
-        Self.groupMembers[group.id] = []
-        return group
+        switch source {
+        case .demo:
+            let group = ArenaGroup(id: UUID(), name: trimmed,
+                                   inviteCode: Self.makeInviteCode(), memberCount: 1)
+            groups.append(group)
+            Self.groupMembers[group.id] = []
+            return group
+        case .server:
+            guard let userID else { throw ArenaError.demoUnavailable }
+            let row = try await repository.createGroup(userID: userID, name: trimmed)
+            let group = ArenaGroup(id: row.id, name: row.name,
+                                   inviteCode: row.inviteCode, memberCount: row.memberCount)
+            groups.append(group)
+            serverGroupMembers[group.id] = [userID]
+            return group
+        }
     }
 
     /// Rejoint un groupe par code. La comparaison ignore la casse : le code se
     /// transmet à l'oral, personne ne retient s'il était en majuscules.
     @discardableResult
-    func joinGroup(code: String) throws -> ArenaGroup {
+    func joinGroup(code: String) async throws -> ArenaGroup {
         let normalized = code.trimmingCharacters(in: .whitespaces).uppercased()
-        guard let group = Self.joinableGroups.first(where: { $0.inviteCode == normalized }) else {
-            throw ArenaError.unknownCode
+
+        switch source {
+        case .demo:
+            guard let group = Self.joinableGroups.first(where: { $0.inviteCode == normalized })
+            else { throw ArenaError.unknownCode }
+            guard !groups.contains(where: { $0.id == group.id }) else {
+                throw ArenaError.alreadyMember
+            }
+            groups.append(group)
+            Self.groupMembers[group.id] = Set(friends.prefix(2).map(\.id))
+            return group
+        case .server:
+            guard let userID else { throw ArenaError.demoUnavailable }
+            let row = try await repository.joinGroup(userID: userID, code: normalized)
+            let group = ArenaGroup(id: row.id, name: row.name,
+                                   inviteCode: row.inviteCode, memberCount: row.memberCount)
+            groups.append(group)
+            serverGroupMembers[group.id] = try await repository.memberIDs(groupID: group.id)
+            return group
         }
-        guard !groups.contains(where: { $0.id == group.id }) else {
-            throw ArenaError.alreadyMember
-        }
-        groups.append(group)
-        Self.groupMembers[group.id] = Set(friends.prefix(2).map(\.id))
-        return group
     }
 
     func leaveGroup(_ group: ArenaGroup) {
         groups.removeAll { $0.id == group.id }
+        serverGroupMembers[group.id] = nil
         if selectedGroup?.id == group.id { selectedGroup = nil }
+
+        guard source == .server, let userID else { return }
+        Task {
+            do {
+                try await repository.leaveGroup(userID: userID, groupID: group.id)
+            } catch {
+                lastError = error.localizedDescription
+                await reload()
+            }
+        }
     }
 
     // MARK: Démo

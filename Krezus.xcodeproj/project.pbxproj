@@ -12,6 +12,7 @@
 		0580C1EB3D5434BC1CBA1AD6 /* OracleCoachView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C20E25B9D7379FB7AFC179C8 /* OracleCoachView.swift */; };
 		06FE3F9E417452BC90FB0A74 /* EditUsernameScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BDF9DB7A831A5E81752CB65 /* EditUsernameScreen.swift */; };
 		0800B57E9365FEA286CCDCFD /* HerculeStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1997ADE59848ADD4D16A58 /* HerculeStore.swift */; };
+		09592B83FDC9BAE0FE3BC683 /* OracleRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDAC872F796CE5F3D7E948B4 /* OracleRepository.swift */; };
 		0AA11C87D8AC841C4868CCFB /* oracle_scenarios.en.json in Resources */ = {isa = PBXBuildFile; fileRef = C0FC3304F58E4550EB7C97F3 /* oracle_scenarios.en.json */; };
 		0C760AB5C1EA879134335620 /* Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = A788ACF2F701558B2CB293BD /* Localization.swift */; };
 		0E38BEE31C4B16B83B4E6B99 /* KrezusFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B2794B4AD431964DDBA973A /* KrezusFont.swift */; };
@@ -27,6 +28,7 @@
 		3793CC3985E35BD62C137A85 /* NotificationsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56DD5C97E21F8583296870C /* NotificationsRepository.swift */; };
 		384956EABD10605379C74A48 /* PushNotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4173F1BC12B7DF000B287CA /* PushNotificationService.swift */; };
 		391C63E042B485C567C1EFEB /* HelpScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB44B17A2E557ACE9060FE2B /* HelpScreen.swift */; };
+		3A9EF4228831B0A86978C03C /* BackendErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0281C9CB708F1121F67E01A /* BackendErrorTests.swift */; };
 		3C966BBA4AA5FEB4B553B89B /* SettingsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B926622A8811A66FD6197492 /* SettingsScreen.swift */; };
 		3D3CAD7A39BB3AC42013B8C3 /* NotificationCenterScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F549B7592C08A7233B7C8A2 /* NotificationCenterScreen.swift */; };
 		40EC419FC662AD383994EB1C /* BiometricLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6F37CA26B15AFD3A4374D8A /* BiometricLock.swift */; };
@@ -55,6 +57,7 @@
 		98430E9862461A396C43616B /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B994D7F118EB87FD9F6A77 /* AppState.swift */; };
 		9903ED2182B652A663A29081 /* ArenaFriendsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4252D187E8DE10504CF1C92B /* ArenaFriendsView.swift */; };
 		9AA7976A93F21562F25E41B4 /* KrezusComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C89E97FD84109FF0DE731D0 /* KrezusComponents.swift */; };
+		9B1F7F0FA92A0E1F4A692AA2 /* ArenaRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = E816B3DE766F008B7DB1DFE8 /* ArenaRepository.swift */; };
 		9BF0CEA9B6EE24968C77E538 /* LocalizationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FB811413A022C7F4BE9EA26 /* LocalizationTests.swift */; };
 		9F963C7EAA32FED44BF9C28B /* ProfileRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E233157E5D407FB35177F51 /* ProfileRepository.swift */; };
 		A5F938E9B08BC60DEFB425D5 /* LearningStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88205400226EE215001D62A3 /* LearningStore.swift */; };
@@ -67,6 +70,7 @@
 		B98A8B7485379249003D1B05 /* LessonScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA6CA3369A57F3836806F979 /* LessonScreen.swift */; };
 		B996CF8E8F5A299D4C13E370 /* oracle_scenarios.json in Resources */ = {isa = PBXBuildFile; fileRef = D9884031927AD2D1D1D14A72 /* oracle_scenarios.json */; };
 		BBE856A4F9B8CE0B3D808889 /* DemoCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F3B872D226E0431A602D5F /* DemoCatalog.swift */; };
+		BC0B752BA93C76CCCE5F119D /* HerculeRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B55B11C85C6BD0FDD7C637F /* HerculeRepository.swift */; };
 		C00942A0417A581F15CAA3FB /* HerculeChatScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E48F9BC0E55E1D0B4997D7 /* HerculeChatScreen.swift */; };
 		C73654E02A842795B7129C39 /* LockedFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CDAD2F4D9881CE6E04C99B4 /* LockedFeature.swift */; };
 		C7E6DD4915DF66F2E1DEBC30 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = F865A70B5EA23C8B3532112C /* PrivacyInfo.xcprivacy */; };
@@ -136,6 +140,7 @@
 		5757272CB5A104C9A291D4D0 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		5A125613ACF87EFBD7555086 /* ranks.en.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = ranks.en.json; sourceTree = "<group>"; };
 		5ACC54CBA16C48EAEB138718 /* SecurityScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityScreen.swift; sourceTree = "<group>"; };
+		5B55B11C85C6BD0FDD7C637F /* HerculeRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HerculeRepository.swift; sourceTree = "<group>"; };
 		5DD2078BF0B0B14BE2D9C3B3 /* TradingStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradingStore.swift; sourceTree = "<group>"; };
 		602CB27DD2A460D6DA431BD7 /* lessons.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = lessons.json; sourceTree = "<group>"; };
 		61B0FA018CBEDCDCDD25BB34 /* Krezus.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Krezus.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -168,14 +173,17 @@
 		D56DD5C97E21F8583296870C /* NotificationsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsRepository.swift; sourceTree = "<group>"; };
 		D9884031927AD2D1D1D14A72 /* oracle_scenarios.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = oracle_scenarios.json; sourceTree = "<group>"; };
 		D9F85BA6F6FE0EEF486F80C2 /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
+		DDAC872F796CE5F3D7E948B4 /* OracleRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OracleRepository.swift; sourceTree = "<group>"; };
 		E0283865F83C30EB8DDCD7E2 /* NotificationStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationStore.swift; sourceTree = "<group>"; };
 		E1E86641128734535E938F4A /* OracleStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OracleStore.swift; sourceTree = "<group>"; };
 		E4173F1BC12B7DF000B287CA /* PushNotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationService.swift; sourceTree = "<group>"; };
 		E6B994D7F118EB87FD9F6A77 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		E816B3DE766F008B7DB1DFE8 /* ArenaRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArenaRepository.swift; sourceTree = "<group>"; };
 		EA6CA3369A57F3836806F979 /* LessonScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LessonScreen.swift; sourceTree = "<group>"; };
 		EB44B17A2E557ACE9060FE2B /* HelpScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpScreen.swift; sourceTree = "<group>"; };
 		EC043DEF8554C35455A40068 /* ProfileScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileScreen.swift; sourceTree = "<group>"; };
 		EC2F7830461FBB1770259CC8 /* MarketScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketScreen.swift; sourceTree = "<group>"; };
+		F0281C9CB708F1121F67E01A /* BackendErrorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackendErrorTests.swift; sourceTree = "<group>"; };
 		F059B075FE17BB2EF8BA8131 /* QuizScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizScreen.swift; sourceTree = "<group>"; };
 		F0A42DFA76EE7E9E882FF154 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		F66724ECF3F6D5D9F55B0DAD /* HomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreen.swift; sourceTree = "<group>"; };
@@ -218,6 +226,7 @@
 		088F1753409052ABF35DC0BC /* KrezusTests */ = {
 			isa = PBXGroup;
 			children = (
+				F0281C9CB708F1121F67E01A /* BackendErrorTests.swift */,
 				9FB811413A022C7F4BE9EA26 /* LocalizationTests.swift */,
 				72639BB020BD080B96E208AB /* MarketDataTests.swift */,
 				FE75A431720DF1CF0F29C37D /* PaperOrderTests.swift */,
@@ -433,10 +442,13 @@
 			isa = PBXGroup;
 			children = (
 				C0CB9CF80F3B25933C04536F /* AcademyRepository.swift */,
+				E816B3DE766F008B7DB1DFE8 /* ArenaRepository.swift */,
 				852A1B438D5653FEABBFADFE /* AuthService.swift */,
 				F6F37CA26B15AFD3A4374D8A /* BiometricLock.swift */,
+				5B55B11C85C6BD0FDD7C637F /* HerculeRepository.swift */,
 				3703310CFEC1EC8DCAC5B93B /* MarketDataService.swift */,
 				D56DD5C97E21F8583296870C /* NotificationsRepository.swift */,
+				DDAC872F796CE5F3D7E948B4 /* OracleRepository.swift */,
 				C313D8810D590C329C3D7DA0 /* PortfolioRepository.swift */,
 				4E233157E5D407FB35177F51 /* ProfileRepository.swift */,
 				E4173F1BC12B7DF000B287CA /* PushNotificationService.swift */,
@@ -613,6 +625,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3A9EF4228831B0A86978C03C /* BackendErrorTests.swift in Sources */,
 				9BF0CEA9B6EE24968C77E538 /* LocalizationTests.swift in Sources */,
 				739F36AB580BB52E0854458D /* MarketDataTests.swift in Sources */,
 				512C9F4B9ED2722D966BCEBA /* PaperOrderTests.swift in Sources */,
@@ -630,6 +643,7 @@
 				2845DD306715FDE7CFA8D9D4 /* ArenaFeedView.swift in Sources */,
 				9903ED2182B652A663A29081 /* ArenaFriendsView.swift in Sources */,
 				D48E1093270A1EC3EE505D64 /* ArenaGroupsView.swift in Sources */,
+				9B1F7F0FA92A0E1F4A692AA2 /* ArenaRepository.swift in Sources */,
 				C8058C10E85528C014E39061 /* ArenaScreen.swift in Sources */,
 				A78722FCC0DD5940322ED69A /* ArenaStore.swift in Sources */,
 				2C6910A8773E55EF4612CE5F /* AuthService.swift in Sources */,
@@ -640,6 +654,7 @@
 				06FE3F9E417452BC90FB0A74 /* EditUsernameScreen.swift in Sources */,
 				391C63E042B485C567C1EFEB /* HelpScreen.swift in Sources */,
 				C00942A0417A581F15CAA3FB /* HerculeChatScreen.swift in Sources */,
+				BC0B752BA93C76CCCE5F119D /* HerculeRepository.swift in Sources */,
 				0800B57E9365FEA286CCDCFD /* HerculeStore.swift in Sources */,
 				04AA0014C0220597CC1E66C3 /* HomeScreen.swift in Sources */,
 				CCF5A06A1C0EE29FC15FDC25 /* KrezusApp.swift in Sources */,
@@ -665,6 +680,7 @@
 				D0C80FC7520B183FCB84BB78 /* OnboardingScreen.swift in Sources */,
 				0580C1EB3D5434BC1CBA1AD6 /* OracleCoachView.swift in Sources */,
 				6465FCD0E00B6DE6E36D6567 /* OracleProfileView.swift in Sources */,
+				09592B83FDC9BAE0FE3BC683 /* OracleRepository.swift in Sources */,
 				24A9B730CBCAE82F83E9E7B2 /* OracleScreen.swift in Sources */,
 				EB00367A3008EDCD57EA1C7C /* OracleStore.swift in Sources */,
 				AB559A5F6B35E1D12BE6C7B6 /* PaywallScreen.swift in Sources */,
