@@ -60,6 +60,32 @@ inchangé), cotation périmée rejetée, vente 50 %/100 %, reset.
 
 ## Données de marché (Lot 3)
 
+### Sur le plan gratuit EODHD, la Edge Function `quotes` est inutilisable
+
+Le plan gratuit autorise **20 appels par jour** (plus une réserve de bienvenue de
+500). La Edge Function est écrite pour un rafraîchissement toutes les 60 s en
+séance, soit ~480 appels par jour : elle épuiserait le quota en trois minutes.
+
+Le piège qui décide de tout : **un appel groupé coûte un appel par symbole.**
+Passer 50 titres dans une seule URL économise des allers-retours HTTP, pas du
+quota — rafraîchir les 51 titres mappés consomme 51 appels.
+
+En attendant un plan payant, `tools/refresh_quotes.py` alimente `quotes_cache` à
+la demande, avec un jeu par défaut de 12 titres (13 appels avec le taux de
+change) qui tient dans le quota quotidien :
+
+```bash
+export KREZUS_DB_URL='postgresql://postgres:MOTDEPASSE@db.<ref>.supabase.co:5432/postgres'
+export EODHD_API_TOKEN='...'
+python3 tools/refresh_quotes.py --dry-run   # coût, sans rien dépenser
+python3 tools/refresh_quotes.py
+```
+
+Le moteur rejette une cotation de plus de 15 minutes (KR004) : chaque passage
+ouvre donc **un quart d'heure** pendant lequel l'app peut passer des ordres.
+Basculer sur le plan EOD+Intraday (29,99 €/mois, 100 000 appels/jour) est ce qui
+rend la Edge Function et son cron pertinents.
+
 ### La règle à ne pas casser
 
 `quotes_cache.price` est **toujours en euros** — c'est la colonne que lit le moteur
