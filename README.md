@@ -69,6 +69,22 @@ Ce qui reste dépend d'un compte Apple Developer (App ID, fiche d'app,
 abonnement, clé APNs) — la marche à suivre et les réponses à saisir dans App
 Store Connect sont dans [`docs/testflight.md`](docs/testflight.md).
 
+### Logos d'entreprises
+
+`KrzSecurityBadge` affiche le logo quand l'imageset existe et retombe sur les initiales
+sinon — silencieusement, donc un logo manquant ne se voit qu'à l'œil. 6 des 40 logos
+référencés par `securities.sql` sont importés ; les autres attendent l'export du dossier
+`assets/` depuis claude.ai/design.
+
+```bash
+python3 tools/import_design_assets.py <dossier-exporté>
+```
+
+Le script porte la table de correspondance entre le nom de fichier du design
+(« Capgemini.png ») et la valeur `logo_asset` du seed (« capgemini »), réduit les sources
+— jusqu'à 3840×3072 pour une pastille rendue à 40 pt — et les décline en @1x/@2x/@3x. Il
+liste en sortie ce qui manque encore.
+
 ### Traductions
 
 La source de vérité est la table de `tools/build_strings.py`, qui génère le catalogue Xcode
