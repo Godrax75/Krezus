@@ -28,10 +28,10 @@ session.
 sur les placeholders. C'est la première chose à vérifier après avoir créé le
 projet EU.
 
-**Tests** : `xcodebuild test -project Krezus.xcodeproj -scheme Krezus -destination 'name=iPhone 17 Pro'`
+**Tests** : `xcodebuild test -scheme Krezus -destination 'name=iPhone 17 Pro'`
 — 42 tests (moteur d'ordres papier en miroir du SQL, fraîcheur des cotations,
 mapping référentiel → fiche, localisation, formats et parité du contenu éditorial
-FR/EN). `-project` est nécessaire tant que `Krezus 3.xcodeproj` traîne à la racine.
+FR/EN).
 
 **Lot 10 (i18n · dark mode · accessibilité)** : l'interface est intégralement bilingue
 (505 clés FR/EN dans `Localizable.xcstrings`), la langue se change dans Réglages et
@@ -145,8 +145,8 @@ python3 tools/extract_design_content.py <script-base44.js> <script-lovable.js>
 
 ## Prérequis manquants sur cette machine
 
-- **Xcode** n'est pas installé (`xcode-select` pointe sur les Command Line Tools). Requis
-  pour compiler et lancer le simulateur. `xcode-select --install` ne suffit pas — installer
-  Xcode depuis l'App Store, puis `sudo xc-select -s /Applications/Xcode.app`.
+Xcode est installé et la suite de tests passe. Restent les comptes tiers, dont dépend
+tout le mode serveur :
+
 - Compte **Supabase** (région EU), clé **EODHD** (plan EOD+Intraday, 29,99 €/mois),
   clé **Claude API** — à placer en variables d'environnement des Edge Functions, jamais dans l'app.
