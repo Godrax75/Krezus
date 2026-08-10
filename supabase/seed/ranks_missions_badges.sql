@@ -2,16 +2,9 @@
 -- Rangs = paliers de 200 XP (rank_level = 1 + floor(xp/200), borné à 6).
 -- Les images sont embarquées dans l'app (Assets.xcassets), pas en base.
 
--- Table de référence des rangs (statique — pratique pour l'écran « Tous les rangs »).
-create table if not exists public.ranks (
-  level      integer primary key,
-  emoji      text not null,
-  name_fr    text not null,
-  name_en    text,
-  min_xp     integer not null,
-  max_xp     integer,               -- NULL = dernier rang
-  image_asset text not null
-);
+-- La table `ranks` est créée par la migration 0005 : la vue
+-- `v_academy_progress` en dépend, et les migrations s'appliquent avant les
+-- seeds. Ici, uniquement les données.
 
 insert into public.ranks (level, emoji, name_fr, min_xp, max_xp, image_asset) values
   (1, '🏛️', 'Plébéien',     0,    199,  'rank-1-plebeien'),

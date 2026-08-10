@@ -24,6 +24,22 @@ update public.missions set is_daily = false where code = 'activate';
 -- ---------------------------------------------------------------------
 -- Rangs
 -- ---------------------------------------------------------------------
+-- Table de référence des rangs (statique — sert aussi à l'écran « Tous les
+-- rangs »). Elle vivait dans `seed/ranks_missions_badges.sql`, ce qui rendait
+-- l'ordre d'application documenté impossible à suivre : la vue
+-- `v_academy_progress` ci-dessous et sa policy RLS en dépendent, or les seeds
+-- s'appliquent APRÈS les migrations. Le schéma appartient aux migrations, les
+-- données au seed.
+create table if not exists public.ranks (
+  level       integer primary key,
+  emoji       text not null,
+  name_fr     text not null,
+  name_en     text,
+  min_xp      integer not null,
+  max_xp      integer,               -- NULL = dernier rang
+  image_asset text not null
+);
+
 create or replace function public.rank_for_xp(p_xp integer)
 returns integer
 language sql
