@@ -3,13 +3,13 @@ import SwiftUI
 /// Typographie Krezus.
 ///
 /// Le design utilise **Plus Jakarta Sans** (display + chiffres, tabular) et
-/// **Inter** (corps). Ces fontes (SIL OFL, redistribuables) sont à embarquer
-/// dans `Resources/Fonts/` puis déclarées dans `UIAppFonts` — voir README.
+/// **Inter** (corps). Les deux sont embarquées dans `Resources/Fonts/` et
+/// déclarées dans `UIAppFonts` (voir `project.yml`). Licence SIL OFL, qui
+/// autorise la redistribution dans une application.
 ///
-/// En attendant l'embarquement, on retombe sur les fontes système : SF Rounded
-/// pour le display (rendu géométrique proche du Plus Jakarta) et SF pour le corps.
-/// `displayName` / `bodyName` sont les seuls points à changer une fois les
-/// fontes réelles présentes.
+/// Le repli sur les fontes système (SF Rounded pour le display, SF pour le
+/// corps) reste en place : si une graisse manque à l'appel, mieux vaut un
+/// caractère approchant qu'un écran vide.
 ///
 /// **Dynamic Type.** Le design est spécifié en points fixes, et
 /// `Font.system(size:)` ne suit pas le réglage de taille de texte d'iOS : une
@@ -20,9 +20,33 @@ import SwiftUI
 /// nombres à quatre chiffres du portefeuille cassent leurs lignes.
 enum KrezusFont {
 
-    /// Nom PostScript de la fonte display embarquée, ou nil pour la fonte système.
-    static let displayName: String? = nil   // ex. "PlusJakartaSans-Bold" une fois embarquée
-    static let bodyName: String? = nil       // ex. "Inter-Regular"
+    /// Graisse → nom PostScript, par famille.
+    ///
+    /// Une table et non une seule chaîne : `Font.custom(_:size:)` ignore le
+    /// paramètre de graisse, puisqu'un nom PostScript désigne déjà **une**
+    /// épaisseur. Se contenter de « PlusJakartaSans-Bold » rendrait donc toute
+    /// l'app dans cette unique graisse, en écrasant la hiérarchie du design.
+    ///
+    /// Seules les graisses relevées dans le code sont embarquées ; toute autre
+    /// retombe sur la plus proche disponible plutôt que sur la fonte système,
+    /// ce qui garderait le bon caractère avec une épaisseur approchante.
+    private static let displayFaces: [Font.Weight: String] = [
+        .semibold: "PlusJakartaSans-SemiBold",
+        .bold:     "PlusJakartaSans-Bold",
+        .heavy:    "PlusJakartaSans-ExtraBold",
+    ]
+
+    private static let bodyFaces: [Font.Weight: String] = [
+        .regular:  "Inter-Regular",
+        .semibold: "Inter-SemiBold",
+        .bold:     "Inter-Bold",
+    ]
+
+    /// Nom PostScript pour une graisse, avec repli sur la plus proche embarquée.
+    private static func face(_ table: [Font.Weight: String], _ weight: Font.Weight,
+                             fallback: Font.Weight) -> String? {
+        table[weight] ?? table[fallback]
+    }
 
     /// Plafond d'agrandissement. À AX5 (la plus grande taille d'accessibilité),
     /// `UIFontMetrics` multiplie par ~3,1 : un titre de 34 pt passerait à 105 pt,
@@ -31,7 +55,7 @@ enum KrezusFont {
 
     // MARK: Display (Plus Jakarta Sans) — titres et chiffres
     static func display(_ size: CGFloat, _ weight: Font.Weight = .bold) -> Font {
-        if let name = displayName {
+        if let name = face(displayFaces, weight, fallback: .bold) {
             return .custom(name, size: size, relativeTo: textStyle(for: size))
         }
         return .system(size: scaled(size), weight: weight, design: .rounded)
@@ -39,7 +63,7 @@ enum KrezusFont {
 
     // MARK: Corps (Inter)
     static func body(_ size: CGFloat, _ weight: Font.Weight = .regular) -> Font {
-        if let name = bodyName {
+        if let name = face(bodyFaces, weight, fallback: .regular) {
             return .custom(name, size: size, relativeTo: textStyle(for: size))
         }
         return .system(size: scaled(size), weight: weight, design: .default)

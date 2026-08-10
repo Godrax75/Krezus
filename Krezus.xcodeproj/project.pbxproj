@@ -23,6 +23,7 @@
 		2845DD306715FDE7CFA8D9D4 /* ArenaFeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 003C6E7D18ADE06B0A3AFF4A /* ArenaFeedView.swift */; };
 		2C55FFA997624C97EC9F024E /* PortfolioScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3C6A1C2A0472FE6618D28F /* PortfolioScreen.swift */; };
 		2C6910A8773E55EF4612CE5F /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 852A1B438D5653FEABBFADFE /* AuthService.swift */; };
+		308F59F4A0A30BDCAABC56FF /* Inter-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 46E8D148D6C97FF78A3B512D /* Inter-Bold.ttf */; };
 		3390AA606BA9CBC065F9E21A /* ProfileStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11868A35F3A14F396E67853D /* ProfileStore.swift */; };
 		3674235B1FCB2F0F60818709 /* TradingStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DD2078BF0B0B14BE2D9C3B3 /* TradingStore.swift */; };
 		3793CC3985E35BD62C137A85 /* NotificationsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56DD5C97E21F8583296870C /* NotificationsRepository.swift */; };
@@ -34,6 +35,7 @@
 		40EC419FC662AD383994EB1C /* BiometricLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6F37CA26B15AFD3A4374D8A /* BiometricLock.swift */; };
 		42E8C1B8440E61DEE36FBB94 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = F0A42DFA76EE7E9E882FF154 /* Localizable.xcstrings */; };
 		4D1F4B4C64C28F012EC3FA77 /* MarketLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BEE71D6DDE3C1CD5B89B125 /* MarketLabel.swift */; };
+		50D523451013450C685BF4D9 /* PlusJakartaSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0B697BEEB8CD25713529E4B0 /* PlusJakartaSans-Bold.ttf */; };
 		512C9F4B9ED2722D966BCEBA /* PaperOrderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE75A431720DF1CF0F29C37D /* PaperOrderTests.swift */; };
 		537B6D74741E95A9F670EE38 /* SecurityScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACC54CBA16C48EAEB138718 /* SecurityScreen.swift */; };
 		56B3BD771FE67D2E34826797 /* lessons.json in Resources */ = {isa = PBXBuildFile; fileRef = 602CB27DD2A460D6DA431BD7 /* lessons.json */; };
@@ -53,6 +55,7 @@
 		861DDC9D6BD9A25312B3F98D /* ProfileScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC043DEF8554C35455A40068 /* ProfileScreen.swift */; };
 		8AC66B33D4B06A812DF1D545 /* StockDetailScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38759C784CF7883FDB745AD5 /* StockDetailScreen.swift */; };
 		8DCC96A76C0453386446E701 /* QuizScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = F059B075FE17BB2EF8BA8131 /* QuizScreen.swift */; };
+		92E5BD8FF7D5599B69B7D3D6 /* PlusJakartaSans-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 54CC73C4A4A4CC950E3B78EA /* PlusJakartaSans-ExtraBold.ttf */; };
 		964CC2765063644D38786B3F /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D4E85F2FF97A737F5DFF04 /* AppConfig.swift */; };
 		98430E9862461A396C43616B /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B994D7F118EB87FD9F6A77 /* AppState.swift */; };
 		9903ED2182B652A663A29081 /* ArenaFriendsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4252D187E8DE10504CF1C92B /* ArenaFriendsView.swift */; };
@@ -64,6 +67,8 @@
 		A78722FCC0DD5940322ED69A /* ArenaStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709A290CAF7B6CEB9B1A5D28 /* ArenaStore.swift */; };
 		AB559A5F6B35E1D12BE6C7B6 /* PaywallScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ABC2C9DEE8E7FC126C4963E /* PaywallScreen.swift */; };
 		ABABA96D1B11AEC5F47D0BCE /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5757272CB5A104C9A291D4D0 /* RootView.swift */; };
+		AC9FAE48E0DB43D5E370B53A /* Inter-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B54005020C8A51E25B601579 /* Inter-Regular.ttf */; };
+		ADEA5DBEA9699E3DCA7AF421 /* Inter-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6D9FD8C4FD7E1B54982702C3 /* Inter-SemiBold.ttf */; };
 		AEA7D23EE36F0AF603CB817A /* KrezusFormComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A90ACB48050AB3A2461DB9 /* KrezusFormComponents.swift */; };
 		AFE8D5B4D619EDE816909D4A /* SecuritiesRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 205EEB56B61B62F52F70D04C /* SecuritiesRepository.swift */; };
 		B172830124255ACC3C5C1B91 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F8C66FCBB20235A787D64D6 /* Models.swift */; };
@@ -91,6 +96,7 @@
 		EC609521483DA6E01C4F6FBD /* AcademyScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32FB9A54DD48D95AE290D6C8 /* AcademyScreen.swift */; };
 		F12F5AF7CBFBF0A09B166448 /* MarketScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC2F7830461FBB1770259CC8 /* MarketScreen.swift */; };
 		F1C86021F70256692F9A5521 /* NotificationSettingsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B1CFFCD97EBCB4EFAF5F01F /* NotificationSettingsScreen.swift */; };
+		FABF369F76830CA7A401D603 /* PlusJakartaSans-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C11FD29169E737F038705A1F /* PlusJakartaSans-SemiBold.ttf */; };
 		FCE3879C30025FCB5EC4D0E8 /* ranks.en.json in Resources */ = {isa = PBXBuildFile; fileRef = 5A125613ACF87EFBD7555086 /* ranks.en.json */; };
 /* End PBXBuildFile section */
 
@@ -108,6 +114,7 @@
 		003C6E7D18ADE06B0A3AFF4A /* ArenaFeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArenaFeedView.swift; sourceTree = "<group>"; };
 		0ABC2C9DEE8E7FC126C4963E /* PaywallScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallScreen.swift; sourceTree = "<group>"; };
 		0B2794B4AD431964DDBA973A /* KrezusFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KrezusFont.swift; sourceTree = "<group>"; };
+		0B697BEEB8CD25713529E4B0 /* PlusJakartaSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PlusJakartaSans-Bold.ttf"; sourceTree = "<group>"; };
 		0C1997ADE59848ADD4D16A58 /* HerculeStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HerculeStore.swift; sourceTree = "<group>"; };
 		0E3C6A1C2A0472FE6618D28F /* PortfolioScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioScreen.swift; sourceTree = "<group>"; };
 		0F8C66FCBB20235A787D64D6 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
@@ -129,6 +136,7 @@
 		3CDAD2F4D9881CE6E04C99B4 /* LockedFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockedFeature.swift; sourceTree = "<group>"; };
 		3E8CAEDC30E668847F943013 /* SellScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SellScreen.swift; sourceTree = "<group>"; };
 		4252D187E8DE10504CF1C92B /* ArenaFriendsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArenaFriendsView.swift; sourceTree = "<group>"; };
+		46E8D148D6C97FF78A3B512D /* Inter-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Bold.ttf"; sourceTree = "<group>"; };
 		49D4E85F2FF97A737F5DFF04 /* AppConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfig.swift; sourceTree = "<group>"; };
 		4C803CEC06E2350490D7D53B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		4D9524BBA54A93FB702FA670 /* Krezus.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Krezus.entitlements; sourceTree = "<group>"; };
@@ -136,6 +144,7 @@
 		4E7B008E777540D83E6569D7 /* SubscriptionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionService.swift; sourceTree = "<group>"; };
 		4E97BA5435A8DF6EFCEC7B13 /* OnboardingScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingScreen.swift; sourceTree = "<group>"; };
 		4F549B7592C08A7233B7C8A2 /* NotificationCenterScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCenterScreen.swift; sourceTree = "<group>"; };
+		54CC73C4A4A4CC950E3B78EA /* PlusJakartaSans-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PlusJakartaSans-ExtraBold.ttf"; sourceTree = "<group>"; };
 		5664F137F4595596AC828F5A /* Money.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Money.swift; sourceTree = "<group>"; };
 		5757272CB5A104C9A291D4D0 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		5A125613ACF87EFBD7555086 /* ranks.en.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = ranks.en.json; sourceTree = "<group>"; };
@@ -144,6 +153,7 @@
 		5DD2078BF0B0B14BE2D9C3B3 /* TradingStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradingStore.swift; sourceTree = "<group>"; };
 		602CB27DD2A460D6DA431BD7 /* lessons.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = lessons.json; sourceTree = "<group>"; };
 		61B0FA018CBEDCDCDD25BB34 /* Krezus.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Krezus.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6D9FD8C4FD7E1B54982702C3 /* Inter-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-SemiBold.ttf"; sourceTree = "<group>"; };
 		709A290CAF7B6CEB9B1A5D28 /* ArenaStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArenaStore.swift; sourceTree = "<group>"; };
 		72639BB020BD080B96E208AB /* MarketDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketDataTests.swift; sourceTree = "<group>"; };
 		78F3B872D226E0431A602D5F /* DemoCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoCatalog.swift; sourceTree = "<group>"; };
@@ -158,12 +168,14 @@
 		A788ACF2F701558B2CB293BD /* Localization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Localization.swift; sourceTree = "<group>"; };
 		AC1F3AD5CCE9D65ABB906C4D /* SettingsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsStore.swift; sourceTree = "<group>"; };
 		AE30FFF74A82D1CD1713AA57 /* KrezusMetrics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KrezusMetrics.swift; sourceTree = "<group>"; };
+		B54005020C8A51E25B601579 /* Inter-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Regular.ttf"; sourceTree = "<group>"; };
 		B57CA9ECAEBBCDAB50C29227 /* SignInScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInScreen.swift; sourceTree = "<group>"; };
 		B6D9B82EABDE83897DCCBF86 /* OracleScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OracleScreen.swift; sourceTree = "<group>"; };
 		B926622A8811A66FD6197492 /* SettingsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsScreen.swift; sourceTree = "<group>"; };
 		BAB9FCB1243911E57EC11795 /* BuyScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuyScreen.swift; sourceTree = "<group>"; };
 		C0CB9CF80F3B25933C04536F /* AcademyRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcademyRepository.swift; sourceTree = "<group>"; };
 		C0FC3304F58E4550EB7C97F3 /* oracle_scenarios.en.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = oracle_scenarios.en.json; sourceTree = "<group>"; };
+		C11FD29169E737F038705A1F /* PlusJakartaSans-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PlusJakartaSans-SemiBold.ttf"; sourceTree = "<group>"; };
 		C20E25B9D7379FB7AFC179C8 /* OracleCoachView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OracleCoachView.swift; sourceTree = "<group>"; };
 		C313D8810D590C329C3D7DA0 /* PortfolioRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioRepository.swift; sourceTree = "<group>"; };
 		CF4C8AD9A4A8E5823E5E8BC6 /* ranks.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = ranks.json; sourceTree = "<group>"; };
@@ -306,6 +318,19 @@
 			path = Oracle;
 			sourceTree = "<group>";
 		};
+		48D90A3CAB42881CB11C3CF8 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				46E8D148D6C97FF78A3B512D /* Inter-Bold.ttf */,
+				B54005020C8A51E25B601579 /* Inter-Regular.ttf */,
+				6D9FD8C4FD7E1B54982702C3 /* Inter-SemiBold.ttf */,
+				0B697BEEB8CD25713529E4B0 /* PlusJakartaSans-Bold.ttf */,
+				54CC73C4A4A4CC950E3B78EA /* PlusJakartaSans-ExtraBold.ttf */,
+				C11FD29169E737F038705A1F /* PlusJakartaSans-SemiBold.ttf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 		52044E6E36DED9E6AE706AC6 /* Trade */ = {
 			isa = PBXGroup;
 			children = (
@@ -358,6 +383,7 @@
 				F865A70B5EA23C8B3532112C /* PrivacyInfo.xcprivacy */,
 				5A125613ACF87EFBD7555086 /* ranks.en.json */,
 				CF4C8AD9A4A8E5823E5E8BC6 /* ranks.json */,
+				48D90A3CAB42881CB11C3CF8 /* Fonts */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -605,7 +631,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				0F5D34C6E854CDAA00401B46 /* Assets.xcassets in Resources */,
+				308F59F4A0A30BDCAABC56FF /* Inter-Bold.ttf in Resources */,
+				AC9FAE48E0DB43D5E370B53A /* Inter-Regular.ttf in Resources */,
+				ADEA5DBEA9699E3DCA7AF421 /* Inter-SemiBold.ttf in Resources */,
 				42E8C1B8440E61DEE36FBB94 /* Localizable.xcstrings in Resources */,
+				50D523451013450C685BF4D9 /* PlusJakartaSans-Bold.ttf in Resources */,
+				92E5BD8FF7D5599B69B7D3D6 /* PlusJakartaSans-ExtraBold.ttf in Resources */,
+				FABF369F76830CA7A401D603 /* PlusJakartaSans-SemiBold.ttf in Resources */,
 				C7E6DD4915DF66F2E1DEBC30 /* PrivacyInfo.xcprivacy in Resources */,
 				59636FFF41487FB0B2AD1E31 /* investor_questions.en.json in Resources */,
 				CA1AD1DCA85C7A57ED506ACE /* investor_questions.json in Resources */,

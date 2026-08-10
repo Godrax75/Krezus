@@ -72,6 +72,18 @@ targets:
           - CFBundleURLName: com.krezus.app
             CFBundleURLSchemes:
               - com.krezus.app
+        # Fontes du design (SIL OFL, redistribution autorisée). Seules les
+        # graisses réellement appelées par KrezusFont sont embarquées : les
+        # familles complètes pèseraient huit fichiers chacune pour un rendu
+        # identique. Ajouter une graisse ici sans l'ajouter à KrezusFont ne
+        # sert à rien, et l'inverse fait retomber l'écran sur la fonte système.
+        UIAppFonts:
+          - PlusJakartaSans-SemiBold.ttf
+          - PlusJakartaSans-Bold.ttf
+          - PlusJakartaSans-ExtraBold.ttf
+          - Inter-Regular.ttf
+          - Inter-SemiBold.ttf
+          - Inter-Bold.ttf
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.krezus.app
