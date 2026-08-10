@@ -14,19 +14,30 @@ complet qui s'applique proprement (81 titres, 27 leçons, 6 rangs), et couche Sw
 tourne** avec le SDK `supabase-swift`. L'app fonctionne en mode démo tant que les secrets
 Supabase ne sont pas renseignés — voir `supabase/README.md` pour brancher un vrai projet EU.
 
-**Branchement des données** : `TradingStore` est la source unique des écrans,
-avec deux sources derrière la même interface. Sans secrets Supabase ou sans
-session, c'est le **mode démo** (catalogue embarqué, prix simulés, moteur
-d'ordres local). Avec un compte, c'est le **mode serveur** : référentiel
-`securities`, cotations `quotes_cache` différées de 15 min relues toutes les
-60 s, et ordres passés par `execute_paper_buy` / `_sell` — le client ne calcule
-plus aucun montant. La bascule se fait dans `KrezusApp`, à la restauration de
-session.
+**Branchement des données** : les cinq stores portent chacun deux sources
+derrière la même interface. Sans secrets Supabase ou sans session, c'est le
+**mode démo** (contenu embarqué, prix simulés, logique locale). Avec un compte,
+c'est le **mode serveur**. La bascule se fait dans `KrezusApp`, à la
+restauration de session, et nulle part ailleurs.
+
+| Store | Mode serveur |
+|---|---|
+| `TradingStore` | référentiel `securities`, `quotes_cache` différé de 15 min relu toutes les 60 s, ordres par `execute_paper_buy` / `_sell` |
+| `LearningStore` | `complete_lesson` accorde l'XP et la série ; leçons, missions et badges relus depuis `v_academy_progress` |
+| `OracleStore` | profil investisseur via `save_investor_profile` |
+| `ArenaStore` | amis, demandes, groupes et feed ; classement par `v_arena_leaderboard` |
+| `HerculeStore` | Edge Function `hercule` (Claude API), quota décompté en base |
+
+La règle commune : **le client ne calcule ni montant, ni XP, ni quota**. Il
+envoie l'événement et relit l'état. Rejouer une requête ne doit pouvoir
+fabriquer ni cash, ni rang, ni messages gratuits.
 
 ⚠️ Le chemin serveur compile et est couvert par des tests unitaires, mais n'a
 **pas encore tourné contre un vrai projet Supabase** : les secrets sont restés
 sur les placeholders. C'est la première chose à vérifier après avoir créé le
-projet EU.
+projet EU — et le seul moyen de valider les requêtes PostgREST des quatre
+repositories les plus récents (Academy, Oracle, Arena, Hercule), qu'aucun test
+ne peut exercer sans base.
 
 **Tests** : `xcodebuild test -scheme Krezus -destination 'name=iPhone 17 Pro'`
 — 42 tests (moteur d'ordres papier en miroir du SQL, fraîcheur des cotations,
