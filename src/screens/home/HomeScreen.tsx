@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import {
   View,
   Text,
@@ -14,31 +14,69 @@ import { useNavigation } from '@react-navigation/native';
 import * as Haptics from 'expo-haptics';
 import { useTheme, Spacing, BorderRadius, FontSize, FontWeight } from '../../theme';
 import { useApp } from '../../store/AppContext';
-import { mockStocks, mockActivities, generateChartData } from '../../data/mockData';
+import { mockActivities } from '../../data/mockData';
+import { getPortfolioChart } from '../../services';
+import { formatMoney } from '../../utils/format';
 import { GlassCard } from '../../components/common/GlassCard';
 import { AnimatedNumber } from '../../components/common/AnimatedNumber';
 import { SkeletonLoader } from '../../components/common/SkeletonLoader';
 import { LineChart } from '../../components/charts/LineChart';
-import { TimePeriod, Position } from '../../types';
+import { TimePeriod, Position, ChartDataPoint } from '../../types';
 
 const PERIODS: TimePeriod[] = ['1J', '1S', '1M', '3M', '6M', '1A', 'Max'];
 
 export const HomeScreen = () => {
   const { colors } = useTheme();
-  const { user, portfolio, unreadCount, completedModules } = useApp();
+  const {
+    user,
+    stocks,
+    portfolio,
+    unreadCount,
+    completedModules,
+    refreshMarketData,
+    isLiveMarketData,
+    marketDataUpdatedAt,
+  } = useApp();
   const navigation = useNavigation<any>();
   const [selectedPeriod, setSelectedPeriod] = useState<TimePeriod>('1M');
   const [refreshing, setRefreshing] = useState(false);
   const [failedImages, setFailedImages] = useState<Set<string>>(new Set());
+  const [chartData, setChartData] = useState<ChartDataPoint[]>([]);
+  const [chartLoading, setChartLoading] = useState(true);
 
-  const chartData = useMemo(() => generateChartData(selectedPeriod), [selectedPeriod]);
   const isPositive = portfolio.totalGain >= 0;
 
-  const onRefresh = useCallback(() => {
+  // Courbe agrégée du portefeuille : réelle si le fournisseur la couvre,
+  // sinon la courbe de démonstration (le service gère le repli).
+  useEffect(() => {
+    let cancelled = false;
+    setChartLoading(true);
+    getPortfolioChart(portfolio.positions, selectedPeriod, stocks)
+      .then(({ data }) => {
+        if (!cancelled) setChartData(data);
+      })
+      .finally(() => {
+        if (!cancelled) setChartLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [selectedPeriod, portfolio.positions, stocks]);
+
+  const onRefresh = useCallback(async () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     setRefreshing(true);
-    setTimeout(() => setRefreshing(false), 1500);
-  }, []);
+    try {
+      // Le délai minimum évite un spinner qui clignote quand la réponse est
+      // instantanée (cache chaud, ou aucune clé API configurée).
+      await Promise.all([
+        refreshMarketData(true),
+        new Promise((resolve) => setTimeout(resolve, 600)),
+      ]);
+    } finally {
+      setRefreshing(false);
+    }
+  }, [refreshMarketData]);
 
   const handlePeriodChange = useCallback((period: TimePeriod) => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
@@ -46,7 +84,7 @@ export const HomeScreen = () => {
   }, []);
 
   const getStockForPosition = (position: Position) => {
-    return mockStocks[position.stockId.toUpperCase()] ?? null;
+    return stocks[position.stockId.toUpperCase()] ?? null;
   };
 
   const renderStockCard = (item: Position) => {
@@ -88,7 +126,7 @@ export const HomeScreen = () => {
             {item.shares} parts
           </Text>
           <Text style={[styles.stockValue, { color: colors.text }]}>
-            {item.currentValue.toFixed(2)} €
+            {formatMoney(item.currentValue, stock.currency)}
           </Text>
           <View
             style={[
@@ -188,6 +226,16 @@ export const HomeScreen = () => {
             </Text>
           </View>
 
+          {/* Provenance des cours : réels ou démo */}
+          <Text style={[styles.dataSource, { color: colors.textTertiary }]}>
+            {isLiveMarketData && marketDataUpdatedAt
+              ? `Cours mis à jour à ${new Date(marketDataUpdatedAt).toLocaleTimeString('fr-FR', {
+                  hour: '2-digit',
+                  minute: '2-digit',
+                })}`
+              : 'Données de démonstration'}
+          </Text>
+
           {/* Period Selector */}
           <View style={styles.periodRow}>
             {PERIODS.map((period) => {
@@ -216,7 +264,7 @@ export const HomeScreen = () => {
           </View>
 
           {/* Chart */}
-          {refreshing ? (
+          {refreshing || chartLoading ? (
             <SkeletonLoader width="100%" height={200} />
           ) : (
             <LineChart data={chartData} height={200} isPositive={isPositive} />
@@ -375,7 +423,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: Spacing.xs,
-    marginBottom: Spacing.md,
+    marginBottom: Spacing.xs,
   },
   gainPercent: {
     fontSize: FontSize.md,
@@ -383,6 +431,10 @@ const styles = StyleSheet.create({
   },
   gainAmount: {
     fontSize: FontSize.md,
+  },
+  dataSource: {
+    fontSize: FontSize.xs,
+    marginBottom: Spacing.md,
   },
   periodRow: {
     flexDirection: 'row',

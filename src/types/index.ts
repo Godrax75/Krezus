@@ -15,6 +15,8 @@ export interface Stock {
   sector: string;
   exchange: string;
   description: string;
+  /** Devise de cotation ; EUR par défaut quand la conversion a pu être faite. */
+  currency?: 'EUR' | 'USD';
   currentPrice: number;
   previousClose: number;
   dayChange: number;

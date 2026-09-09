@@ -310,7 +310,12 @@ function getPeriodConfig(period: string): { interval: number; points: number } {
   }
 }
 
-// TODO: Replace with real API call (Alpha Vantage / Finnhub) when backend is ready
+/**
+ * Courbe de démonstration du portefeuille.
+ * Sert désormais de repli : `services/marketData.getPortfolioChart()` tente
+ * d'abord les chandeliers réels et n'appelle cette fonction qu'en cas d'échec
+ * (pas de clé API, endpoint premium, réseau indisponible).
+ */
 export function generateChartData(period: string): ChartDataPoint[] {
   const cacheKey = `portfolio_${period}`;
   const cached = chartDataCache.get(cacheKey);
@@ -337,7 +342,10 @@ export function generateChartData(period: string): ChartDataPoint[] {
   return data;
 }
 
-// TODO: Replace with real API call (Alpha Vantage / Finnhub) when backend is ready
+/**
+ * Courbe de démonstration d'un titre.
+ * Repli de `services/marketData.getStockChart()` — voir docs/MARKET_DATA.md.
+ */
 export function generateStockChartData(period: string, basePrice: number): ChartDataPoint[] {
   const cacheKey = `stock_${basePrice}_${period}`;
   const cached = chartDataCache.get(cacheKey);

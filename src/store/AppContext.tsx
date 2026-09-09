@@ -1,14 +1,28 @@
 import React, { createContext, useContext, useState, useCallback, useEffect, ReactNode } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { User, Portfolio, Notification, GiftReveal } from '../types';
-import { mockPositions, mockNotifications, mockGiftReveal } from '../data/mockData';
+import { User, Portfolio, Notification, GiftReveal, Stock } from '../types';
+import { mockPositions, mockNotifications, mockGiftReveal, mockStocks } from '../data/mockData';
+import {
+  computePortfolio,
+  getStocksSnapshot,
+  invalidateMarketData,
+  isLiveDataEnabled,
+} from '../services';
 
 interface AppState {
   isLoading: boolean;
   isOnboarded: boolean;
   isAuthenticated: boolean;
   user: User | null;
+  /** Fiches valeurs, clés historiques (`AAPL`, `MSFT`, `LVMH`). */
+  stocks: Record<string, Stock>;
   portfolio: Portfolio;
+  /** Un rafraîchissement des cours est en cours. */
+  isMarketDataLoading: boolean;
+  /** Les cours affichés viennent du fournisseur, pas des données de démo. */
+  isLiveMarketData: boolean;
+  /** Horodatage du dernier rafraîchissement réussi. */
+  marketDataUpdatedAt: number | null;
   notifications: Notification[];
   unreadCount: number;
   giftReveal: GiftReveal;
@@ -21,6 +35,7 @@ interface AppContextType extends AppState {
   setUser: (user: User) => void;
   login: () => void;
   logout: () => void;
+  refreshMarketData: (force?: boolean) => Promise<void>;
   markNotificationRead: (id: string) => void;
   deleteNotification: (id: string) => void;
   completeModule: (id: string) => void;
@@ -35,12 +50,9 @@ const STORAGE_KEYS = {
   NOTIFICATIONS: '@krezus_notifications',
 };
 
-const defaultPortfolio: Portfolio = {
-  totalValue: 1294.53,
-  totalGain: 93.78,
-  totalGainPercent: 7.81,
-  positions: mockPositions,
-};
+// Les totaux sont dérivés des lignes et des cours : plus de valeurs en dur qui
+// se désynchronisent dès que les prix bougent.
+const defaultPortfolio: Portfolio = computePortfolio(mockPositions, mockStocks);
 
 const AppContext = createContext<AppContextType>({} as AppContextType);
 
@@ -49,7 +61,11 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [isOnboarded, setIsOnboarded] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUserState] = useState<User | null>(null);
-  const [portfolio] = useState<Portfolio>(defaultPortfolio);
+  const [stocks, setStocks] = useState<Record<string, Stock>>(mockStocks);
+  const [portfolio, setPortfolio] = useState<Portfolio>(defaultPortfolio);
+  const [isMarketDataLoading, setIsMarketDataLoading] = useState(false);
+  const [isLiveMarketData, setIsLiveMarketData] = useState(false);
+  const [marketDataUpdatedAt, setMarketDataUpdatedAt] = useState<number | null>(null);
   const [notifications, setNotifications] = useState<Notification[]>(mockNotifications);
   const [completedModules, setCompletedModules] = useState<string[]>(['1', '2', '3']);
   const [activationCode, setActivationCodeState] = useState<string | null>(null);
@@ -81,6 +97,33 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     };
     loadPersistedData();
   }, []);
+
+  /**
+   * Rafraîchit les cours en lecture seule.
+   * Ne rejette jamais : sans clé API ou sans réseau, on garde simplement les
+   * dernières valeurs connues (données de démo au premier lancement).
+   */
+  const refreshMarketData = useCallback(async (force = false) => {
+    if (!isLiveDataEnabled) return;
+
+    setIsMarketDataLoading(true);
+    try {
+      if (force) invalidateMarketData();
+      const stockIds = mockPositions.map((position) => position.stockId);
+      const { data, isLive } = await getStocksSnapshot(stockIds, force);
+      setStocks(data);
+      setPortfolio(computePortfolio(mockPositions, data));
+      setIsLiveMarketData(isLive);
+      if (isLive) setMarketDataUpdatedAt(Date.now());
+    } finally {
+      setIsMarketDataLoading(false);
+    }
+  }, []);
+
+  // Premier chargement des cours au démarrage.
+  useEffect(() => {
+    refreshMarketData();
+  }, [refreshMarketData]);
 
   const completeOnboarding = useCallback(() => {
     setIsOnboarded(true);
@@ -141,9 +184,11 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <AppContext.Provider value={{
-      isLoading, isOnboarded, isAuthenticated, user, portfolio, notifications, unreadCount,
+      isLoading, isOnboarded, isAuthenticated, user, stocks, portfolio,
+      isMarketDataLoading, isLiveMarketData, marketDataUpdatedAt,
+      notifications, unreadCount,
       giftReveal: mockGiftReveal, completedModules, activationCode,
-      completeOnboarding, setUser, login, logout,
+      completeOnboarding, setUser, login, logout, refreshMarketData,
       markNotificationRead, deleteNotification, completeModule, setActivationCode,
     }}>
       {children}

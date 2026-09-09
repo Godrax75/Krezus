@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   View,
   Text,
@@ -11,13 +11,15 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import * as Haptics from 'expo-haptics';
+import * as Linking from 'expo-linking';
 import { useTheme, Spacing, BorderRadius, FontSize, FontWeight } from '../../theme';
 import { useApp } from '../../store/AppContext';
-import { mockStocks, mockNews, generateStockChartData } from '../../data/mockData';
+import { getStockChart, getStockNews } from '../../services';
+import { formatMoney } from '../../utils/format';
 import { GlassCard } from '../../components/common/GlassCard';
 import { SkeletonLoader } from '../../components/common/SkeletonLoader';
 import { LineChart } from '../../components/charts/LineChart';
-import { TimePeriod } from '../../types';
+import { TimePeriod, ChartDataPoint, NewsArticle } from '../../types';
 
 const PERIODS: TimePeriod[] = ['1J', '1S', '1M', '3M', '6M', '1A', 'Max'];
 
@@ -29,28 +31,68 @@ export const StockDetailScreen = () => {
   const { colors } = useTheme();
   const navigation = useNavigation<any>();
   const route = useRoute<RouteProp<StockDetailParams, 'StockDetail'>>();
-  const { portfolio } = useApp();
+  const { stocks, portfolio } = useApp();
   const { stockId } = route.params;
 
-  const stock = mockStocks[stockId.toUpperCase()];
+  const stock = stocks[stockId.toUpperCase()];
   const position = portfolio.positions.find(
     (p) => p.stockId.toLowerCase() === stockId.toLowerCase()
   );
 
   const [selectedPeriod, setSelectedPeriod] = useState<TimePeriod>('1M');
-  const [chartLoading, setChartLoading] = useState(false);
+  const [chartData, setChartData] = useState<ChartDataPoint[]>([]);
+  const [chartLoading, setChartLoading] = useState(true);
+  const [news, setNews] = useState<NewsArticle[]>([]);
+  const [newsLoading, setNewsLoading] = useState(true);
+  const [failedImages, setFailedImages] = useState<Set<string>>(new Set());
 
   const handlePeriodChange = useCallback((period: TimePeriod) => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-    setChartLoading(true);
     setSelectedPeriod(period);
-    setTimeout(() => setChartLoading(false), 300);
   }, []);
 
-  const chartData = useMemo(
-    () => (stock ? generateStockChartData(selectedPeriod, stock.currentPrice) : []),
-    [selectedPeriod, stock]
-  );
+  const basePrice = stock?.currentPrice ?? 0;
+
+  useEffect(() => {
+    if (!stock) return;
+    let cancelled = false;
+    setChartLoading(true);
+    getStockChart(stockId, selectedPeriod, basePrice)
+      .then(({ data }) => {
+        if (!cancelled) setChartData(data);
+      })
+      .finally(() => {
+        if (!cancelled) setChartLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+    // `stock` n'est utilisé que pour son prix de référence, déjà dans basePrice.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [stockId, selectedPeriod, basePrice]);
+
+  useEffect(() => {
+    let cancelled = false;
+    setNewsLoading(true);
+    getStockNews(stockId, 5)
+      .then(({ data }) => {
+        if (!cancelled) setNews(data);
+      })
+      .finally(() => {
+        if (!cancelled) setNewsLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [stockId]);
+
+  const openArticle = useCallback(async (url: string) => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    // TODO: passer en WebView intégrée (expo-web-browser) plutôt que le
+    // navigateur système, comme prévu dans la spec.
+    const canOpen = await Linking.canOpenURL(url);
+    if (canOpen) await Linking.openURL(url);
+  }, []);
 
   const isPositive = stock ? stock.dayChange >= 0 : true;
   const positionGainPositive = position ? position.totalGain >= 0 : true;
@@ -127,7 +169,7 @@ export const StockDetailScreen = () => {
               Prix actuel
             </Text>
             <Text style={[styles.metricValue, { color: colors.text }]}>
-              {stock.currentPrice.toFixed(2)} €
+              {formatMoney(stock.currentPrice, stock.currency)}
             </Text>
           </GlassCard>
           <GlassCard style={styles.metricCard}>
@@ -148,7 +190,7 @@ export const StockDetailScreen = () => {
               Plus haut 52s
             </Text>
             <Text style={[styles.metricValue, { color: colors.text }]}>
-              {stock.high52w.toFixed(2)} €
+              {formatMoney(stock.high52w, stock.currency)}
             </Text>
           </GlassCard>
           <GlassCard style={styles.metricCard}>
@@ -156,7 +198,7 @@ export const StockDetailScreen = () => {
               Plus bas 52s
             </Text>
             <Text style={[styles.metricValue, { color: colors.text }]}>
-              {stock.low52w.toFixed(2)} €
+              {formatMoney(stock.low52w, stock.currency)}
             </Text>
           </GlassCard>
         </View>
@@ -243,27 +285,56 @@ export const StockDetailScreen = () => {
         {/* News */}
         <View style={styles.section}>
           <Text style={[styles.sectionTitle, { color: colors.text }]}>Actualités</Text>
-          {mockNews.slice(0, 3).map((article) => (
-            <TouchableOpacity key={article.id} activeOpacity={0.7} style={styles.newsItem}>
-              <View style={styles.newsContent}>
-                <Text
-                  style={[styles.newsTitle, { color: colors.text }]}
-                  numberOfLines={2}
-                >
-                  {article.title}
-                </Text>
-                <Text style={[styles.newsMeta, { color: colors.textTertiary }]}>
-                  {article.source} · {new Date(article.date).toLocaleDateString('fr-FR', {
-                    day: 'numeric',
-                    month: 'short',
-                  })}
-                </Text>
-              </View>
-              <View style={[styles.newsImagePlaceholder, { backgroundColor: colors.surfaceLight }]}>
-                <Ionicons name="image-outline" size={20} color={colors.textTertiary} />
-              </View>
-            </TouchableOpacity>
-          ))}
+          {newsLoading
+            ? [0, 1, 2].map((i) => (
+                <View key={i} style={styles.newsItem}>
+                  <SkeletonLoader width="100%" height={60} />
+                </View>
+              ))
+            : news.map((article) => {
+                const showImage = !!article.imageUrl && !failedImages.has(article.id);
+                return (
+                  <TouchableOpacity
+                    key={article.id}
+                    activeOpacity={0.7}
+                    style={styles.newsItem}
+                    onPress={() => openArticle(article.url)}
+                  >
+                    <View style={styles.newsContent}>
+                      <Text
+                        style={[styles.newsTitle, { color: colors.text }]}
+                        numberOfLines={2}
+                      >
+                        {article.title}
+                      </Text>
+                      <Text style={[styles.newsMeta, { color: colors.textTertiary }]}>
+                        {article.source} · {new Date(article.date).toLocaleDateString('fr-FR', {
+                          day: 'numeric',
+                          month: 'short',
+                        })}
+                      </Text>
+                    </View>
+                    {showImage ? (
+                      <Image
+                        source={{ uri: article.imageUrl }}
+                        style={styles.newsImage}
+                        onError={() =>
+                          setFailedImages((prev) => new Set(prev).add(article.id))
+                        }
+                      />
+                    ) : (
+                      <View
+                        style={[
+                          styles.newsImagePlaceholder,
+                          { backgroundColor: colors.surfaceLight },
+                        ]}
+                      >
+                        <Ionicons name="image-outline" size={20} color={colors.textTertiary} />
+                      </View>
+                    )}
+                  </TouchableOpacity>
+                );
+              })}
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -411,6 +482,11 @@ const styles = StyleSheet.create({
   },
   newsMeta: {
     fontSize: FontSize.xs,
+  },
+  newsImage: {
+    width: 60,
+    height: 60,
+    borderRadius: BorderRadius.sm,
   },
   newsImagePlaceholder: {
     width: 60,
