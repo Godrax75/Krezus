@@ -133,7 +133,7 @@ const ActivationScreen: React.FC = () => {
     return (
       <View style={styles.scannerContainer}>
         <CameraView
-          style={StyleSheet.absoluteFillObject}
+          style={StyleSheet.absoluteFill}
           barcodeScannerSettings={{ barcodeTypes: ['qr'] }}
           onBarcodeScanned={handleBarcodeScanned}
         />
@@ -299,7 +299,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#000000',
   },
   scannerOverlay: {
-    ...StyleSheet.absoluteFillObject,
+    ...StyleSheet.absoluteFill,
     justifyContent: 'space-between',
   },
   scannerTopBar: {
