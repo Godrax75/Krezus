@@ -11,6 +11,8 @@ import { LearnScreen } from '../screens/learn/LearnScreen';
 import { ModuleDetailScreen } from '../screens/learn/ModuleDetailScreen';
 import { NotificationsScreen } from '../screens/notifications/NotificationsScreen';
 import { ProfileScreen } from '../screens/profile/ProfileScreen';
+import { LegalScreen } from '../screens/legal/LegalScreen';
+import { LegalDocumentId } from '../data/legalContent';
 
 export type HomeStackParamList = {
   HomeMain: undefined;
@@ -22,8 +24,14 @@ export type LearnStackParamList = {
   ModuleDetail: { moduleId: string };
 };
 
+export type ProfileStackParamList = {
+  ProfileMain: undefined;
+  Legal: { document: LegalDocumentId };
+};
+
 const HomeStack = createNativeStackNavigator<HomeStackParamList>();
 const LearnStack = createNativeStackNavigator<LearnStackParamList>();
+const ProfileStack = createNativeStackNavigator<ProfileStackParamList>();
 const Tab = createBottomTabNavigator();
 
 // Fix 7: Use dynamic colors from theme instead of hardcoded '#0A0A0A'
@@ -44,6 +52,16 @@ const LearnStackNavigator = () => {
       <LearnStack.Screen name="LearnMain" component={LearnScreen} />
       <LearnStack.Screen name="ModuleDetail" component={ModuleDetailScreen} options={{ animation: 'slide_from_right' }} />
     </LearnStack.Navigator>
+  );
+};
+
+const ProfileStackNavigator = () => {
+  const { colors } = useTheme();
+  return (
+    <ProfileStack.Navigator screenOptions={{ headerShown: false, contentStyle: { backgroundColor: colors.background } }}>
+      <ProfileStack.Screen name="ProfileMain" component={ProfileScreen} />
+      <ProfileStack.Screen name="Legal" component={LegalScreen} options={{ animation: 'slide_from_right' }} />
+    </ProfileStack.Navigator>
   );
 };
 
@@ -107,7 +125,7 @@ export const MainTabNavigator = () => {
       <Tab.Screen name="Accueil" component={HomeStackNavigator} />
       <Tab.Screen name="Apprendre" component={LearnStackNavigator} />
       <Tab.Screen name="Notifications" component={NotificationsScreen} />
-      <Tab.Screen name="Profil" component={ProfileScreen} />
+      <Tab.Screen name="Profil" component={ProfileStackNavigator} />
     </Tab.Navigator>
   );
 };

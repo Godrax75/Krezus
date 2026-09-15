@@ -27,7 +27,7 @@ const slides: Slide[] = [
   {
     title: 'Bienvenue dans votre aventure boursière',
     subtitle:
-      'Vous avez reçu un coffret cadeau contenant de vraies actions en bourse. Découvrez votre cadeau unique.',
+      'Votre coffret cadeau vous initie à la bourse avec un portefeuille simulé : de vraies actions, suivies aux cours réels, sans argent engagé.',
     icon: 'gift-outline',
   },
   {
@@ -39,7 +39,7 @@ const slides: Slide[] = [
   {
     title: 'Suivez vos investissements grandir',
     subtitle:
-      'Suivez l\'évolution de votre portefeuille en temps réel et apprenez les bases de l\'investissement.',
+      'Suivez l\'évolution de votre portefeuille avec les cours réels du marché, différés d\'environ 15 minutes, et apprenez les bases de l\'investissement.',
     icon: 'trending-up-outline',
   },
 ];

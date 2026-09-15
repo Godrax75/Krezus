@@ -208,6 +208,12 @@ const RevealScreen: React.FC = () => {
             <AnimatedNumber value={totalValue} suffix=" €" />
           </View>
 
+          {/* Nature du service : dit dès le premier écran, pas en petits caractères */}
+          <Text style={[styles.simulationNote, { color: colors.text }]}>
+            Portefeuille simulé : vous suivez ces actions aux cours réels du marché,
+            sans argent engagé et sans titre détenu.
+          </Text>
+
           {/* Personal Message */}
           {personalMessage ? (
             <GlassCard>
@@ -335,6 +341,14 @@ const styles = StyleSheet.create({
   valueLabel: {
     fontSize: FontSize.md,
     marginRight: Spacing.xs,
+  },
+  simulationNote: {
+    fontSize: FontSize.sm,
+    lineHeight: 19,
+    textAlign: 'center',
+    opacity: 0.6,
+    marginBottom: Spacing.md,
+    paddingHorizontal: Spacing.md,
   },
   personalMessage: {
     fontSize: FontSize.md,

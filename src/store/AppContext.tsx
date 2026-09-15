@@ -35,6 +35,8 @@ interface AppContextType extends AppState {
   setUser: (user: User) => void;
   login: () => void;
   logout: () => void;
+  /** Effacement définitif du compte et de toutes ses données locales. */
+  deleteAccount: () => Promise<void>;
   refreshMarketData: (force?: boolean) => Promise<void>;
   markNotificationRead: (id: string) => void;
   deleteNotification: (id: string) => void;
@@ -153,6 +155,21 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     ]);
   }, []);
 
+  /**
+   * Suppression de compte — exigée par la règle 5.1.1(v) de l'App Store pour
+   * toute app permettant d'en créer un. Contrairement à la déconnexion, tout
+   * est effacé : profil, progression et notifications.
+   */
+  const deleteAccount = useCallback(async () => {
+    setIsAuthenticated(false);
+    setIsOnboarded(false);
+    setUserState(null);
+    setActivationCodeState(null);
+    setCompletedModules([]);
+    setNotifications(mockNotifications);
+    await AsyncStorage.multiRemove(Object.values(STORAGE_KEYS));
+  }, []);
+
   const markNotificationRead = useCallback((id: string) => {
     setNotifications(prev => {
       const updated = prev.map(n => n.id === id ? { ...n, read: true } : n);
@@ -188,7 +205,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
       isMarketDataLoading, isLiveMarketData, marketDataUpdatedAt,
       notifications, unreadCount,
       giftReveal: mockGiftReveal, completedModules, activationCode,
-      completeOnboarding, setUser, login, logout, refreshMarketData,
+      completeOnboarding, setUser, login, logout, deleteAccount, refreshMarketData,
       markNotificationRead, deleteNotification, completeModule, setActivationCode,
     }}>
       {children}

@@ -6,11 +6,16 @@ import {
   StyleSheet,
   TouchableOpacity,
   Switch,
+  Alert,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
+import * as Linking from 'expo-linking';
+import * as Haptics from 'expo-haptics';
 import { useTheme, Spacing, BorderRadius, FontSize, FontWeight } from '../../theme';
 import { useApp } from '../../store/AppContext';
+import { COMPANY, isConfigured } from '../../data/legalContent';
 
 type ThemeMode = 'dark' | 'light' | 'auto';
 
@@ -24,8 +29,30 @@ const MODE_CYCLE: ThemeMode[] = ['dark', 'light', 'auto'];
 
 export const ProfileScreen = () => {
   const { colors, mode, setMode } = useTheme();
-  const { user, giftReveal, logout } = useApp();
+  const { user, giftReveal, logout, deleteAccount } = useApp();
+  const navigation = useNavigation<any>();
   const [biometricEnabled, setBiometricEnabled] = useState(false);
+
+  const supportConfigured = isConfigured(COMPANY.supportEmail);
+
+  const confirmDeleteAccount = () => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    Alert.alert(
+      'Supprimer mon compte',
+      'Votre profil, votre progression et votre coffret activé seront définitivement effacés de cet appareil. Cette action est irréversible.',
+      [
+        { text: 'Annuler', style: 'cancel' },
+        {
+          text: 'Supprimer',
+          style: 'destructive',
+          onPress: async () => {
+            await deleteAccount();
+            Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+          },
+        },
+      ]
+    );
+  };
 
   const cycleMode = () => {
     const currentIndex = MODE_CYCLE.indexOf(mode as ThemeMode);
@@ -138,16 +165,44 @@ export const ProfileScreen = () => {
         {/* Legal */}
         <View style={styles.sectionContainer}>
           <Text style={[styles.sectionTitle, { color: colors.primary }]}>Légal</Text>
-          {renderRow('CGU')}
-          {renderRow('Politique de confidentialité')}
-          {renderRow('Mentions légales')}
+          {renderRow('CGU', {
+            onPress: () => navigation.navigate('Legal', { document: 'cgu' }),
+          })}
+          {renderRow('Politique de confidentialité', {
+            onPress: () => navigation.navigate('Legal', { document: 'privacy' }),
+          })}
+          {renderRow('Mentions légales', {
+            onPress: () => navigation.navigate('Legal', { document: 'notices' }),
+          })}
         </View>
 
         {/* Support */}
         <View style={styles.sectionContainer}>
           <Text style={[styles.sectionTitle, { color: colors.primary }]}>Support</Text>
           {renderRow('FAQ')}
-          {renderRow('Contacter le support')}
+          {/* Activé dès que l'adresse de contact est renseignée dans legalContent.ts */}
+          {renderRow('Contacter le support', {
+            onPress: supportConfigured
+              ? () => Linking.openURL(`mailto:${COMPANY.supportEmail}?subject=Support%20Krezus`)
+              : undefined,
+          })}
+        </View>
+
+        {/* Compte */}
+        <View style={styles.sectionContainer}>
+          <Text style={[styles.sectionTitle, { color: colors.primary }]}>Compte</Text>
+          <TouchableOpacity activeOpacity={0.7} onPress={confirmDeleteAccount}>
+            <View style={[styles.row, { borderBottomColor: colors.border }]}>
+              <Text style={[styles.rowLabel, { color: colors.negative }]}>
+                Supprimer mon compte
+              </Text>
+              <Ionicons name="trash-outline" size={18} color={colors.negative} />
+            </View>
+          </TouchableOpacity>
+          <Text style={[styles.dangerHint, { color: colors.textTertiary }]}>
+            Efface définitivement votre profil, votre progression et votre coffret activé
+            de cet appareil.
+          </Text>
         </View>
 
         {/* Footer */}
@@ -238,6 +293,12 @@ const styles = StyleSheet.create({
   },
   rowRightText: {
     fontSize: FontSize.sm,
+  },
+  dangerHint: {
+    fontSize: FontSize.xs,
+    paddingHorizontal: Spacing.md,
+    paddingTop: Spacing.sm,
+    lineHeight: 16,
   },
   footer: {
     alignItems: 'center',

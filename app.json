@@ -8,16 +8,13 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "scheme": "krezus",
-    "splash": {
-      "image": "./assets/splash-icon.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#0A0A0A"
-    },
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "com.krezus.app",
+      "buildNumber": "1",
       "infoPlist": {
-        "NSCameraUsageDescription": "Krezus utilise la caméra pour scanner les QR codes des coffrets cadeaux."
+        "NSCameraUsageDescription": "Krezus utilise la caméra pour scanner les QR codes des coffrets cadeaux.",
+        "ITSAppUsesNonExemptEncryption": false
       }
     },
     "android": {
@@ -42,6 +39,15 @@
       ]
     },
     "plugins": [
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash-icon.png",
+          "resizeMode": "contain",
+          "backgroundColor": "#0A0A0A",
+          "imageWidth": 220
+        }
+      ],
       "expo-secure-store",
       [
         "expo-camera",

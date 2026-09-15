@@ -20,6 +20,7 @@ import { formatMoney } from '../../utils/format';
 import { GlassCard } from '../../components/common/GlassCard';
 import { AnimatedNumber } from '../../components/common/AnimatedNumber';
 import { SkeletonLoader } from '../../components/common/SkeletonLoader';
+import { SimulationBadge } from '../../components/common/SimulationBadge';
 import { LineChart } from '../../components/charts/LineChart';
 import { TimePeriod, Position, ChartDataPoint } from '../../types';
 
@@ -190,9 +191,12 @@ export const HomeScreen = () => {
 
         {/* Hero Portfolio Card */}
         <GlassCard style={styles.heroCard}>
-          <Text style={[styles.portfolioLabel, { color: colors.textSecondary }]}>
-            Valeur du portefeuille
-          </Text>
+          <View style={styles.portfolioHeader}>
+            <Text style={[styles.portfolioLabel, { color: colors.textSecondary }]}>
+              Valeur du portefeuille
+            </Text>
+            <SimulationBadge />
+          </View>
           {refreshing ? (
             <SkeletonLoader width={200} height={40} />
           ) : (
@@ -410,9 +414,15 @@ const styles = StyleSheet.create({
     marginHorizontal: Spacing.md,
     marginBottom: Spacing.lg,
   },
+  portfolioHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: Spacing.sm,
+    marginBottom: Spacing.xs,
+  },
   portfolioLabel: {
     fontSize: FontSize.sm,
-    marginBottom: Spacing.xs,
   },
   portfolioValue: {
     fontSize: FontSize.xxxl,

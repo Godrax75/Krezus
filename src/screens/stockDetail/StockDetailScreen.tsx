@@ -18,6 +18,7 @@ import { getStockChart, getStockNews } from '../../services';
 import { formatMoney } from '../../utils/format';
 import { GlassCard } from '../../components/common/GlassCard';
 import { SkeletonLoader } from '../../components/common/SkeletonLoader';
+import { SimulationBadge } from '../../components/common/SimulationBadge';
 import { LineChart } from '../../components/charts/LineChart';
 import { TimePeriod, ChartDataPoint, NewsArticle } from '../../types';
 
@@ -223,7 +224,12 @@ export const StockDetailScreen = () => {
         {/* Position */}
         {position && (
           <View style={styles.section}>
-            <Text style={[styles.sectionTitle, { color: colors.text }]}>Votre position</Text>
+            <View style={styles.sectionHeader}>
+              <Text style={[styles.sectionTitle, styles.sectionTitleInline, { color: colors.text }]}>
+                Votre position
+              </Text>
+              <SimulationBadge label="Simulé" />
+            </View>
             <GlassCard>
               <View style={styles.positionRow}>
                 <Text style={[styles.positionLabel, { color: colors.textSecondary }]}>
@@ -336,6 +342,15 @@ export const StockDetailScreen = () => {
                 );
               })}
         </View>
+
+        {/* Avertissement réglementaire */}
+        <View style={styles.section}>
+          <Text style={[styles.disclaimer, { color: colors.textTertiary }]}>
+            Cours différés d&apos;environ 15 minutes, fournis à titre indicatif. Votre
+            position est simulée : aucun titre n&apos;est réellement détenu. Les
+            performances passées ne préjugent pas des performances futures.
+          </Text>
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
@@ -429,10 +444,24 @@ const styles = StyleSheet.create({
     paddingHorizontal: Spacing.md,
     marginBottom: Spacing.lg,
   },
+  sectionHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: Spacing.sm,
+    marginBottom: Spacing.sm,
+  },
   sectionTitle: {
     fontSize: FontSize.lg,
     fontWeight: FontWeight.bold,
     marginBottom: Spacing.sm,
+  },
+  sectionTitleInline: {
+    marginBottom: 0,
+  },
+  disclaimer: {
+    fontSize: FontSize.xs,
+    lineHeight: 16,
   },
   description: {
     fontSize: FontSize.md,
