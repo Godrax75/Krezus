@@ -38,8 +38,9 @@ export function buildMarketsURL(limit = 100): string {
   url.searchParams.set("closed", "false");
   url.searchParams.set("limit", String(limit));
   // Les marchés les plus échangés sont les plus informatifs ; les marchés
-  // confidentiels ont des probabilités très bruitées.
-  url.searchParams.set("order", "volume");
+  // confidentiels ont des probabilités très bruitées. Gamma ignore
+  // `order=volume` (champ texte) sans erreur : seul `volumeNum` trie vraiment.
+  url.searchParams.set("order", "volumeNum");
   url.searchParams.set("ascending", "false");
   return url.toString();
 }

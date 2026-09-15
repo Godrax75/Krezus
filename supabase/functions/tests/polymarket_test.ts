@@ -26,7 +26,7 @@ Deno.test("buildMarketsURL ne demande que les marchés ouverts", () => {
   assertEquals(url.searchParams.get("active"), "true");
   assertEquals(url.searchParams.get("closed"), "false");
   assertEquals(url.searchParams.get("limit"), "50");
-  assertEquals(url.searchParams.get("order"), "volume");
+  assertEquals(url.searchParams.get("order"), "volumeNum");
 });
 
 Deno.test("parseProbability accepte les deux sérialisations de Gamma", () => {
