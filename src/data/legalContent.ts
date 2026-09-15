@@ -1,24 +1,30 @@
 /**
  * Textes légaux de l'application.
  *
- * ⚠️ AVANT PUBLICATION : les champs `COMPANY` marqués « À COMPLÉTER » doivent
- * être renseignés avec les informations réelles de l'éditeur. Les mentions
- * légales et la politique de confidentialité sont obligatoires (App Store
- * guideline 5.1.1, RGPD art. 13), et une URL publique de la politique de
- * confidentialité doit en plus être fournie dans App Store Connect.
+ * L'identité de l'éditeur provient de l'extrait Kbis du 30 août 2026.
+ *
+ * ⚠️ AVANT PUBLICATION : `COMPANY.supportEmail` reste à renseigner — une adresse
+ * de contact est obligatoire dans les mentions légales, et App Store Connect
+ * exige en plus une URL publique de la politique de confidentialité.
  *
  * Ces textes décrivent l'app telle qu'elle fonctionne aujourd'hui :
  * portefeuille simulé et données stockées uniquement sur l'appareil. Ils
  * devront être revus quand le backend arrivera (comptes serveur, sous-traitants).
  */
 
+/** Identité de l'éditeur, telle qu'inscrite au RCS (extrait Kbis du 30/08/2026). */
 export const COMPANY = {
-  legalName: '[À COMPLÉTER — raison sociale]',
-  legalForm: '[À COMPLÉTER — forme juridique et capital social]',
-  registration: '[À COMPLÉTER — RCS et numéro SIREN]',
-  address: '[À COMPLÉTER — adresse du siège social]',
-  publicationDirector: '[À COMPLÉTER — nom du directeur de la publication]',
-  host: '[À COMPLÉTER — hébergeur et son adresse]',
+  legalName: 'Krezus',
+  legalForm: 'Société par actions simplifiée à associé unique au capital de 1 000 €',
+  registration: 'RCS Paris 999 390 917 — EUID FR7501.999390917',
+  address: '24 rue des Bergers, 75015 Paris, France',
+  publicationDirector: 'Louis Godron, président',
+  host:
+    "L'application est distribuée par Apple Distribution International Ltd. (Irlande) via " +
+    "l'App Store et par Google Ireland Ltd. via Google Play. Dans la version actuelle, les " +
+    "données de compte sont stockées uniquement sur l'appareil de l'utilisateur : aucun " +
+    "serveur d'hébergement n'est opéré par l'éditeur. Les cours et actualités sont fournis " +
+    "par un prestataire de données de marché tiers.",
   /** Renseigner pour activer « Contacter le support » dans le profil. */
   supportEmail: '[À COMPLÉTER — adresse e-mail de contact]',
 };
@@ -27,6 +33,15 @@ export const COMPANY = {
 export function isConfigured(value: string): boolean {
   return !value.startsWith('[À COMPLÉTER');
 }
+
+/**
+ * Coordonnées de contact affichées dans les textes.
+ * Tant qu'aucune adresse e-mail n'est renseignée, on bascule sur l'adresse
+ * postale : un marqueur « À COMPLÉTER » ne doit jamais s'afficher à l'écran.
+ */
+const CONTACT = isConfigured(COMPANY.supportEmail)
+  ? COMPANY.supportEmail
+  : `${COMPANY.legalName}, ${COMPANY.address}`;
 
 export interface LegalSection {
   heading: string;
@@ -119,8 +134,9 @@ export const LEGAL_DOCUMENTS: Record<LegalDocumentId, LegalDocument> = {
     sections: [
       {
         heading: 'Responsable du traitement',
-        body: COMPANY.legalName + ', ' + COMPANY.address +
-          ". Pour toute question relative à vos données : " + COMPANY.supportEmail + '.',
+        body: COMPANY.legalName + ', ' + COMPANY.legalForm + ', ' + COMPANY.address +
+          ' (' + COMPANY.registration + ').\nPour toute question relative à vos données : ' +
+          CONTACT + '.',
       },
       {
         heading: 'Données collectées',
@@ -155,7 +171,7 @@ export const LEGAL_DOCUMENTS: Record<LegalDocumentId, LegalDocument> = {
         heading: 'Vos droits',
         body: "Conformément au RGPD, vous disposez d'un droit d'accès, de rectification, d'effacement, de " +
           "limitation, d'opposition et de portabilité. Le droit d'effacement s'exerce directement depuis l'écran " +
-          "Profil (« Supprimer mon compte »). Pour les autres droits, écrivez à " + COMPANY.supportEmail +
+          "Profil (« Supprimer mon compte »). Pour les autres droits, écrivez à " + CONTACT +
           ". Vous pouvez également introduire une réclamation auprès de la CNIL.",
       },
       {
@@ -184,7 +200,7 @@ export const LEGAL_DOCUMENTS: Record<LegalDocumentId, LegalDocument> = {
       },
       {
         heading: 'Contact',
-        body: COMPANY.supportEmail,
+        body: CONTACT,
       },
       {
         heading: 'Données de marché',
