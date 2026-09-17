@@ -5254,19 +5254,36 @@
         }
       }
     },
+    "onboarding.0.badge": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Découvrir"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Discover"
+          }
+        }
+      }
+    },
     "onboarding.0.body": {
       "extractionState": "manual",
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Tu démarres avec 1 000 € fictifs sur de vraies actions, aux vrais cours. Tout se joue comme en réel — sauf les conséquences."
+            "value": "Apprends, pratique et progresse avec ta communauté."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "You start with €1,000 in paper money on real stocks, at real prices. Everything plays out like the real thing — except the consequences."
+            "value": "Learn, practise and progress alongside your community."
           }
         }
       }
@@ -5277,13 +5294,30 @@
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Investis sans risquer un euro"
+            "value": "L'investissement, ça s'apprend."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Invest without risking a cent"
+            "value": "Investing is a skill you learn."
+          }
+        }
+      }
+    },
+    "onboarding.1.badge": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Forum"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Forum"
           }
         }
       }
@@ -5294,13 +5328,13 @@
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "27 leçons de deux minutes, un quiz après chacune, et Hercule pour t'expliquer un ratio ou un secteur quand tu bloques."
+            "value": "Échange avec une communauté qui apprend avec toi."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "27 two-minute lessons, a quiz after each one, and Hercule to explain a ratio or a sector whenever you get stuck."
+            "value": "Talk with a community that learns with you."
           }
         }
       }
@@ -5311,13 +5345,30 @@
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Comprends ce que tu achètes"
+            "value": "Partage tes idées, élargis ta vision."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Understand what you're buying"
+            "value": "Share your ideas, widen your view."
+          }
+        }
+      }
+    },
+    "onboarding.2.badge": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Academy"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Academy"
           }
         }
       }
@@ -5328,13 +5379,13 @@
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Du Plébéien à l'Empereur : six rangs à gravir, une série quotidienne à tenir, et une Arena où comparer ta progression à celle de tes amis."
+            "value": "Des leçons et des quiz pour apprendre à investir."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "From Plebeian to Emperor: six ranks to climb, a daily streak to keep, and an Arena to compare your progress with your friends'."
+            "value": "Lessons and quizzes to learn how to invest."
           }
         }
       }
@@ -5345,81 +5396,115 @@
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Progresse avec les autres"
+            "value": "Les bons réflexes commencent ici."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Progress alongside others"
+            "value": "Good habits start here."
           }
         }
       }
     },
-    "onboarding.mode.paper_detail": {
+    "onboarding.3.badge": {
       "extractionState": "manual",
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "%@ fictifs · vrais cours · aucun risque"
+            "value": "Oracle"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "%@ in paper money · real prices · no risk"
+            "value": "Oracle"
           }
         }
       }
     },
-    "onboarding.mode.real_detail": {
+    "onboarding.3.body": {
       "extractionState": "manual",
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Nécessite un partenariat courtier agréé — bientôt disponible"
+            "value": "Ton coach IA pour progresser à ton rythme."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Requires a licensed broker partnership — coming soon"
+            "value": "Your AI coach, to progress at your own pace."
           }
         }
       }
     },
-    "onboarding.mode.subtitle": {
+    "onboarding.3.title": {
       "extractionState": "manual",
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Un seul est ouvert en v1 — et c'est celui qui permet de se tromper."
+            "value": "Comprends mieux tes décisions."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Only one is open in v1 — the one where you're allowed to get it wrong."
+            "value": "Understand your decisions better."
           }
         }
       }
     },
-    "onboarding.mode.title": {
+    "onboarding.4.badge": {
       "extractionState": "manual",
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Choisis ton mode"
+            "value": "Arena"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Choose your mode"
+            "value": "Arena"
+          }
+        }
+      }
+    },
+    "onboarding.4.body": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Un portefeuille virtuel pour tester tes stratégies."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A paper portfolio to test your strategies."
+          }
+        }
+      }
+    },
+    "onboarding.4.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Entraîne-toi, prends confiance."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Practise, and build confidence."
           }
         }
       }
@@ -7793,13 +7878,13 @@
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Les trois écrans d'introduction"
+            "value": "Les cinq écrans d'introduction"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "The three intro screens"
+            "value": "The five intro screens"
           }
         }
       }

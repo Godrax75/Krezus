@@ -768,7 +768,7 @@ add({
         "The change applies immediately, lessons and company profiles included."),
     "settings.discovery":                ("Découverte", "Discovery"),
     "settings.replay_onboarding":        ("Revoir la présentation", "Replay the intro"),
-    "settings.replay_onboarding_detail": ("Les trois écrans d'introduction", "The three intro screens"),
+    "settings.replay_onboarding_detail": ("Les cinq écrans d'introduction", "The five intro screens"),
     "settings.replay_toast": ("La présentation s'affichera au prochain lancement",
                               "The intro will show on next launch"),
 })
@@ -1035,33 +1035,34 @@ add({
 add({
     "onboarding.skip":  ("Passer", "Skip"),
     "onboarding.start": ("Commencer en virtuel", "Start in paper mode"),
-    "onboarding.0.title": ("Investis sans risquer un euro", "Invest without risking a cent"),
+    # Ces cinq titres ne s'affichent plus : le texte est peint dans les
+    # illustrations. Ils restent la seule description que VoiceOver puisse lire
+    # de ces écrans, et la seule trace en anglais de ce qu'ils racontent.
+    "onboarding.0.badge": ("Découvrir", "Discover"),
+    "onboarding.1.badge": ("Forum", "Forum"),
+    "onboarding.2.badge": ("Academy", "Academy"),
+    "onboarding.3.badge": ("Oracle", "Oracle"),
+    "onboarding.4.badge": ("Arena", "Arena"),
+    "onboarding.0.title": ("L'investissement, ça s'apprend.", "Investing is a skill you learn."),
     "onboarding.0.body": (
-        "Tu démarres avec 1 000 € fictifs sur de vraies actions, aux vrais cours. "
-        "Tout se joue comme en réel — sauf les conséquences.",
-        "You start with €1,000 in paper money on real stocks, at real prices. "
-        "Everything plays out like the real thing — except the consequences."),
-    "onboarding.1.title": ("Comprends ce que tu achètes", "Understand what you're buying"),
+        "Apprends, pratique et progresse avec ta communauté.",
+        "Learn, practise and progress alongside your community."),
+    "onboarding.1.title": ("Partage tes idées, élargis ta vision.", "Share your ideas, widen your view."),
     "onboarding.1.body": (
-        "27 leçons de deux minutes, un quiz après chacune, et Hercule pour "
-        "t'expliquer un ratio ou un secteur quand tu bloques.",
-        "27 two-minute lessons, a quiz after each one, and Hercule to explain a "
-        "ratio or a sector whenever you get stuck."),
-    "onboarding.2.title": ("Progresse avec les autres", "Progress alongside others"),
+        "Échange avec une communauté qui apprend avec toi.",
+        "Talk with a community that learns with you."),
+    "onboarding.2.title": ("Les bons réflexes commencent ici.", "Good habits start here."),
     "onboarding.2.body": (
-        "Du Plébéien à l'Empereur : six rangs à gravir, une série quotidienne à "
-        "tenir, et une Arena où comparer ta progression à celle de tes amis.",
-        "From Plebeian to Emperor: six ranks to climb, a daily streak to keep, and "
-        "an Arena to compare your progress with your friends'."),
-    "onboarding.mode.title":    ("Choisis ton mode", "Choose your mode"),
-    "onboarding.mode.subtitle": (
-        "Un seul est ouvert en v1 — et c'est celui qui permet de se tromper.",
-        "Only one is open in v1 — the one where you're allowed to get it wrong."),
-    "onboarding.mode.paper_detail": ("%@ fictifs · vrais cours · aucun risque",
-                                     "%@ in paper money · real prices · no risk"),
-    "onboarding.mode.real_detail": (
-        "Nécessite un partenariat courtier agréé — bientôt disponible",
-        "Requires a licensed broker partnership — coming soon"),
+        "Des leçons et des quiz pour apprendre à investir.",
+        "Lessons and quizzes to learn how to invest."),
+    "onboarding.3.title": ("Comprends mieux tes décisions.", "Understand your decisions better."),
+    "onboarding.3.body": (
+        "Ton coach IA pour progresser à ton rythme.",
+        "Your AI coach, to progress at your own pace."),
+    "onboarding.4.title": ("Entraîne-toi, prends confiance.", "Practise, and build confidence."),
+    "onboarding.4.body": (
+        "Un portefeuille virtuel pour tester tes stratégies.",
+        "A paper portfolio to test your strategies."),
     "signin.tagline":    ("Apprends à investir sans risque.", "Learn to invest, risk-free."),
     "signin.google":     ("Continuer avec Google", "Continue with Google"),
     "signin.paper_note": ("Argent 100 % fictif · aucune transaction réelle",
