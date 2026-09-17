@@ -4036,13 +4036,13 @@
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "https://krezus.app/confidentialite"
+            "value": "https://krezus-card.com/privacypolicy"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "https://krezus.app/privacy"
+            "value": "https://krezus-card.com/privacypolicy"
           }
         }
       }
@@ -4070,13 +4070,13 @@
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "https://krezus.app/cgu"
+            "value": "https://krezus-card.com/cgv"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "https://krezus.app/terms"
+            "value": "https://krezus-card.com/cgv"
           }
         }
       }

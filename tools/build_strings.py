@@ -620,9 +620,9 @@ add({
         "Krezus uses paper money. The subscription gives access to educational "
         "content, not to an investment service."),
     "legal.terms":       ("Conditions d'utilisation", "Terms of use"),
-    "legal.terms_url":   ("https://krezus.app/cgu", "https://krezus.app/terms"),
+    "legal.terms_url":   ("https://krezus-card.com/cgv", "https://krezus-card.com/cgv"),
     "legal.privacy":     ("Confidentialité", "Privacy"),
-    "legal.privacy_url": ("https://krezus.app/confidentialite", "https://krezus.app/privacy"),
+    "legal.privacy_url": ("https://krezus-card.com/privacypolicy", "https://krezus-card.com/privacypolicy"),
     "storekit.error.product_missing": ("Produit introuvable. Vérifie la configuration StoreKit.",
                                        "Product not found. Check the StoreKit configuration."),
     "storekit.error.unverified":      ("Transaction non vérifiée.", "Unverified transaction."),
