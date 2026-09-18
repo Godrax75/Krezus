@@ -193,3 +193,34 @@ struct KrzSectionTitle: View {
         .padding(.top, 4)
     }
 }
+
+// MARK: - Hercule
+
+/// Portrait d'Hercule, le coach IA, dans sa pastille. Partout où il parle —
+/// bouton flottant, chat, abonnement, conseil de l'accueil — pour qu'il ait
+/// partout le même visage.
+///
+/// Le portrait remplit le cercle, cadré sur le visage : réduit au centre
+/// d'une pastille, comme l'ancienne tête de mascotte, il deviendrait
+/// illisible sous 40 points. Le fond est crème et non orange : le taureau
+/// est orange, il s'y fondrait.
+struct HerculeAvatar: View {
+    var size: CGFloat = 56
+    /// Liseré blanc, pour les pastilles posées sur un contenu qui défile.
+    var ring: Bool = false
+
+    var body: some View {
+        Image("hercule-avatar")
+            .resizable()
+            .scaledToFill()
+            .frame(width: size, height: size)
+            .background(
+                LinearGradient(colors: [Color(hex: 0xFFF6EC), Color(hex: 0xFFE3CC)],
+                               startPoint: .top, endPoint: .bottom))
+            .clipShape(Circle())
+            .overlay {
+                if ring { Circle().stroke(.white, lineWidth: 2.5) }
+            }
+            .accessibilityHidden(true)
+    }
+}

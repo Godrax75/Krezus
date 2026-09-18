@@ -267,11 +267,7 @@ struct HerculeFab: View {
 
     var body: some View {
         Button { router.cover = .hercule } label: {
-            Image("krezus-mascot").resizable().scaledToFit()
-                .frame(width: 34, height: 34)
-                .padding(11)
-                .background(KrezusColor.gradientAmber)
-                .clipShape(Circle())
+            HerculeAvatar(size: 58, ring: true)
                 .krezusShadow(KrezusShadow.brand)
         }
         .buttonStyle(.plain)

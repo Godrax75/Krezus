@@ -37,9 +37,7 @@ struct HomeScreen: View {
     private var herculeTip: some View {
         KrzCard(radius: KrezusRadius.lg, shadow: KrezusShadow.level2) {
             HStack(alignment: .top, spacing: 12) {
-                Circle().fill(KrezusColor.amberTint)
-                    .frame(width: 46, height: 46)
-                    .overlay(Image(systemName: "figure.wave").foregroundStyle(KrezusColor.amberText))
+                HerculeAvatar(size: 46)
                 VStack(alignment: .leading, spacing: 6) {
                     Text(t("home.hercule_tip.label"))
                         .font(KrezusFont.body(10, .bold)).tracking(0.8)

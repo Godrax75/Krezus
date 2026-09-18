@@ -30,11 +30,7 @@ struct HerculeChatScreen: View {
 
     private var header: some View {
         HStack(spacing: 11) {
-            Image("krezus-mascot").resizable().scaledToFit()
-                .frame(width: 34, height: 34)
-                .padding(7)
-                .background(KrezusColor.gradientAmber)
-                .clipShape(Circle())
+            HerculeAvatar(size: 48)
 
             VStack(alignment: .leading, spacing: 1) {
                 Text("Hercule").font(KrezusFont.display(17, .heavy))

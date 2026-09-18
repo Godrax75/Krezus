@@ -60,11 +60,7 @@ struct PaywallScreen: View {
 
     private var hero: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Image("krezus-mascot").resizable().scaledToFit()
-                .frame(width: 54, height: 54)
-                .padding(12)
-                .background(KrezusColor.gradientAmber)
-                .clipShape(Circle())
+            HerculeAvatar(size: 78)
                 .krezusShadow(KrezusShadow.brand)
 
             Text(t("paywall.title"))
