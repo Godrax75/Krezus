@@ -26,6 +26,7 @@ tests/
   00_auth_stub.sql       stub des rôles + schéma auth pour tester sur Postgres nu
   paper_engine_test.sql  6 tests d'assertion du moteur d'ordres
   market_data_test.sql   5 tests de conversion de devise
+  profile_privileges_test.sql  privilèges colonne sur profiles (0017)
 ```
 
 ## Tester le moteur d'ordres en local (sans compte Supabase)
@@ -39,6 +40,20 @@ applique le schéma + le moteur, et lance les assertions :
 
 Couvre : achat à parts fractionnées, coût moyen pondéré, fonds insuffisants (rejet + état
 inchangé), cotation périmée rejetée, vente 50 %/100 %, reset.
+
+## Tester les privilèges du profil
+
+```bash
+./tools/run_profile_privileges_tests.sh
+```
+
+Vérifie les deux moitiés de `0017_profile_column_privileges.sql` : un client
+`authenticated` ne peut plus écrire `premium_until`, `xp`, `rank_level` ni
+`streak_*` sur sa propre ligne (42501), et les fonctions `security definer` qui
+les alimentent — `award_xp`, `touch_streak`, `record_hercule_subscription`,
+`complete_lesson`, `record_hercule_exchange`, `handle_new_user`,
+`delete_own_account` — continuent de fonctionner. La suite est jouée deux fois,
+avec et sans la colonne `avatar_updated_at` de `0016_avatars.sql`.
 
 ## Déployer sur un vrai projet Supabase (région EU)
 
