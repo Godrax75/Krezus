@@ -94,6 +94,16 @@ struct RootView: View {
                 .frame(maxWidth: .infinity, alignment: .trailing)
         }
         .toolbar(.hidden, for: .navigationBar)
+        .sheet(isPresented: Binding(
+            get: { store.freshBonusCents != nil },
+            set: { if !$0 { store.freshBonusCents = nil } })) {
+            WeeklyBonusSheet(cents: store.freshBonusCents ?? WeeklyBonus.weeklyCents,
+                             nextDate: store.nextBonusDate) {
+                store.freshBonusCents = nil
+            }
+            .presentationDetents([.medium, .large])
+            .presentationDragIndicator(.visible)
+        }
     }
 
     @ViewBuilder

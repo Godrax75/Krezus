@@ -188,6 +188,12 @@ final class TradingStore {
 
     private var ticker: Timer?
 
+    /// Versement hebdomadaire tout juste reçu, en centimes : l'app le fête
+    /// puis le remet à nil.
+    var freshBonusCents: Int?
+    /// Date du prochain versement (lundi, heure de Paris).
+    private(set) var nextBonusDate: Date = WeeklyBonus.nextMonday()
+
     // Mode serveur
     private let portfolioRepo = PortfolioRepository()
     private let securitiesRepo = SecuritiesRepository()
@@ -205,7 +211,20 @@ final class TradingStore {
         self.userID = userID
         source = .server
         await reload()
+        await claimWeeklyBonus()
         restartTicker()
+    }
+
+    /// Réclame le versement de la semaine — à la connexion, et à chaque
+    /// retour au premier plan : l'app laissée ouverte depuis dimanche doit
+    /// verser le lundi. Sans effet côté serveur si c'est déjà fait.
+    func claimWeeklyBonus() async {
+        guard source == .server else { return }
+        guard let claim = try? await portfolioRepo.claimWeeklyBonus() else { return }
+        if let next = WeeklyBonus.parseDay(claim.nextWeekStart) { nextBonusDate = next }
+        guard claim.creditedCents > 0 else { return }
+        await reload()
+        freshBonusCents = claim.creditedCents
     }
 
     /// Repasse en démo — déconnexion, ou app non configurée.

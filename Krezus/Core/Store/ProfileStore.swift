@@ -17,6 +17,11 @@ final class ProfileStore {
     private(set) var memberSince: Date = Calendar.current.date(
         byAdding: .day, value: -34, to: Date()) ?? Date()
 
+    /// Le compte a-t-il choisi son pseudo ? Tant qu'on ne le sait pas, on
+    /// attend ; un compte sans pseudo passe par l'accueil avant l'app.
+    enum Setup: Equatable { case unknown, needed, done }
+    private(set) var setup: Setup = .unknown
+
     private(set) var isSaving = false
     private(set) var lastError: String?
 
@@ -42,10 +47,19 @@ final class ProfileStore {
         guard AppConfig.isConfigured, let userID else {
             // Mode démo : la photo ne vit que sur l'appareil.
             if avatar == nil { avatar = AvatarCache.loadDemo() }
+            setup = userID == nil ? .unknown : .done
             return
         }
-        guard let profile = try? await repository.fetch(userID: userID) else { return }
+        guard let profile = try? await repository.fetch(userID: userID) else {
+            // Sans réseau, on n'enferme pas l'utilisateur dans l'accueil :
+            // il le reverra au prochain lancement si le pseudo manque.
+            if setup == .unknown { setup = .done }
+            return
+        }
         apply(profile)
+        // L'accueil en cours ne se referme pas sous les pieds de
+        // l'utilisateur quand son pseudo vient d'être enregistré.
+        if setup != .needed { setup = profile.username == nil ? .needed : .done }
         await loadAvatar(userID: userID, version: profile.avatarUpdatedAt)
     }
 
@@ -135,7 +149,10 @@ final class ProfileStore {
         let trimmed = raw.trimmingCharacters(in: .whitespaces)
         if trimmed.count < 3 { return .tooShort }
         if trimmed.count > 20 { return .tooLong }
-        let allowed = CharacterSet.alphanumerics.union(CharacterSet(charactersIn: "-_"))
+        // Même règle que `is_valid_username` (0021) : ASCII seulement, un
+        // « é » ou un chiffre arabe passeraient `alphanumerics`, pas le serveur.
+        let allowed = CharacterSet(charactersIn:
+            "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_.")
         if trimmed.unicodeScalars.contains(where: { !allowed.contains($0) }) {
             return .invalidCharacters
         }
@@ -152,9 +169,39 @@ final class ProfileStore {
         defer { isSaving = false }
 
         if AppConfig.isConfigured, let userID {
-            try await repository.updateUsername(userID: userID, username: trimmed)
+            try await repository.setIdentity(firstName: nil, username: trimmed)
         }
         username = trimmed
         lastError = nil
     }
+
+    // MARK: Accueil
+
+    /// Disponibilité d'un pseudo : `nil` si le serveur n'a pas répondu (ou en
+    /// démo), auquel cas c'est l'enregistrement qui tranchera.
+    func isUsernameAvailable(_ raw: String) async -> Bool? {
+        let trimmed = raw.trimmingCharacters(in: .whitespaces)
+        guard Self.validate(trimmed) == nil else { return false }
+        guard AppConfig.isConfigured else { return nil }
+        return try? await repository.isUsernameAvailable(trimmed)
+    }
+
+    /// Prénom et pseudo choisis à l'accueil.
+    func saveIdentity(firstName raw: String, username rawUsername: String, userID: UUID?) async throws {
+        let trimmed = rawUsername.trimmingCharacters(in: .whitespaces)
+        if let error = Self.validate(trimmed) { throw error }
+        let first = raw.trimmingCharacters(in: .whitespacesAndNewlines)
+
+        isSaving = true
+        defer { isSaving = false }
+
+        if AppConfig.isConfigured, userID != nil {
+            try await repository.setIdentity(firstName: first.isEmpty ? nil : first, username: trimmed)
+        }
+        username = trimmed
+        if !first.isEmpty { firstName = first }
+    }
+
+    /// Fin de l'accueil : l'app s'ouvre.
+    func finishSetup() { setup = .done }
 }

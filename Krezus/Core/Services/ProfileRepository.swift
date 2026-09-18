@@ -26,13 +26,33 @@ struct ProfileRepository {
             .execute()
     }
 
-    func updateUsername(userID: UUID, username: String) async throws {
+    /// Pseudo, et prénom s'il est donné (sinon inchangé), par
+    /// `set_profile_identity` : c'est elle qui tranche l'unicité (KR080).
+    func setIdentity(firstName: String?, username: String) async throws {
         let client = try SupabaseService.shared.requireClient()
-        try await client
-            .from("profiles")
-            .update(["username": username])
-            .eq("id", value: userID)
-            .execute()
+        do {
+            try await client
+                .rpc("set_profile_identity", params: [
+                    "p_first_name": firstName.map(AnyJSON.string) ?? .null,
+                    "p_username": .string(username),
+                ])
+                .execute()
+        } catch {
+            throw mapPostgrestError(error)
+        }
+    }
+
+    /// Libre, ou déjà le sien. Faux aussi pour un format invalide.
+    func isUsernameAvailable(_ username: String) async throws -> Bool {
+        let client = try SupabaseService.shared.requireClient()
+        do {
+            return try await client
+                .rpc("username_available", params: ["p_username": username])
+                .execute()
+                .value
+        } catch {
+            throw mapPostgrestError(error)
+        }
     }
 
     // MARK: Photo de profil

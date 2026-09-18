@@ -744,8 +744,8 @@ add({
     "username.toast_saved":            ("Pseudo mis à jour", "Username updated"),
     "username.error.too_short":        ("Au moins 3 caractères.", "At least 3 characters."),
     "username.error.too_long":         ("20 caractères maximum.", "20 characters maximum."),
-    "username.error.invalid_characters": ("Lettres, chiffres, tiret et tiret bas uniquement.",
-                                          "Letters, digits, hyphen and underscore only."),
+    "username.error.invalid_characters": ("Lettres sans accent, chiffres, point, tiret et tiret bas uniquement.",
+                                          "Letters, digits, dot, hyphen and underscore only."),
 })
 
 add({
@@ -1323,6 +1323,58 @@ LANGUAGES = ("fr", "en")
 
 # Familles de clés assemblées à l'exécution : le vérificateur ne peut pas les
 # lire dans le code, on les déclare ici pour qu'une clé manquante se voie.
+# ------------------------------------------------ Accueil d'un nouveau compte
+
+add({
+    "common.next": ("Suivant", "Next"),
+    "username.error.taken": ("Ce pseudo est déjà pris.", "This username is already taken."),
+    "welcome.identity.title_1": ("COMMENT ON", "WHAT SHOULD"),
+    "welcome.identity.title_2": ("T'APPELLE ?", "WE CALL YOU?"),
+    "welcome.identity.photo": ("Choisir une photo de profil", "Choose a profile picture"),
+    "welcome.identity.photo_hint": ("Ajoute une photo, ou garde ton initiale.",
+                                    "Add a photo, or keep your initial."),
+    "welcome.identity.first_name": ("Prénom", "First name"),
+    "welcome.identity.first_name_placeholder": ("Ton prénom", "Your first name"),
+    "welcome.identity.username": ("Pseudo", "Username"),
+    "welcome.identity.username_public": ("Visible au classement", "Shown on the leaderboard"),
+    "welcome.identity.username_placeholder": ("ton.pseudo", "your.username"),
+    "welcome.identity.available": ("dispo", "available"),
+    "welcome.identity.taken": ("pris", "taken"),
+    "welcome.identity.invited": ("Invité par un ami ?", "Invited by a friend?"),
+    "welcome.identity.referral": ("Code de parrainage", "Invite code"),
+    "welcome.gift.title": ("On a un cadeau pour toi", "We have a gift for you"),
+    "welcome.gift.tap": ("Appuie pour ouvrir", "Tap to open"),
+    "welcome.gift.ready": ("1 000 € rien que pour toi !", "€1,000 just for you!"),
+    "welcome.gift.body": (
+        "De l'argent fictif pour investir en conditions réelles : de vraies actions, "
+        "au vrai cours, sans rien risquer.",
+        "Paper money to invest for real: real stocks, at real prices, with nothing at risk."),
+    "welcome.weekly.title_1": ("ET CHAQUE SEMAINE,", "AND EVERY WEEK,"),
+    "welcome.weekly.title_2": ("+300 € EN PLUS", "+€300 MORE"),
+    "welcome.weekly.week_short": ("SEM. %d", "WK %d"),
+    "welcome.weekly.in_a_month": ("Dans un mois", "In a month"),
+    "welcome.weekly.a11y_timeline": (
+        "Quatre semaines, 300 euros chacune : 2 200 euros au bout d'un mois.",
+        "Four weeks, 300 euros each: 2,200 euros after a month."),
+    "welcome.weekly.rule_login": (
+        "Ouvre Krezus au moins une fois par semaine : 300 € sont versés à ton premier passage, dès le lundi.",
+        "Open Krezus at least once a week: €300 lands on your first visit, from Monday on."),
+    "welcome.weekly.rule_lost": (
+        "Une semaine sans passage, et ses 300 € sont perdus : ils ne se cumulent pas.",
+        "Skip a week and its €300 is gone: it doesn't carry over."),
+    "welcome.weekly.rule_perf": (
+        "Ces versements ne comptent pas comme des gains : au classement, seule ta performance compte.",
+        "These top-ups don't count as gains: on the leaderboard, only your performance counts."),
+    "welcome.weekly.start": ("C'est parti", "Let's go"),
+    "weekly_bonus.title": ("Ton versement de la semaine", "Your weekly top-up"),
+    "weekly_bonus.body": (
+        "300 € de plus à investir. Prochain versement %@ : reviens le chercher !",
+        "€300 more to invest. Next top-up %@ — come back for it!"),
+    "weekly_bonus.cta": ("Super !", "Great!"),
+    "home.weekly_bonus": ("+300 € chaque semaine · prochain versement %@",
+                          "+€300 every week · next top-up %@"),
+})
+
 DYNAMIC_FAMILIES = (
     "locked.", "mission.", "coach.advice.", "coach.axis.", "help.faq.",
     "onboarding.", "archetype.", "hercule.answer.", "country.", "dna.",

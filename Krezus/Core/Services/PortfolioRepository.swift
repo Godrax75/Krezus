@@ -42,6 +42,33 @@ struct PortfolioRepository {
             .value
     }
 
+    // MARK: Versement hebdomadaire (0021)
+
+    struct WeeklyBonusClaim: Decodable, Sendable {
+        /// 30 000 au premier passage de la semaine, 0 ensuite.
+        let creditedCents: Int
+        /// Lundi du prochain versement, heure de Paris (« 2026-09-21 »).
+        let nextWeekStart: String
+
+        enum CodingKeys: String, CodingKey {
+            case creditedCents = "credited_cents"
+            case nextWeekStart = "next_week_start"
+        }
+    }
+
+    /// Réclame le versement de la semaine. Idempotent : le serveur ne verse
+    /// qu'une fois par semaine, quel que soit le nombre d'appels.
+    func claimWeeklyBonus() async throws -> WeeklyBonusClaim {
+        let client = try SupabaseService.shared.requireClient()
+        do {
+            let rows: [WeeklyBonusClaim] = try await client.rpc("claim_weekly_bonus").execute().value
+            guard let claim = rows.first else { throw KrezusError.notFound }
+            return claim
+        } catch {
+            throw mapPostgrestError(error)
+        }
+    }
+
     // MARK: Ordres (RPC)
 
     /// Achat pour un montant (centimes). Renvoie l'ordre exécuté.

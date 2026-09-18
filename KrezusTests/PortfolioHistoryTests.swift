@@ -111,4 +111,48 @@ struct PortfolioHistoryTests {
         #expect(PortfolioHistory.toEuros(110, currency: "EUR", rate: 1.1) == 110)
         #expect(PortfolioHistory.toEuros(110, currency: "USD", rate: nil) == nil)
     }
+
+    // MARK: Versements hebdomadaires
+
+    private static func deposit(cents: Int, at date: Date) -> PortfolioDeposit {
+        let json = """
+        {"amount_cents":\(cents),"created_at":"\(ISO8601DateFormatter().string(from: date))"}
+        """
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+        return try! decoder.decode(PortfolioDeposit.self, from: Data(json.utf8))
+    }
+
+    @Test func unVersementEntreDansLaValeurEtDansLeCumul() {
+        // 500 € d'un titre à 50 € le 1er, 300 € versés le 2 : la valeur
+        // monte de 300 €, le cumul des versements aussi.
+        let orders = [Self.order("AI", "buy", cents: 50_000, qty: 10, at: Self.at(1, 10))]
+        let closes = ["AI": [DatedValue(date: Self.at(1), value: 50),
+                             DatedValue(date: Self.at(2), value: 50),
+                             DatedValue(date: Self.at(3), value: 55)]]
+        let points = PortfolioHistory.daily(
+            orders: orders, deposits: [Self.deposit(cents: 30_000, at: Self.at(2, 9))],
+            closes: closes, currencies: ["AI": "EUR"], eurUsd: [], fallbackEurUsd: nil,
+            inception: Self.at(1, 8), now: Self.at(4, 12))
+        #expect(points.map(\.valueCents) == [100_000, 100_000, 130_000, 135_000])
+        #expect(points.map(\.depositedCents) == [0, 0, 30_000, 30_000])
+    }
+
+    @Test func leGainDUnePeriodeNeCompteNiLeVersementNiNeLeRateDansLaBase() {
+        // 1 000 € au départ, 1 350 € à l'arrivée dont 300 € versés :
+        // 50 € de gain, rapportés à 1 300 €.
+        let points = [PortfolioPoint(date: Self.at(1), valueCents: 100_000),
+                      PortfolioPoint(date: Self.at(3), valueCents: 135_000, depositedCents: 30_000)]
+        let summary = PerformanceSummary(points: points, selectedDate: nil)
+        #expect(summary.gainCents == 5_000)
+        #expect(abs(summary.gainPct - 5_000.0 / 130_000 * 100) < 1e-9)
+    }
+
+    @Test func unVersementAnterieurALaPeriodeNEstPasRetireDeuxFois() {
+        let points = [PortfolioPoint(date: Self.at(1), valueCents: 130_000, depositedCents: 30_000),
+                      PortfolioPoint(date: Self.at(3), valueCents: 132_600, depositedCents: 30_000)]
+        let summary = PerformanceSummary(points: points, selectedDate: nil)
+        #expect(summary.gainCents == 2_600)
+        #expect(abs(summary.gainPct - 2.0) < 1e-9)
+    }
 }

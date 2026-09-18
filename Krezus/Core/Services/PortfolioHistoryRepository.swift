@@ -12,12 +12,14 @@ struct PortfolioHistoryRepository {
     struct DailySource: Sendable {
         let inception: Date
         let orders: [PortfolioOrder]
+        let deposits: [PortfolioDeposit]
         let closes: [String: [DatedValue]]
         let currencies: [String: String]
         let eurUsd: [DatedValue]
         let fallbackEurUsd: Double?
 
         var symbols: [String] { Array(Set(orders.map(\.symbol))).sorted() }
+        var depositedCents: Int { deposits.reduce(0) { $0 + $1.amountCents } }
     }
 
     /// PostgREST plafonne une réponse à 1 000 lignes. Trois titres suivis un an
@@ -49,9 +51,20 @@ struct PortfolioHistoryRepository {
             .execute()
             .value
 
+        // Les versements hebdomadaires (0021). Une base qui ne les connaît
+        // pas encore n'a simplement pas de versement à rejouer.
+        let deposits: [PortfolioDeposit] = (try? await client
+            .from("cash_deposits")
+            .select("amount_cents, created_at")
+            .eq("portfolio_id", value: meta.id)
+            .gte("created_at", value: since)
+            .order("created_at", ascending: true)
+            .execute()
+            .value) ?? []
+
         let symbols = Array(Set(orders.map(\.symbol)))
         guard !symbols.isEmpty else {
-            return DailySource(inception: inception, orders: [], closes: [:],
+            return DailySource(inception: inception, orders: [], deposits: deposits, closes: [:],
                                currencies: [:], eurUsd: [], fallbackEurUsd: nil)
         }
 
@@ -99,7 +112,7 @@ struct PortfolioHistoryRepository {
             fallback = try await MarketDataService.shared.fxRate()?.rate
         }
 
-        return DailySource(inception: inception, orders: orders, closes: closes,
+        return DailySource(inception: inception, orders: orders, deposits: deposits, closes: closes,
                            currencies: currencies, eurUsd: eurUsd, fallbackEurUsd: fallback)
     }
 

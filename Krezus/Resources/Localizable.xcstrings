@@ -3418,6 +3418,23 @@
         }
       }
     },
+    "common.next": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Suivant"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Next"
+          }
+        }
+      }
+    },
     "common.ok": {
       "extractionState": "manual",
       "localizations": {
@@ -5097,6 +5114,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Portfolio value"
+          }
+        }
+      }
+    },
+    "home.weekly_bonus": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "+300 € chaque semaine · prochain versement %@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "+€300 every week · next top-up %@"
           }
         }
       }
@@ -11074,13 +11108,30 @@
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Lettres, chiffres, tiret et tiret bas uniquement."
+            "value": "Lettres sans accent, chiffres, point, tiret et tiret bas uniquement."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Letters, digits, hyphen and underscore only."
+            "value": "Letters, digits, dot, hyphen and underscore only."
+          }
+        }
+      }
+    },
+    "username.error.taken": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ce pseudo est déjà pris."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This username is already taken."
           }
         }
       }
@@ -11200,6 +11251,499 @@
           "stringUnit": {
             "state": "translated",
             "value": "Username updated"
+          }
+        }
+      }
+    },
+    "weekly_bonus.body": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "300 € de plus à investir. Prochain versement %@ : reviens le chercher !"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "€300 more to invest. Next top-up %@ — come back for it!"
+          }
+        }
+      }
+    },
+    "weekly_bonus.cta": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Super !"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Great!"
+          }
+        }
+      }
+    },
+    "weekly_bonus.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ton versement de la semaine"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your weekly top-up"
+          }
+        }
+      }
+    },
+    "welcome.gift.body": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "De l'argent fictif pour investir en conditions réelles : de vraies actions, au vrai cours, sans rien risquer."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Paper money to invest for real: real stocks, at real prices, with nothing at risk."
+          }
+        }
+      }
+    },
+    "welcome.gift.ready": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 000 € rien que pour toi !"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "€1,000 just for you!"
+          }
+        }
+      }
+    },
+    "welcome.gift.tap": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Appuie pour ouvrir"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tap to open"
+          }
+        }
+      }
+    },
+    "welcome.gift.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "On a un cadeau pour toi"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "We have a gift for you"
+          }
+        }
+      }
+    },
+    "welcome.identity.available": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "dispo"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "available"
+          }
+        }
+      }
+    },
+    "welcome.identity.first_name": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prénom"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "First name"
+          }
+        }
+      }
+    },
+    "welcome.identity.first_name_placeholder": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ton prénom"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your first name"
+          }
+        }
+      }
+    },
+    "welcome.identity.invited": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Invité par un ami ?"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Invited by a friend?"
+          }
+        }
+      }
+    },
+    "welcome.identity.photo": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choisir une photo de profil"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose a profile picture"
+          }
+        }
+      }
+    },
+    "welcome.identity.photo_hint": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajoute une photo, ou garde ton initiale."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add a photo, or keep your initial."
+          }
+        }
+      }
+    },
+    "welcome.identity.referral": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Code de parrainage"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Invite code"
+          }
+        }
+      }
+    },
+    "welcome.identity.taken": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "pris"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "taken"
+          }
+        }
+      }
+    },
+    "welcome.identity.title_1": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "COMMENT ON"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "WHAT SHOULD"
+          }
+        }
+      }
+    },
+    "welcome.identity.title_2": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "T'APPELLE ?"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "WE CALL YOU?"
+          }
+        }
+      }
+    },
+    "welcome.identity.username": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pseudo"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Username"
+          }
+        }
+      }
+    },
+    "welcome.identity.username_placeholder": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ton.pseudo"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "your.username"
+          }
+        }
+      }
+    },
+    "welcome.identity.username_public": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Visible au classement"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Shown on the leaderboard"
+          }
+        }
+      }
+    },
+    "welcome.weekly.a11y_timeline": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quatre semaines, 300 euros chacune : 2 200 euros au bout d'un mois."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Four weeks, 300 euros each: 2,200 euros after a month."
+          }
+        }
+      }
+    },
+    "welcome.weekly.in_a_month": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dans un mois"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "In a month"
+          }
+        }
+      }
+    },
+    "welcome.weekly.rule_login": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ouvre Krezus au moins une fois par semaine : 300 € sont versés à ton premier passage, dès le lundi."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open Krezus at least once a week: €300 lands on your first visit, from Monday on."
+          }
+        }
+      }
+    },
+    "welcome.weekly.rule_lost": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Une semaine sans passage, et ses 300 € sont perdus : ils ne se cumulent pas."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Skip a week and its €300 is gone: it doesn't carry over."
+          }
+        }
+      }
+    },
+    "welcome.weekly.rule_perf": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ces versements ne comptent pas comme des gains : au classement, seule ta performance compte."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "These top-ups don't count as gains: on the leaderboard, only your performance counts."
+          }
+        }
+      }
+    },
+    "welcome.weekly.start": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "C'est parti"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Let's go"
+          }
+        }
+      }
+    },
+    "welcome.weekly.title_1": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ET CHAQUE SEMAINE,"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AND EVERY WEEK,"
+          }
+        }
+      }
+    },
+    "welcome.weekly.title_2": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "+300 € EN PLUS"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "+€300 MORE"
+          }
+        }
+      }
+    },
+    "welcome.weekly.week_short": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "SEM. %d"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "WK %d"
           }
         }
       }

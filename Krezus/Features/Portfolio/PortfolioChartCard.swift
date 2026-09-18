@@ -16,6 +16,8 @@ final class PortfolioHistoryModel {
     private(set) var intraday: [PortfolioPoint]?
     private(set) var isLoading = false
     private(set) var failed = false
+    /// Cumul des versements à ce jour, porté par le point en direct.
+    private(set) var depositedCents = 0
 
     private var source: PortfolioHistoryRepository.DailySource?
     private let repository = PortfolioHistoryRepository()
@@ -30,8 +32,9 @@ final class PortfolioHistoryModel {
         do {
             let source = try await repository.loadDaily(userID: userID)
             self.source = source
+            depositedCents = source.depositedCents
             daily = PortfolioHistory.daily(
-                orders: source.orders, closes: source.closes, currencies: source.currencies,
+                orders: source.orders, deposits: source.deposits, closes: source.closes, currencies: source.currencies,
                 eurUsd: source.eurUsd, fallbackEurUsd: source.fallbackEurUsd,
                 inception: source.inception, now: Date())
             intraday = nil
@@ -48,7 +51,7 @@ final class PortfolioHistoryModel {
         do {
             let prices = try await repository.loadIntraday(symbols: source.symbols, since: since)
             intraday = PortfolioHistory.intraday(
-                orders: source.orders, prices: prices, from: since,
+                orders: source.orders, deposits: source.deposits, prices: prices, from: since,
                 inception: source.inception, now: now)
         } catch {
             intraday = []
@@ -64,7 +67,7 @@ final class PortfolioHistoryModel {
             points = PortfolioHistory.slice(daily, from: range.start(now: now))
         }
         points.removeAll { $0.date >= now }
-        points.append(PortfolioPoint(date: now, valueCents: liveValueCents))
+        points.append(PortfolioPoint(date: now, valueCents: liveValueCents, depositedCents: depositedCents))
         return points
     }
 

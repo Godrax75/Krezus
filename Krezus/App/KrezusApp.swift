@@ -91,6 +91,8 @@ struct KrezusApp: App {
                     // l'aperçu du multitâche est capturé à cet instant précis,
                     // et il ne doit pas montrer le portefeuille.
                     if phase == .background { lock.lockIfNeeded(enabled: settings.biometricLock) }
+                    // L'app laissée ouverte depuis dimanche verse le lundi.
+                    if phase == .active { Task { await store.claimWeeklyBonus() } }
                 }
         }
     }
@@ -120,6 +122,7 @@ private struct RebuildOnLanguageOrTextSize: ViewModifier {
 /// - app non configurée (pas de secrets Supabase) → shell en mode démo ;
 /// - configurée mais non connectée → création de compte ou connexion ;
 /// - connectée via un lien de réinitialisation → nouveau mot de passe ;
+/// - connectée sans pseudo → accueil (identité, cadeau, versement) ;
 /// - connectée → app complète branchée sur les données.
 ///
 /// Le verrou biométrique se pose **au-dessus** de tout : il protège aussi le
@@ -127,10 +130,15 @@ private struct RebuildOnLanguageOrTextSize: ViewModifier {
 struct AuthGate: View {
     @Environment(AuthService.self) private var auth
     @Environment(SettingsStore.self) private var settings
+    @Environment(ProfileStore.self) private var profile
 
     var body: some View {
         Group {
-            if !settings.hasSeenOnboarding {
+            if DebugLaunch.welcome {
+                WelcomeFlowScreen()
+            } else if DebugLaunch.bonus {
+                WeeklyBonusSheet(cents: WeeklyBonus.weeklyCents, nextDate: WeeklyBonus.nextMonday()) {}
+            } else if !settings.hasSeenOnboarding {
                 OnboardingScreen()
             } else if !AppConfig.isConfigured {
                 RootView()                     // mode démo : TradingStore en mémoire
@@ -140,13 +148,29 @@ struct AuthGate: View {
                 if auth.isRecoveringPassword {
                     NewPasswordScreen()
                 } else {
-                    RootView()
+                    switch profile.setup {
+                    case .unknown: LaunchPlaceholder()
+                    case .needed:  WelcomeFlowScreen().transition(.opacity)
+                    case .done:    RootView().transition(.opacity)
+                    }
                 }
             } else {
                 SignInScreen()
             }
         }
         .modifier(BiometricLockGate())
+    }
+}
+
+/// Le temps de lire le profil (quelques centaines de millisecondes) : sans
+/// cet écran, l'app s'ouvrirait puis céderait la place à l'accueil.
+private struct LaunchPlaceholder: View {
+    var body: some View {
+        ZStack {
+            WelcomeBackground()
+            Image("krezus-mascot").resizable().scaledToFit().frame(width: 72, height: 72)
+                .accessibilityHidden(true)
+        }
     }
 }
 

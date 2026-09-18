@@ -51,6 +51,19 @@ struct PortfolioOrder: Decodable, Sendable {
     }
 }
 
+/// Versement de liquidités (bonus hebdomadaire), tel que lu dans
+/// `public.cash_deposits`. C'est un apport, pas un gain : la courbe le
+/// compte dans la valeur, le gain l'en retire.
+struct PortfolioDeposit: Decodable, Sendable {
+    let amountCents: Int
+    let createdAt: Date
+
+    enum CodingKeys: String, CodingKey {
+        case amountCents = "amount_cents"
+        case createdAt = "created_at"
+    }
+}
+
 /// Valeur datée : une clôture, un taux, un cours intraday.
 struct DatedValue: Sendable, Equatable {
     let date: Date
@@ -61,6 +74,9 @@ struct DatedValue: Sendable, Equatable {
 struct PortfolioPoint: Identifiable, Sendable, Equatable {
     let date: Date
     let valueCents: Int
+    /// Cumul des versements reçus à cette date : ce qui, dans la valeur,
+    /// n'est pas de la performance.
+    var depositedCents: Int = 0
     var id: Date { date }
 }
 
@@ -105,13 +121,14 @@ enum PortfolioHistory {
     ///   - eurUsd: clôtures EURUSD (dollars pour un euro), triées.
     ///   - fallbackEurUsd: taux du jour, si l'historique manque.
     static func daily(orders: [PortfolioOrder],
+                      deposits: [PortfolioDeposit] = [],
                       closes: [String: [DatedValue]],
                       currencies: [String: String],
                       eurUsd: [DatedValue],
                       fallbackEurUsd: Double?,
                       inception: Date,
                       now: Date) -> [PortfolioPoint] {
-        let sortedOrders = orders.sorted { $0.createdAt < $1.createdAt }
+        let events = LedgerEvent.merge(orders: orders, deposits: deposits)
         let today = utc.startOfDay(for: now)
 
         // Jours de cotation des titres détenus, de l'ouverture à hier.
@@ -125,14 +142,14 @@ enum PortfolioHistory {
 
         var points = [PortfolioPoint(date: inception, valueCents: initialCashCents)]
         var ledger = Ledger()
-        var orderIndex = 0
+        var eventIndex = 0
 
         for day in days.sorted() {
             guard let endOfDay = utc.date(byAdding: .day, value: 1, to: day),
                   endOfDay > inception else { continue }
-            while orderIndex < sortedOrders.count, sortedOrders[orderIndex].createdAt < endOfDay {
-                ledger.apply(sortedOrders[orderIndex])
-                orderIndex += 1
+            while eventIndex < events.count, events[eventIndex].date < endOfDay {
+                ledger.apply(events[eventIndex])
+                eventIndex += 1
             }
             let value = ledger.valueCents { symbol in
                 guard let close = lastValue(in: closes[symbol] ?? [], onOrBefore: day) else { return nil }
@@ -142,7 +159,8 @@ enum PortfolioHistory {
             // Horodaté en fin de séance plutôt qu'à minuit : le point du
             // vendredi ne doit pas tomber sur le samedi.
             let stamp = min(utc.date(byAdding: .hour, value: 18, to: day) ?? day, now)
-            points.append(PortfolioPoint(date: max(stamp, inception), valueCents: value))
+            points.append(PortfolioPoint(date: max(stamp, inception), valueCents: value,
+                                         depositedCents: ledger.depositedCents))
         }
         return points
     }
@@ -154,12 +172,13 @@ enum PortfolioHistory {
     ///
     /// - Parameter prices: cours déjà convertis en euros, par symbole, triés.
     static func intraday(orders: [PortfolioOrder],
+                         deposits: [PortfolioDeposit] = [],
                          prices: [String: [DatedValue]],
                          from: Date,
                          inception: Date,
                          now: Date) -> [PortfolioPoint] {
         let start = max(from, inception)
-        let sortedOrders = orders.sorted { $0.createdAt < $1.createdAt }
+        let events = LedgerEvent.merge(orders: orders, deposits: deposits)
 
         var stamps = Set<Date>()
         for series in prices.values {
@@ -169,20 +188,21 @@ enum PortfolioHistory {
         }
 
         var ledger = Ledger()
-        var orderIndex = 0
-        func value(at instant: Date) -> Int {
-            while orderIndex < sortedOrders.count, sortedOrders[orderIndex].createdAt <= instant {
-                ledger.apply(sortedOrders[orderIndex])
-                orderIndex += 1
+        var eventIndex = 0
+        func point(at instant: Date) -> PortfolioPoint {
+            while eventIndex < events.count, events[eventIndex].date <= instant {
+                ledger.apply(events[eventIndex])
+                eventIndex += 1
             }
-            return ledger.valueCents { symbol in
+            let value = ledger.valueCents { symbol in
                 lastValue(in: prices[symbol] ?? [], onOrBefore: instant)
             }
+            return PortfolioPoint(date: instant, valueCents: value, depositedCents: ledger.depositedCents)
         }
 
-        var points = [PortfolioPoint(date: start, valueCents: value(at: start))]
+        var points = [point(at: start)]
         for stamp in stamps.sorted() where stamp > start {
-            points.append(PortfolioPoint(date: stamp, valueCents: value(at: stamp)))
+            points.append(point(at: stamp))
         }
         return points
     }
@@ -197,20 +217,50 @@ enum PortfolioHistory {
         let before = points.last { $0.date <= start }
         var sliced = points.filter { $0.date > start }
         if let before {
-            sliced.insert(PortfolioPoint(date: start, valueCents: before.valueCents), at: 0)
+            sliced.insert(PortfolioPoint(date: start, valueCents: before.valueCents,
+                                         depositedCents: before.depositedCents), at: 0)
         }
         return sliced
     }
 
     // MARK: Outils
 
-    /// Liquidités et quantités après une suite d'ordres.
+    /// Ordre ou versement, rejoués dans l'ordre chronologique.
+    private enum LedgerEvent {
+        case order(PortfolioOrder)
+        case deposit(PortfolioDeposit)
+
+        var date: Date {
+            switch self {
+            case .order(let order):     return order.createdAt
+            case .deposit(let deposit): return deposit.createdAt
+            }
+        }
+
+        static func merge(orders: [PortfolioOrder], deposits: [PortfolioDeposit]) -> [LedgerEvent] {
+            (orders.map(LedgerEvent.order) + deposits.map(LedgerEvent.deposit))
+                .sorted { $0.date < $1.date }
+        }
+    }
+
+    /// Liquidités et quantités après une suite d'ordres et de versements.
     private struct Ledger {
         var cashCents = PortfolioHistory.initialCashCents
+        var depositedCents = 0
         var quantities: [String: Double] = [:]
         /// Dernier prix unitaire payé ou encaissé, en euros : valorisation de
         /// repli tant qu'aucun cours n'existe pour le titre.
         var lastUnitEuros: [String: Double] = [:]
+
+        mutating func apply(_ event: LedgerEvent) {
+            switch event {
+            case .order(let order):
+                apply(order)
+            case .deposit(let deposit):
+                cashCents += deposit.amountCents
+                depositedCents += deposit.amountCents
+            }
+        }
 
         mutating func apply(_ order: PortfolioOrder) {
             if order.isBuy {

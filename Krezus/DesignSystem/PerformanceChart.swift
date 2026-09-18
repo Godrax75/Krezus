@@ -86,6 +86,8 @@ struct PerformanceChart: View {
 struct PerformanceSummary {
     let startCents: Int
     let valueCents: Int
+    /// Versements reçus pendant la période : dans la valeur, pas dans le gain.
+    let addedCents: Int
     let selected: PortfolioPoint?
 
     init(points: [PortfolioPoint], selectedDate: Date?, fallbackCents: Int = 0) {
@@ -97,11 +99,18 @@ struct PerformanceSummary {
         } else {
             selected = nil
         }
-        valueCents = (selected ?? points.last)?.valueCents ?? fallbackCents
+        let end = selected ?? points.last
+        valueCents = end?.valueCents ?? fallbackCents
+        addedCents = max(0, (end?.depositedCents ?? 0) - (points.first?.depositedCents ?? 0))
     }
 
-    var gainCents: Int { valueCents - startCents }
-    var gainPct: Double { startCents > 0 ? Double(gainCents) / Double(startCents) * 100 : 0 }
+    var gainCents: Int { valueCents - startCents - addedCents }
+    /// Rapporté à la mise de départ augmentée des versements : 300 € versés
+    /// en cours de route agrandissent la base, ils ne font pas de gain.
+    var gainPct: Double {
+        let base = startCents + addedCents
+        return base > 0 ? Double(gainCents) / Double(base) * 100 : 0
+    }
     var tint: Color { gainCents >= 0 ? KrezusColor.up : KrezusColor.down }
 
     /// « +12,40 € (+3,21 %) ».

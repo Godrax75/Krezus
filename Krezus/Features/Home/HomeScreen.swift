@@ -238,6 +238,16 @@ struct HomeScreen: View {
                 }
                 Spacer()
             }
+            // Rappel du versement hebdomadaire : c'est lui qui fait revenir.
+            HStack(spacing: 8) {
+                Image(systemName: "calendar.badge.plus")
+                    .foregroundStyle(KrezusColor.amberText)
+                Text(t("home.weekly_bonus", WeeklyBonus.label(for: store.nextBonusDate)))
+                    .font(KrezusFont.body(12.5, .semibold))
+                    .foregroundStyle(KrezusColor.brandText)
+                    .fixedSize(horizontal: false, vertical: true)
+                Spacer(minLength: 0)
+            }
             KrzPrimaryButton(title: t("home.explore_cta")) { router.push(.market) }
         }
         .padding(KrezusSpacing.s4)

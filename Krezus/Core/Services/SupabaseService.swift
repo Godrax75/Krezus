@@ -69,6 +69,10 @@ enum KrezusError: LocalizedError {
     case referralAlreadyUsed    // KR072
     case referralExpired        // KR073 — plus de sept jours après l'inscription
 
+    // Identité (0021)
+    case usernameTaken          // KR080
+    case invalidIdentity        // KR081
+
     case server(String)
 
     /// Mappe un code SQLSTATE renvoyé par PostgREST vers une erreur typée.
@@ -95,6 +99,10 @@ enum KrezusError: LocalizedError {
         case "KR071": return .referralNotAllowed
         case "KR072": return .referralAlreadyUsed
         case "KR073": return .referralExpired
+        case "KR080": return .usernameTaken
+        case "KR081": return .invalidIdentity
+        // L'index unique sur le pseudo, si l'écriture passe par la table.
+        case "23505" where message.contains("username"): return .usernameTaken
         default:      return .server(message)
         }
     }
@@ -123,6 +131,8 @@ enum KrezusError: LocalizedError {
         case .referralNotAllowed:     return t("referral.error.not_allowed")
         case .referralAlreadyUsed:    return t("referral.error.already_used")
         case .referralExpired:        return t("referral.error.expired")
+        case .usernameTaken:          return t("username.error.taken")
+        case .invalidIdentity:        return t("username.error.invalid_characters")
         case .server(let m):          return m
         }
     }
