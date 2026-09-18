@@ -229,11 +229,15 @@ struct KrezusHeader: View {
 struct KrezusTabBar: View {
     @Environment(AppState.self) private var app
     @Environment(Router.self) private var router
+    @Environment(\.colorScheme) private var scheme
     @Namespace private var selection
 
-    /// Couleur de l'onglet actif : l'orange d'Hercule, qui ressort sur le
-    /// bleu nuit de la barre.
-    private let accent = KrezusColor.amber500
+    /// Clair : verre blanc, texte encre, onglet actif bleu marque sur une
+    /// pastille grise. Sombre : verre bleu nuit, onglet actif orange Hercule.
+    private var isDark: Bool { scheme == .dark }
+    private var accent: Color { isDark ? KrezusColor.amber500 : KrezusColor.brandText }
+    private var idle: Color { isDark ? .white.opacity(0.92) : KrezusColor.fg2 }
+    private var pill: Color { isDark ? .white.opacity(0.13) : .black.opacity(0.07) }
 
     var body: some View {
         HStack(spacing: 2) {
@@ -253,7 +257,7 @@ struct KrezusTabBar: View {
                             .font(KrezusFont.body(10.5, isSelected ? .bold : .medium))
                             .lineLimit(1).minimumScaleFactor(0.7)
                     }
-                    .foregroundStyle(isSelected ? accent : .white.opacity(0.92))
+                    .foregroundStyle(isSelected ? accent : idle)
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 9)
                     .background {
@@ -261,7 +265,7 @@ struct KrezusTabBar: View {
                         // à l'autre plutôt que de disparaître et réapparaître.
                         if isSelected {
                             Capsule()
-                                .fill(.white.opacity(0.13))
+                                .fill(pill)
                                 .matchedGeometryEffect(id: "selection", in: selection)
                         }
                     }
@@ -273,26 +277,57 @@ struct KrezusTabBar: View {
             }
         }
         .padding(6)
-        .background {
-            // Verre sombre : un flou pour que le contenu se devine dessous, un
-            // voile bleu nuit pour la couleur, dans les deux thèmes.
-            ZStack {
-                Capsule().fill(.ultraThinMaterial).environment(\.colorScheme, .dark)
-                Capsule().fill(
-                    LinearGradient(colors: [Color(hex: 0x1D2152).opacity(0.92),
-                                            Color(hex: 0x0D1030).opacity(0.94)],
-                                   startPoint: .topLeading, endPoint: .bottomTrailing))
-            }
-        }
-        .overlay {
-            // Liseré plus vif à gauche, qui s'éteint vers la droite.
-            Capsule().strokeBorder(
-                LinearGradient(colors: [Color(hex: 0x6A6FE0).opacity(0.75), .white.opacity(0.10)],
-                               startPoint: .leading, endPoint: .trailing),
-                lineWidth: 1.2)
-        }
-        .shadow(color: Color(hex: 0x0D1030).opacity(0.35), radius: 18, y: 8)
+        .modifier(TabBarGlass(isDark: isDark))
         .padding(.horizontal, KrezusSpacing.s3)
+    }
+}
+
+/// Fond de la barre. En clair, le verre liquide d'iOS 26 (un flou blanc
+/// sur les versions antérieures) ; en sombre, le verre bleu nuit.
+private struct TabBarGlass: ViewModifier {
+    let isDark: Bool
+
+    func body(content: Content) -> some View {
+        if isDark {
+            content
+                .background {
+                    ZStack {
+                        Capsule().fill(.ultraThinMaterial).environment(\.colorScheme, .dark)
+                        Capsule().fill(
+                            LinearGradient(colors: [Color(hex: 0x1D2152).opacity(0.92),
+                                                    Color(hex: 0x0D1030).opacity(0.94)],
+                                           startPoint: .topLeading, endPoint: .bottomTrailing))
+                    }
+                }
+                .overlay {
+                    // Liseré plus vif à gauche, qui s'éteint vers la droite.
+                    Capsule().strokeBorder(
+                        LinearGradient(colors: [Color(hex: 0x6A6FE0).opacity(0.75), .white.opacity(0.10)],
+                                       startPoint: .leading, endPoint: .trailing),
+                        lineWidth: 1.2)
+                }
+                .shadow(color: Color(hex: 0x0D1030).opacity(0.35), radius: 18, y: 8)
+        } else if #available(iOS 26, *) {
+            content
+                .glassEffect(.regular, in: .capsule)
+                .shadow(color: .black.opacity(0.10), radius: 16, y: 6)
+        } else {
+            content
+                .background {
+                    ZStack {
+                        Capsule().fill(.ultraThinMaterial)
+                        Capsule().fill(.white.opacity(0.55))
+                    }
+                }
+                .overlay {
+                    // Reflet en haut, gris en bas : l'épaisseur d'un verre.
+                    Capsule().strokeBorder(
+                        LinearGradient(colors: [.white, .black.opacity(0.08)],
+                                       startPoint: .top, endPoint: .bottom),
+                        lineWidth: 1)
+                }
+                .shadow(color: .black.opacity(0.10), radius: 16, y: 6)
+        }
     }
 }
 

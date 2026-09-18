@@ -6,6 +6,8 @@ import Foundation
 enum DebugLaunch {
     /// Ouvre l'accueil d'un nouveau compte.
     static var welcome: Bool { flag("-krzWelcome") }
+    /// Ouvre l'app sans connexion, sur les données de démo.
+    static var home: Bool { flag("-krzHome") }
     /// Montre la célébration du versement hebdomadaire, seule à l'écran.
     static var bonus: Bool { flag("-krzBonus") }
 

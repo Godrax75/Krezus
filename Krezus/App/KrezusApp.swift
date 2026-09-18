@@ -136,6 +136,8 @@ struct AuthGate: View {
         Group {
             if DebugLaunch.welcome {
                 WelcomeFlowScreen()
+            } else if DebugLaunch.home {
+                RootView()
             } else if DebugLaunch.bonus {
                 WeeklyBonusSheet(cents: WeeklyBonus.weeklyCents, nextDate: WeeklyBonus.nextMonday()) {}
             } else if !settings.hasSeenOnboarding {
