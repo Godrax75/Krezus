@@ -81,6 +81,19 @@ Deno.serve(async (request: Request): Promise<Response> => {
       upserted += await upsertRows(config, "price_history", points, "symbol,date");
     }
 
+    // Clôtures EURUSD, pour convertir les titres en dollars au taux de leur
+    // propre date dans la courbe du portefeuille. Un appel de plus.
+    apiCalls++;
+    try {
+      const response = await fetch(buildEODURL("EURUSD.FOREX", token, from));
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      const fx = parseEOD("EURUSD", await response.json())
+        .map((point) => ({ pair: "EURUSD", date: point.date, rate: point.close }));
+      upserted += await upsertRows(config, "fx_history", fx, "pair,date");
+    } catch (error) {
+      failures.push(`EURUSD: ${(error as Error).message}`);
+    }
+
     const durationMs = Date.now() - startedAt;
     await logRun(config, {
       function: "history",

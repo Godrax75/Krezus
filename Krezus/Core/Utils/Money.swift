@@ -59,6 +59,12 @@ enum Money {
         return formatter(currency: code).string(from: NSNumber(value: value)) ?? "—"
     }
 
+    /// Montant signé -> « +12,34 € » / « −3,10 € ».
+    static func signedEuros(cents: Int) -> String {
+        let sign = cents >= 0 ? "+" : "−"
+        return sign + euros(cents: abs(cents))
+    }
+
     /// Pourcentage signé -> « +1,40 % » / « −0,39 % ».
     static func percent(_ value: Double) -> String {
         let sign = value >= 0 ? "+" : "−"

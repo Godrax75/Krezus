@@ -165,6 +165,27 @@ add({
 # -------------------------------------------------------------- Portefeuille
 
 add({
+    # Courbe du portefeuille.
+    "portfolio.range.day":       ("1J", "1D"),
+    "portfolio.range.week":      ("1S", "1W"),
+    "portfolio.range.month":     ("1M", "1M"),
+    "portfolio.range.ytd":       ("YTD", "YTD"),
+    "portfolio.range.year":      ("1A", "1Y"),
+    "portfolio.range.fiveYears": ("5A", "5Y"),
+    "portfolio.range.max":       ("Max", "Max"),
+    "portfolio.range_caption.day":       ("sur 24 h", "past 24 h"),
+    "portfolio.range_caption.week":      ("sur 1 semaine", "past week"),
+    "portfolio.range_caption.month":     ("sur 1 mois", "past month"),
+    "portfolio.range_caption.ytd":       ("depuis le 1er janvier", "year to date"),
+    "portfolio.range_caption.year":      ("sur 1 an", "past year"),
+    "portfolio.range_caption.fiveYears": ("sur 5 ans", "past 5 years"),
+    "portfolio.range_caption.max":       ("depuis le début", "since you started"),
+    "portfolio.chart.empty": (
+        "La courbe se dessinera au fil de tes premiers jours d'investissement.",
+        "Your chart will take shape over your first days of investing."),
+    "portfolio.chart.error": ("Impossible de charger l'historique pour le moment.",
+                              "Couldn't load your history right now."),
+    "portfolio.chart.a11y":  ("Courbe du portefeuille, %@", "Portfolio chart, %@"),
     "portfolio.title":             ("Mon portefeuille", "My portfolio"),
     "portfolio.available_balance": ("SOLDE DISPONIBLE", "AVAILABLE BALANCE"),
     "portfolio.allocation":        ("Répartition", "Allocation"),
@@ -1204,6 +1225,7 @@ LANGUAGES = ("fr", "en")
 DYNAMIC_FAMILIES = (
     "locked.", "mission.", "coach.advice.", "coach.axis.", "help.faq.",
     "onboarding.", "archetype.", "hercule.answer.", "country.", "dna.",
+    "portfolio.range.", "portfolio.range_caption.",
 )
 
 

@@ -21,6 +21,7 @@
 		197C7A5EA1C1E4154EED983D /* StreakScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2F3674881D0DF302CEF4301 /* StreakScreen.swift */; };
 		24A9B730CBCAE82F83E9E7B2 /* OracleScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6D9B82EABDE83897DCCBF86 /* OracleScreen.swift */; };
 		25A76D760D134C23A3FE3727 /* SubscriptionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E7B008E777540D83E6569D7 /* SubscriptionService.swift */; };
+		26C4B2DA11889C0BD2E39C88 /* PortfolioChartCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA48BA091FB815B7386194F7 /* PortfolioChartCard.swift */; };
 		2845DD306715FDE7CFA8D9D4 /* ArenaFeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 003C6E7D18ADE06B0A3AFF4A /* ArenaFeedView.swift */; };
 		2C55FFA997624C97EC9F024E /* PortfolioScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3C6A1C2A0472FE6618D28F /* PortfolioScreen.swift */; };
 		2C6910A8773E55EF4612CE5F /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 852A1B438D5653FEABBFADFE /* AuthService.swift */; };
@@ -56,6 +57,7 @@
 		7AF281F518EEA06F66BE9957 /* NewPasswordScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = D607594E03BC642B0B7AD402 /* NewPasswordScreen.swift */; };
 		815E487EC1A4E10F981C9923 /* PortfolioRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = C313D8810D590C329C3D7DA0 /* PortfolioRepository.swift */; };
 		861DDC9D6BD9A25312B3F98D /* ProfileScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC043DEF8554C35455A40068 /* ProfileScreen.swift */; };
+		8817AE9D07AC0869D056E0C8 /* PortfolioHistoryRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB05E7589749F4B98C6C24FD /* PortfolioHistoryRepository.swift */; };
 		8AC66B33D4B06A812DF1D545 /* StockDetailScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38759C784CF7883FDB745AD5 /* StockDetailScreen.swift */; };
 		8DCC96A76C0453386446E701 /* QuizScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = F059B075FE17BB2EF8BA8131 /* QuizScreen.swift */; };
 		92E5BD8FF7D5599B69B7D3D6 /* PlusJakartaSans-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 54CC73C4A4A4CC950E3B78EA /* PlusJakartaSans-ExtraBold.ttf */; };
@@ -91,6 +93,7 @@
 		D48E1093270A1EC3EE505D64 /* ArenaGroupsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0C0C1422FB5A5A5E3C006C /* ArenaGroupsView.swift */; };
 		DB35E1068553505358FEC45B /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = 2EB2AFDCC3E834109F377DD4 /* Supabase */; };
 		DCD71E5AC1F05E781A1D088C /* RanksScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AAE7286557688CFA5475954 /* RanksScreen.swift */; };
+		DE85EFC2BAF2ABB4F32C9EB4 /* PortfolioHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A52B91CC498A41181118E98D /* PortfolioHistory.swift */; };
 		E352734E0DF384D9A00B6821 /* ranks.json in Resources */ = {isa = PBXBuildFile; fileRef = CF4C8AD9A4A8E5823E5E8BC6 /* ranks.json */; };
 		E365B80FDFA1CE4CEDC4A691 /* lessons.en.json in Resources */ = {isa = PBXBuildFile; fileRef = 20A168AE58FB639C9DDC52FD /* lessons.en.json */; };
 		E72AC69A43D20848EF57E48B /* SupabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D292C2EB5C47CEF7F6D4F517 /* SupabaseService.swift */; };
@@ -100,6 +103,7 @@
 		EC609521483DA6E01C4F6FBD /* AcademyScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32FB9A54DD48D95AE290D6C8 /* AcademyScreen.swift */; };
 		F12F5AF7CBFBF0A09B166448 /* MarketScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC2F7830461FBB1770259CC8 /* MarketScreen.swift */; };
 		F1C86021F70256692F9A5521 /* NotificationSettingsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B1CFFCD97EBCB4EFAF5F01F /* NotificationSettingsScreen.swift */; };
+		F9D61231C95FAF24580313C8 /* PortfolioHistoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76AFA48BD4BC77C2B521C19 /* PortfolioHistoryTests.swift */; };
 		FABF369F76830CA7A401D603 /* PlusJakartaSans-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C11FD29169E737F038705A1F /* PlusJakartaSans-SemiBold.ttf */; };
 		FCE3879C30025FCB5EC4D0E8 /* ranks.en.json in Resources */ = {isa = PBXBuildFile; fileRef = 5A125613ACF87EFBD7555086 /* ranks.en.json */; };
 /* End PBXBuildFile section */
@@ -171,7 +175,9 @@
 		8BD941373818378FD892FBF3 /* KrezusColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KrezusColor.swift; sourceTree = "<group>"; };
 		8C89E97FD84109FF0DE731D0 /* KrezusComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KrezusComponents.swift; sourceTree = "<group>"; };
 		9FB811413A022C7F4BE9EA26 /* LocalizationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizationTests.swift; sourceTree = "<group>"; };
+		A52B91CC498A41181118E98D /* PortfolioHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioHistory.swift; sourceTree = "<group>"; };
 		A788ACF2F701558B2CB293BD /* Localization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Localization.swift; sourceTree = "<group>"; };
+		AB05E7589749F4B98C6C24FD /* PortfolioHistoryRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioHistoryRepository.swift; sourceTree = "<group>"; };
 		AC1F3AD5CCE9D65ABB906C4D /* SettingsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsStore.swift; sourceTree = "<group>"; };
 		AE30FFF74A82D1CD1713AA57 /* KrezusMetrics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KrezusMetrics.swift; sourceTree = "<group>"; };
 		AF672A4E1B9324E910893FAE /* AvatarImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarImage.swift; sourceTree = "<group>"; };
@@ -185,6 +191,7 @@
 		C11FD29169E737F038705A1F /* PlusJakartaSans-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PlusJakartaSans-SemiBold.ttf"; sourceTree = "<group>"; };
 		C20E25B9D7379FB7AFC179C8 /* OracleCoachView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OracleCoachView.swift; sourceTree = "<group>"; };
 		C313D8810D590C329C3D7DA0 /* PortfolioRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioRepository.swift; sourceTree = "<group>"; };
+		C76AFA48BD4BC77C2B521C19 /* PortfolioHistoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioHistoryTests.swift; sourceTree = "<group>"; };
 		CF4C8AD9A4A8E5823E5E8BC6 /* ranks.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = ranks.json; sourceTree = "<group>"; };
 		D292C2EB5C47CEF7F6D4F517 /* SupabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupabaseService.swift; sourceTree = "<group>"; };
 		D29C9E183B6D397E96635C4F /* Country.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Country.swift; sourceTree = "<group>"; };
@@ -212,6 +219,7 @@
 		F7CFE111DDDE8858E4591DCE /* investor_questions.en.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = investor_questions.en.json; sourceTree = "<group>"; };
 		F865A70B5EA23C8B3532112C /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		FA0C0C1422FB5A5A5E3C006C /* ArenaGroupsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArenaGroupsView.swift; sourceTree = "<group>"; };
+		FA48BA091FB815B7386194F7 /* PortfolioChartCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioChartCard.swift; sourceTree = "<group>"; };
 		FD1BB32B488A1F201D8FFA78 /* ArenaScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArenaScreen.swift; sourceTree = "<group>"; };
 		FE75A431720DF1CF0F29C37D /* PaperOrderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaperOrderTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -250,6 +258,7 @@
 				9FB811413A022C7F4BE9EA26 /* LocalizationTests.swift */,
 				72639BB020BD080B96E208AB /* MarketDataTests.swift */,
 				FE75A431720DF1CF0F29C37D /* PaperOrderTests.swift */,
+				C76AFA48BD4BC77C2B521C19 /* PortfolioHistoryTests.swift */,
 			);
 			path = KrezusTests;
 			sourceTree = "<group>";
@@ -259,6 +268,7 @@
 			children = (
 				78F3B872D226E0431A602D5F /* DemoCatalog.swift */,
 				0F8C66FCBB20235A787D64D6 /* Models.swift */,
+				A52B91CC498A41181118E98D /* PortfolioHistory.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -266,6 +276,7 @@
 		171A456291DB3CF7B25087B3 /* Portfolio */ = {
 			isa = PBXGroup;
 			children = (
+				FA48BA091FB815B7386194F7 /* PortfolioChartCard.swift */,
 				0E3C6A1C2A0472FE6618D28F /* PortfolioScreen.swift */,
 			);
 			path = Portfolio;
@@ -486,6 +497,7 @@
 				3703310CFEC1EC8DCAC5B93B /* MarketDataService.swift */,
 				D56DD5C97E21F8583296870C /* NotificationsRepository.swift */,
 				DDAC872F796CE5F3D7E948B4 /* OracleRepository.swift */,
+				AB05E7589749F4B98C6C24FD /* PortfolioHistoryRepository.swift */,
 				C313D8810D590C329C3D7DA0 /* PortfolioRepository.swift */,
 				4E233157E5D407FB35177F51 /* ProfileRepository.swift */,
 				E4173F1BC12B7DF000B287CA /* PushNotificationService.swift */,
@@ -673,6 +685,7 @@
 				9BF0CEA9B6EE24968C77E538 /* LocalizationTests.swift in Sources */,
 				739F36AB580BB52E0854458D /* MarketDataTests.swift in Sources */,
 				512C9F4B9ED2722D966BCEBA /* PaperOrderTests.swift in Sources */,
+				F9D61231C95FAF24580313C8 /* PortfolioHistoryTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -732,6 +745,9 @@
 				24A9B730CBCAE82F83E9E7B2 /* OracleScreen.swift in Sources */,
 				EB00367A3008EDCD57EA1C7C /* OracleStore.swift in Sources */,
 				AB559A5F6B35E1D12BE6C7B6 /* PaywallScreen.swift in Sources */,
+				26C4B2DA11889C0BD2E39C88 /* PortfolioChartCard.swift in Sources */,
+				DE85EFC2BAF2ABB4F32C9EB4 /* PortfolioHistory.swift in Sources */,
+				8817AE9D07AC0869D056E0C8 /* PortfolioHistoryRepository.swift in Sources */,
 				815E487EC1A4E10F981C9923 /* PortfolioRepository.swift in Sources */,
 				2C55FFA997624C97EC9F024E /* PortfolioScreen.swift in Sources */,
 				9F963C7EAA32FED44BF9C28B /* ProfileRepository.swift in Sources */,

@@ -1,25 +1,23 @@
 import SwiftUI
 
-/// Onglet Portefeuille — valeur totale, solde disponible, courbe, répartition,
-/// positions. Branché sur le `TradingStore`.
+/// Onglet Portefeuille — valeur totale et courbe par période, solde
+/// disponible, répartition, positions. Branché sur le `TradingStore`.
 struct PortfolioScreen: View {
     @Environment(TradingStore.self) private var store
     @Environment(Router.self) private var router
+    @Environment(AuthService.self) private var auth
+
+    @State private var history = PortfolioHistoryModel()
 
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 14) {
-                VStack(alignment: .leading, spacing: 8) {
-                    Text(t("portfolio.title")).font(KrezusFont.h1).foregroundStyle(KrezusColor.ink)
-                    HStack(alignment: .firstTextBaseline, spacing: 10) {
-                        Text(Money.euros(cents: store.totalValueCents)).font(KrezusFont.portfolio)
-                            .foregroundStyle(KrezusColor.brandText).tabularNumbers()
-                        Text(Money.percent(store.dayChangePct)).font(KrezusFont.body(13.5, .semibold))
-                            .foregroundStyle(store.dayChangePct >= 0 ? KrezusColor.up : KrezusColor.down)
-                            .tabularNumbers()
-                    }
+                Text(t("portfolio.title")).font(KrezusFont.h1).foregroundStyle(KrezusColor.ink)
+                    .padding(.top, 4)
+
+                KrzCard {
+                    PortfolioChartCard(model: history, liveValueCents: store.totalValueCents)
                 }
-                .padding(.top, 4)
 
                 availableBalance
                 if !store.allocation.isEmpty { allocationCard }
@@ -30,6 +28,9 @@ struct PortfolioScreen: View {
             .padding(.bottom, 140)
         }
         .scrollIndicators(.hidden)
+        // À chaque apparition : un ordre passé depuis un autre onglet doit
+        // figurer dans la courbe.
+        .task { await history.load(userID: auth.userID, liveValueCents: store.totalValueCents) }
     }
 
     private var availableBalance: some View {

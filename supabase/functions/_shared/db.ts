@@ -73,6 +73,25 @@ export async function upsertRows(
 }
 
 /**
+ * Suppression filtrée. `filter` est une condition PostgREST déjà encodée,
+ * par exemple `ts=lt.2026-01-01T00:00:00Z` : sans filtre, PostgREST
+ * refuserait de toute façon de vider la table.
+ */
+export async function deleteRows(
+  config: DbConfig,
+  table: string,
+  filter: string,
+): Promise<void> {
+  const response = await fetch(`${config.url}/rest/v1/${table}?${filter}`, {
+    method: "DELETE",
+    headers: headers(config, { Prefer: "return=minimal" }),
+  });
+  if (!response.ok) {
+    throw new Error(`delete ${table} → ${response.status} ${await response.text()}`);
+  }
+}
+
+/**
  * Le journal ne doit jamais faire échouer un rafraîchissement réussi : une
  * écriture d'observabilité qui casse la fonction qu'elle observe est pire que
  * pas de journal du tout.

@@ -29,11 +29,15 @@ import { currentSession } from "../_shared/market_hours.ts";
 import {
   assertAuthorized,
   dbConfigFromEnv,
+  deleteRows,
   logRun,
   selectRows,
   UnauthorizedError,
   upsertRows,
 } from "../_shared/db.ts";
+
+/** Au-delà, la vue « 1 jour » n'en a plus besoin : le quotidien prend le relais. */
+const INTRADAY_RETENTION_DAYS = 4;
 
 Deno.serve(async (request: Request): Promise<Response> => {
   const startedAt = Date.now();
@@ -88,6 +92,26 @@ Deno.serve(async (request: Request): Promise<Response> => {
       );
     }
 
+    // Série intraday pour la courbe « 1 jour » du portefeuille. Secondaire :
+    // un échec ici ne doit pas faire échouer le rafraîchissement du cache,
+    // dont dépend le moteur d'ordres.
+    let intradayError: string | null = null;
+    try {
+      const minute = new Date();
+      minute.setUTCSeconds(0, 0);
+      await upsertRows(
+        config,
+        "price_intraday",
+        rows.map((row) => ({ symbol: row.symbol, ts: minute.toISOString(), price: row.price })),
+        "symbol,ts",
+      );
+      const cutoff = new Date(Date.now() - INTRADAY_RETENTION_DAYS * 86_400_000);
+      await deleteRows(config, "price_intraday", `ts=lt.${encodeURIComponent(cutoff.toISOString())}`);
+    } catch (error) {
+      intradayError = (error as Error).message;
+      console.error("quotes intraday:", intradayError);
+    }
+
     const durationMs = Date.now() - startedAt;
     await logRun(config, {
       function: "quotes",
@@ -96,6 +120,7 @@ Deno.serve(async (request: Request): Promise<Response> => {
       upserted,
       api_calls: batches.length,
       session,
+      error: intradayError === null ? null : `intraday: ${intradayError}`,
     });
 
     // `skipped` non vide signale presque toujours un `eodhd_symbol` erroné dans
