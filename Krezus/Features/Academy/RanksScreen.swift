@@ -58,12 +58,21 @@ struct RanksScreen: View {
 
         return KrzCard(shadow: isCurrent ? KrezusShadow.brand : KrezusShadow.level1) {
             HStack(spacing: 13) {
-                Text(rank.emoji)
-                    .font(.system(size: 30))
-                    .opacity(isReached ? 1 : 0.35)
-                    .frame(width: 44, height: 44)
-                    .background(isCurrent ? KrezusColor.amberTint : KrezusColor.tint)
-                    .clipShape(Circle())
+                // Buste du personnage, posé dans une pastille : calé en bas, il
+                // en déborde par les cornes. Un rang non atteint passe en
+                // gris — il se devine sans se montrer encore.
+                Image(rank.imageAsset)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 64, height: 64)
+                    .saturation(isReached ? 1 : 0)
+                    .opacity(isReached ? 1 : 0.45)
+                    .background(
+                        Circle()
+                            .fill(isCurrent ? KrezusColor.amberTint : KrezusColor.tint)
+                            .frame(width: 58, height: 58)
+                            .offset(y: 3))
+                    .accessibilityHidden(true)
 
                 VStack(alignment: .leading, spacing: 3) {
                     HStack(spacing: 7) {
