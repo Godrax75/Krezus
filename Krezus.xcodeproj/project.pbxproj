@@ -37,6 +37,7 @@
 		3D3CAD7A39BB3AC42013B8C3 /* NotificationCenterScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F549B7592C08A7233B7C8A2 /* NotificationCenterScreen.swift */; };
 		40EC419FC662AD383994EB1C /* BiometricLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6F37CA26B15AFD3A4374D8A /* BiometricLock.swift */; };
 		42E8C1B8440E61DEE36FBB94 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = F0A42DFA76EE7E9E882FF154 /* Localizable.xcstrings */; };
+		43AB6F6ECED222A2301F7F75 /* ReferralScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8042588AE769EAEA642852 /* ReferralScreen.swift */; };
 		4D1F4B4C64C28F012EC3FA77 /* MarketLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BEE71D6DDE3C1CD5B89B125 /* MarketLabel.swift */; };
 		50D523451013450C685BF4D9 /* PlusJakartaSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0B697BEEB8CD25713529E4B0 /* PlusJakartaSans-Bold.ttf */; };
 		512C9F4B9ED2722D966BCEBA /* PaperOrderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE75A431720DF1CF0F29C37D /* PaperOrderTests.swift */; };
@@ -52,6 +53,7 @@
 		6A7CBC3080942109EAC426CF /* AcademyRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0CB9CF80F3B25933C04536F /* AcademyRepository.swift */; };
 		6B86DBAC3D0BE7F205BA7176 /* MarketDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3703310CFEC1EC8DCAC5B93B /* MarketDataService.swift */; };
 		6C1EDC48C2E839604DE4E7D0 /* SellScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E8CAEDC30E668847F943013 /* SellScreen.swift */; };
+		6E2DEF925650B85158AC9042 /* ReferralRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B3E5E43A4F331BBFD72C82 /* ReferralRepository.swift */; };
 		7207AB851B15B623D55467C0 /* Money.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5664F137F4595596AC828F5A /* Money.swift */; };
 		739F36AB580BB52E0854458D /* MarketDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72639BB020BD080B96E208AB /* MarketDataTests.swift */; };
 		7AF281F518EEA06F66BE9957 /* NewPasswordScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = D607594E03BC642B0B7AD402 /* NewPasswordScreen.swift */; };
@@ -174,6 +176,7 @@
 		852A1B438D5653FEABBFADFE /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		86494A8950446B0354E34742 /* ModeSwitchSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModeSwitchSheet.swift; sourceTree = "<group>"; };
 		88205400226EE215001D62A3 /* LearningStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningStore.swift; sourceTree = "<group>"; };
+		8B8042588AE769EAEA642852 /* ReferralScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferralScreen.swift; sourceTree = "<group>"; };
 		8BD941373818378FD892FBF3 /* KrezusColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KrezusColor.swift; sourceTree = "<group>"; };
 		8C89E97FD84109FF0DE731D0 /* KrezusComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KrezusComponents.swift; sourceTree = "<group>"; };
 		9FB811413A022C7F4BE9EA26 /* LocalizationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizationTests.swift; sourceTree = "<group>"; };
@@ -183,6 +186,7 @@
 		AC1F3AD5CCE9D65ABB906C4D /* SettingsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsStore.swift; sourceTree = "<group>"; };
 		AE30FFF74A82D1CD1713AA57 /* KrezusMetrics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KrezusMetrics.swift; sourceTree = "<group>"; };
 		AF672A4E1B9324E910893FAE /* AvatarImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarImage.swift; sourceTree = "<group>"; };
+		B2B3E5E43A4F331BBFD72C82 /* ReferralRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferralRepository.swift; sourceTree = "<group>"; };
 		B54005020C8A51E25B601579 /* Inter-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Regular.ttf"; sourceTree = "<group>"; };
 		B57CA9ECAEBBCDAB50C29227 /* SignInScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInScreen.swift; sourceTree = "<group>"; };
 		B6D9B82EABDE83897DCCBF86 /* OracleScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OracleScreen.swift; sourceTree = "<group>"; };
@@ -504,6 +508,7 @@
 				C313D8810D590C329C3D7DA0 /* PortfolioRepository.swift */,
 				4E233157E5D407FB35177F51 /* ProfileRepository.swift */,
 				E4173F1BC12B7DF000B287CA /* PushNotificationService.swift */,
+				B2B3E5E43A4F331BBFD72C82 /* ReferralRepository.swift */,
 				205EEB56B61B62F52F70D04C /* SecuritiesRepository.swift */,
 				4E7B008E777540D83E6569D7 /* SubscriptionService.swift */,
 				D292C2EB5C47CEF7F6D4F517 /* SupabaseService.swift */,
@@ -544,6 +549,7 @@
 				1BDF9DB7A831A5E81752CB65 /* EditUsernameScreen.swift */,
 				86494A8950446B0354E34742 /* ModeSwitchSheet.swift */,
 				EC043DEF8554C35455A40068 /* ProfileScreen.swift */,
+				8B8042588AE769EAEA642852 /* ReferralScreen.swift */,
 				D2F3674881D0DF302CEF4301 /* StreakScreen.swift */,
 			);
 			path = Profile;
@@ -759,6 +765,8 @@
 				384956EABD10605379C74A48 /* PushNotificationService.swift in Sources */,
 				8DCC96A76C0453386446E701 /* QuizScreen.swift in Sources */,
 				DCD71E5AC1F05E781A1D088C /* RanksScreen.swift in Sources */,
+				6E2DEF925650B85158AC9042 /* ReferralRepository.swift in Sources */,
+				43AB6F6ECED222A2301F7F75 /* ReferralScreen.swift in Sources */,
 				ABABA96D1B11AEC5F47D0BCE /* RootView.swift in Sources */,
 				CCFE9CAB3E93EDCEC65A26B5 /* Router.swift in Sources */,
 				AFE8D5B4D619EDE816909D4A /* SecuritiesRepository.swift in Sources */,

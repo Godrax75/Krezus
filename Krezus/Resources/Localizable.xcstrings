@@ -8042,6 +8042,40 @@
         }
       }
     },
+    "profile.row.referral": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Parrainer un ami"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Invite a friend"
+          }
+        }
+      }
+    },
+    "profile.row.referral_detail": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "100 XP pour toi et pour lui"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "100 XP for both of you"
+          }
+        }
+      }
+    },
     "profile.row.reset": {
       "extractionState": "manual",
       "localizations": {
@@ -8446,6 +8480,397 @@
           "stringUnit": {
             "state": "translated",
             "value": "%d – %d XP"
+          }
+        }
+      }
+    },
+    "referral.copied": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Code copié"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Code copied"
+          }
+        }
+      }
+    },
+    "referral.copy": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copier"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copy"
+          }
+        }
+      }
+    },
+    "referral.error.already_used": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tu as déjà été parrainé."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You've already been invited."
+          }
+        }
+      }
+    },
+    "referral.error.expired": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le parrainage se fait dans les sept jours qui suivent l'inscription."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Invite codes must be entered within seven days of signing up."
+          }
+        }
+      }
+    },
+    "referral.error.not_allowed": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tu ne peux pas utiliser ce code."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You can't use this code."
+          }
+        }
+      }
+    },
+    "referral.error.unknown": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ce code n'existe pas. Vérifie-le auprès de ton ami."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "That code doesn't exist. Check it with your friend."
+          }
+        }
+      }
+    },
+    "referral.explainer": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pour chaque ami qui s'inscrit avec ton code, vous gagnez chacun %d XP. Jusqu'à %d amis récompensés."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "For every friend who signs up with your code, you each earn %d XP. Up to %d friends rewarded."
+          }
+        }
+      }
+    },
+    "referral.headline": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Invite tes amis"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Invite your friends"
+          }
+        }
+      }
+    },
+    "referral.load_error": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Impossible de charger ton code pour le moment."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Couldn't load your code right now."
+          }
+        }
+      }
+    },
+    "referral.premium_soon": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bientôt : un mois d'Hercule Premium offert au parrain et au filleul."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Coming soon: a free month of Hercule Premium for both of you."
+          }
+        }
+      }
+    },
+    "referral.redeem.body": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Saisis son code dans les sept jours qui suivent ton inscription."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enter their code within seven days of signing up."
+          }
+        }
+      }
+    },
+    "referral.redeem.cta": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Valider"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apply"
+          }
+        }
+      }
+    },
+    "referral.redeem.placeholder": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "CODE"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "CODE"
+          }
+        }
+      }
+    },
+    "referral.redeem.success": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "+%d XP ! Bienvenue sur Krezus."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "+%d XP! Welcome to Krezus."
+          }
+        }
+      }
+    },
+    "referral.redeem.success_named": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "+%d XP ! Merci d'avoir rejoint Krezus grâce à %@."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "+%d XP! Thanks for joining Krezus through %@."
+          }
+        }
+      }
+    },
+    "referral.redeem.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Un ami t'a invité ?"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Did a friend invite you?"
+          }
+        }
+      }
+    },
+    "referral.referred_by": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Invité par %@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Invited by %@"
+          }
+        }
+      }
+    },
+    "referral.share": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Partager"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Share"
+          }
+        }
+      }
+    },
+    "referral.share_message": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Je m'entraîne à investir sur Krezus, avec 1 000 € fictifs sur de vraies actions. Rejoins-moi avec mon code %@ : on gagne 100 XP chacun. %@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "I'm learning to invest on Krezus, with €1,000 in paper money on real stocks. Join me with my code %@ and we both get 100 XP. %@"
+          }
+        }
+      }
+    },
+    "referral.stat.friends": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Amis inscrits"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Friends joined"
+          }
+        }
+      }
+    },
+    "referral.stat.xp": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "XP gagnés"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "XP earned"
+          }
+        }
+      }
+    },
+    "referral.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Parrainage"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Invite friends"
+          }
+        }
+      }
+    },
+    "referral.your_code": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "TON CODE"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "YOUR CODE"
           }
         }
       }

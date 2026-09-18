@@ -14,7 +14,8 @@ create schema if not exists auth;
 
 create table if not exists auth.users (
   id uuid primary key default gen_random_uuid(),
-  email text
+  email text,
+  created_at timestamptz not null default now()   -- comme chez Supabase
 );
 
 -- `auth.uid()` renvoie l'utilisateur courant. En test, on le pilote via un GUC.

@@ -63,6 +63,12 @@ enum KrezusError: LocalizedError {
     case herculeInvalidMessage  // KR051
     case invalidReceipt         // KR052
 
+    // Parrainage (0019)
+    case referralUnknownCode    // KR070
+    case referralNotAllowed     // KR071 — son propre code, ou celui de son filleul
+    case referralAlreadyUsed    // KR072
+    case referralExpired        // KR073 — plus de sept jours après l'inscription
+
     case server(String)
 
     /// Mappe un code SQLSTATE renvoyé par PostgREST vers une erreur typée.
@@ -85,6 +91,10 @@ enum KrezusError: LocalizedError {
         case "KR050": return .herculeQuotaReached
         case "KR051": return .herculeInvalidMessage
         case "KR052": return .invalidReceipt
+        case "KR070": return .referralUnknownCode
+        case "KR071": return .referralNotAllowed
+        case "KR072": return .referralAlreadyUsed
+        case "KR073": return .referralExpired
         default:      return .server(message)
         }
     }
@@ -109,6 +119,10 @@ enum KrezusError: LocalizedError {
         case .herculeQuotaReached:    return t("backend.error.hercule_quota")
         case .herculeInvalidMessage:  return t("backend.error.hercule_message")
         case .invalidReceipt:         return t("backend.error.invalid_receipt")
+        case .referralUnknownCode:    return t("referral.error.unknown")
+        case .referralNotAllowed:     return t("referral.error.not_allowed")
+        case .referralAlreadyUsed:    return t("referral.error.already_used")
+        case .referralExpired:        return t("referral.error.expired")
         case .server(let m):          return m
         }
     }

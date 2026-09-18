@@ -28,6 +28,7 @@ struct RootView: View {
                     case .notificationSettings: NotificationSettingsScreen()
                     case .notificationCenter:  NotificationCenterScreen()
                     case .help:                HelpScreen()
+                    case .referral:            ReferralScreen()
                     case .locked(let feature): ComingSoonScreen(feature: feature)
                     }
                 }

@@ -14,6 +14,10 @@ enum AppConfig {
     /// ID client Google OAuth (vide = connexion Google masquée).
     static let googleClientID = infoString("GOOGLE_OAUTH_CLIENT_ID")
 
+    /// Fiche App Store de Krezus, partagée par le parrainage. Elle ne répond
+    /// qu'une fois l'app publiée ; avant, le lien mène à une page vide.
+    static let appStoreURL = URL(string: "https://apps.apple.com/app/id6812996836")!
+
     /// URL du projet Supabase, reconstruite depuis la référence.
     static var supabaseURL: URL? {
         guard isConfigured else { return nil }

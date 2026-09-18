@@ -19,7 +19,7 @@ struct KrezusNotification: Identifiable, Sendable {
 
     enum Kind: String, Codable, Sendable {
         case order, rankUp = "rank_up", badge, friendRequest = "friend_request"
-        case lessonReminder = "lesson_reminder", market, hercule
+        case lessonReminder = "lesson_reminder", market, hercule, referral
 
         var icon: String {
             switch self {
@@ -30,6 +30,7 @@ struct KrezusNotification: Identifiable, Sendable {
             case .lessonReminder: return "book.fill"
             case .market:         return "chart.line.uptrend.xyaxis"
             case .hercule:        return "sparkles"
+            case .referral:       return "gift.fill"
             }
         }
 
@@ -37,7 +38,7 @@ struct KrezusNotification: Identifiable, Sendable {
             switch self {
             case .order, .market:          return KrezusColor.brandText
             case .rankUp, .badge:          return KrezusColor.amberText
-            case .friendRequest:           return KrezusColor.up
+            case .friendRequest, .referral: return KrezusColor.up
             case .lessonReminder, .hercule: return KrezusColor.brandText
             }
         }
@@ -47,7 +48,7 @@ struct KrezusNotification: Identifiable, Sendable {
             switch self {
             case .order, .market:           return .market
             case .rankUp, .badge, .lessonReminder: return .academy
-            case .friendRequest:            return .arena
+            case .friendRequest, .referral: return .arena
             case .hercule:                  return .hercule
             }
         }

@@ -1122,6 +1122,50 @@ add({
         "The photo couldn't be saved. Check your connection and try again."),
     "avatar.error.unreadable": ("Cette image n'a pas pu être lue.",
                                 "This image couldn't be read."),
+    # Parrainage (0019).
+    "profile.row.referral":        ("Parrainer un ami", "Invite a friend"),
+    "profile.row.referral_detail": ("100 XP pour toi et pour lui", "100 XP for both of you"),
+    "referral.title":        ("Parrainage", "Invite friends"),
+    "referral.headline":     ("Invite tes amis", "Invite your friends"),
+    "referral.explainer": (
+        "Pour chaque ami qui s'inscrit avec ton code, vous gagnez chacun %d XP. "
+        "Jusqu'à %d amis récompensés.",
+        "For every friend who signs up with your code, you each earn %d XP. "
+        "Up to %d friends rewarded."),
+    "referral.your_code":    ("TON CODE", "YOUR CODE"),
+    "referral.copy":         ("Copier", "Copy"),
+    "referral.copied":       ("Code copié", "Code copied"),
+    "referral.share":        ("Partager", "Share"),
+    "referral.load_error":   ("Impossible de charger ton code pour le moment.",
+                              "Couldn't load your code right now."),
+    "referral.share_message": (
+        "Je m'entraîne à investir sur Krezus, avec 1 000 € fictifs sur de vraies "
+        "actions. Rejoins-moi avec mon code %@ : on gagne 100 XP chacun. %@",
+        "I'm learning to invest on Krezus, with €1,000 in paper money on real "
+        "stocks. Join me with my code %@ and we both get 100 XP. %@"),
+    "referral.stat.friends": ("Amis inscrits", "Friends joined"),
+    "referral.stat.xp":      ("XP gagnés", "XP earned"),
+    "referral.redeem.title": ("Un ami t'a invité ?", "Did a friend invite you?"),
+    "referral.redeem.body": (
+        "Saisis son code dans les sept jours qui suivent ton inscription.",
+        "Enter their code within seven days of signing up."),
+    "referral.redeem.placeholder": ("CODE", "CODE"),
+    "referral.redeem.cta":         ("Valider", "Apply"),
+    "referral.redeem.success":       ("+%d XP ! Bienvenue sur Krezus.", "+%d XP! Welcome to Krezus."),
+    "referral.redeem.success_named": ("+%d XP ! Merci d'avoir rejoint Krezus grâce à %@.",
+                                      "+%d XP! Thanks for joining Krezus through %@."),
+    "referral.referred_by":  ("Invité par %@", "Invited by %@"),
+    "referral.premium_soon": (
+        "Bientôt : un mois d'Hercule Premium offert au parrain et au filleul.",
+        "Coming soon: a free month of Hercule Premium for both of you."),
+    "referral.error.unknown":      ("Ce code n'existe pas. Vérifie-le auprès de ton ami.",
+                                    "That code doesn't exist. Check it with your friend."),
+    "referral.error.not_allowed":  ("Tu ne peux pas utiliser ce code.",
+                                    "You can't use this code."),
+    "referral.error.already_used": ("Tu as déjà été parrainé.", "You've already been invited."),
+    "referral.error.expired": (
+        "Le parrainage se fait dans les sept jours qui suivent l'inscription.",
+        "Invite codes must be entered within seven days of signing up."),
     "signin.tagline":    ("Apprends à investir sans risque.", "Learn to invest, risk-free."),
     "signin.create_account": ("Créer un compte", "Create an account"),
     "signin.have_account":   ("J'ai déjà un compte", "I already have an account"),

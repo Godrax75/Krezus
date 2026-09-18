@@ -280,6 +280,11 @@ struct ProfileScreen: View {
                 router.push(.editUsername)
             }
             KrzRowDivider()
+            KrzSettingsRow(icon: "gift.fill", title: t("profile.row.referral"),
+                           subtitle: t("profile.row.referral_detail")) {
+                router.push(.referral)
+            }
+            KrzRowDivider()
             KrzSettingsRow(icon: "flame.fill", title: t("profile.row.streak"),
                            subtitle: t(L10n.plural(Double(learning.streakDays),
                                                    one: "profile.row.streak.one",

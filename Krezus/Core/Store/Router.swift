@@ -19,6 +19,7 @@ enum Route: Hashable {
     case notificationSettings
     case notificationCenter
     case help
+    case referral
     case locked(LockedFeature)
 }
 
