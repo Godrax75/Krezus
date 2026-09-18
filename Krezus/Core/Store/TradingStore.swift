@@ -41,6 +41,8 @@ struct StockInfo: Identifiable, Sendable {
     let open: Double
     var price: Double
 
+    /// Devise de cotation (« EUR », « USD »). `price` est toujours en euros.
+    var currency: String = "EUR"
     /// Action ou ETF. Le catalogue de démonstration ne compte que des actions.
     var assetType: AssetType = .stock
     /// Famille de secteur et zone, telles que classées dans le référentiel
@@ -131,6 +133,7 @@ extension StockInfo {
             tileHex: Self.tileColor(for: security.symbol),
             open: quote?.open ?? quote?.previousClose ?? price,
             price: price,
+            currency: security.currency,
             assetType: AssetType(rawValue: security.assetType) ?? .stock,
             sectorGroupKey: security.sectorGroup,
             regionKey: security.region)

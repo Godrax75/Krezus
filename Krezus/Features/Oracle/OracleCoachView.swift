@@ -54,10 +54,7 @@ struct OracleCoachView: View {
         if let weakest = axes.min(by: { $0.value < $1.value }) {
             KrzCard {
                 HStack(alignment: .top, spacing: 12) {
-                    Circle().fill(KrezusColor.amberTint)
-                        .frame(width: 40, height: 40)
-                        .overlay(Image(systemName: "figure.wave")
-                            .foregroundStyle(KrezusColor.amberText))
+                    HerculeAvatar(size: 40)
                     VStack(alignment: .leading, spacing: 4) {
                         Text(t("coach.attention_point"))
                             .font(KrezusFont.body(10, .bold)).tracking(0.8)

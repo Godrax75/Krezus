@@ -52,33 +52,10 @@ struct StockDetailScreen: View {
         .padding(.top, 4)
     }
 
+    /// Cours, variation et courbe sur la période choisie.
     private func priceBlock(_ s: StockInfo) -> some View {
-        VStack(alignment: .leading, spacing: 8) {
-            HStack(alignment: .firstTextBaseline, spacing: 10) {
-                Text(s.hasQuote ? Money.euros(s.price) : "—")
-                    .font(KrezusFont.display(30, .heavy))
-                    .foregroundStyle(s.hasQuote ? KrezusColor.ink : KrezusColor.fg4)
-                    .tabularNumbers()
-                if let chg = s.changePct {
-                    Text(Money.percent(chg)).font(KrezusFont.body(14, .semibold))
-                        .foregroundStyle(chg >= 0 ? KrezusColor.up : KrezusColor.down)
-                        .tabularNumbers()
-                }
-                // La pastille « Live » ne s'affiche que s'il y a bien un cours à
-                // qualifier : l'annoncer sur un tiret serait une contradiction.
-                if s.hasQuote {
-                    HStack(spacing: 4) {
-                        Circle().fill(KrezusColor.up).frame(width: 6, height: 6)
-                        Text(t("common.live")).font(KrezusFont.body(10.5, .semibold))
-                            .foregroundStyle(KrezusColor.upDeep)
-                    }
-                }
-            }
-            // Sans variation connue, la courbe part sur la teinte neutre du
-            // haussier plutôt que d'annoncer une baisse qu'on ne mesure pas.
-            DetailSparkline(up: (s.changePct ?? 0) >= 0)
-                .frame(height: 90)
-        }
+        StockChartCard(stock: s)
+            .id(s.symbol)
     }
 
     private func actions(_ s: StockInfo) -> some View {
@@ -122,8 +99,7 @@ struct StockDetailScreen: View {
     private func herculeCard(_ s: StockInfo) -> some View {
         KrzCard {
             HStack(alignment: .top, spacing: 12) {
-                Circle().fill(KrezusColor.amberTint).frame(width: 40, height: 40)
-                    .overlay(Image(systemName: "figure.wave").foregroundStyle(KrezusColor.amberText))
+                HerculeAvatar(size: 40)
                 VStack(alignment: .leading, spacing: 6) {
                     Text(t("stock.hercule_explains")).font(KrezusFont.body(10, .bold)).tracking(0.8)
                         .foregroundStyle(KrezusColor.amberText)
@@ -156,28 +132,5 @@ struct StockDetailScreen: View {
             Text(value).font(KrezusFont.body(12.5, .semibold)).foregroundStyle(KrezusColor.ink)
         }
         .padding(.top, 2)
-    }
-}
-
-/// Petite courbe décorative pour la fiche action (remplacée par l'historique
-/// EODHD au Lot 3).
-struct DetailSparkline: View {
-    var up: Bool
-    var body: some View {
-        GeometryReader { geo in
-            let pts: [CGFloat] = up
-                ? [0.7, 0.6, 0.65, 0.5, 0.55, 0.4, 0.45, 0.3, 0.25, 0.15]
-                : [0.3, 0.4, 0.35, 0.5, 0.45, 0.6, 0.55, 0.65, 0.7, 0.8]
-            let path = Path { p in
-                for (i, v) in pts.enumerated() {
-                    let x = geo.size.width * CGFloat(i) / CGFloat(pts.count - 1)
-                    let y = geo.size.height * v
-                    i == 0 ? p.move(to: CGPoint(x: x, y: y)) : p.addLine(to: CGPoint(x: x, y: y))
-                }
-            }
-            path.stroke(up ? KrezusColor.up : KrezusColor.down,
-                        style: StrokeStyle(lineWidth: 2.25, lineJoin: .round))
-        }
-        .accessibilityHidden(true)
     }
 }

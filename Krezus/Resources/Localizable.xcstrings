@@ -9878,6 +9878,40 @@
         }
       }
     },
+    "stock.chart.empty": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pas encore d'historique pour ce titre."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No price history for this security yet."
+          }
+        }
+      }
+    },
+    "stock.chart.error": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Impossible de charger l'historique pour le moment."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Couldn't load the price history right now."
+          }
+        }
+      }
+    },
     "stock.fact.ceo": {
       "extractionState": "manual",
       "localizations": {

@@ -1166,6 +1166,11 @@ add({
     "referral.error.expired": (
         "Le parrainage se fait dans les sept jours qui suivent l'inscription.",
         "Invite codes must be entered within seven days of signing up."),
+    # Courbe de la fiche action.
+    "stock.chart.empty": ("Pas encore d'historique pour ce titre.",
+                          "No price history for this security yet."),
+    "stock.chart.error": ("Impossible de charger l'historique pour le moment.",
+                          "Couldn't load the price history right now."),
     "signin.tagline":    ("Apprends à investir sans risque.", "Learn to invest, risk-free."),
     "signin.create_account": ("Créer un compte", "Create an account"),
     "signin.have_account":   ("J'ai déjà un compte", "I already have an account"),

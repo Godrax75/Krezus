@@ -118,9 +118,10 @@ struct PricePoint: Codable, Sendable {
     let date: String
     let close: Double
 
-    var day: Date? { PricePoint.formatter.date(from: date) }
+    var day: Date? { PricePoint.dayFormatter.date(from: date) }
 
-    private static let formatter: DateFormatter = {
+    /// Jour ISO « 2026-09-18 », en UTC.
+    static let dayFormatter: DateFormatter = {
         let f = DateFormatter()
         f.calendar = Calendar(identifier: .iso8601)
         f.locale = Locale(identifier: "en_US_POSIX")
