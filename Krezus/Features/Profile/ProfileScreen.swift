@@ -218,8 +218,7 @@ struct ProfileScreen: View {
                 Button { router.push(.ranks) } label: {
                     VStack(alignment: .leading, spacing: 7) {
                         HStack(spacing: 7) {
-                            Text(learning.currentRank?.emoji ?? "🏛️")
-                                .font(.system(size: 16))
+                            RankBadge(rank: learning.currentRank, size: 30)
                             Text(learning.currentRank?.name ?? "")
                                 .font(KrezusFont.display(14, .bold))
                                 .foregroundStyle(KrezusColor.ink)

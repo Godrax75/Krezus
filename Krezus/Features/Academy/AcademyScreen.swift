@@ -26,8 +26,7 @@ struct AcademyScreen: View {
     private var rankCard: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack(alignment: .center, spacing: 12) {
-                Text(learning.currentRank?.emoji ?? "🏛️")
-                    .font(.system(size: 34))
+                RankBadge(rank: learning.currentRank, size: 58, disc: .white.opacity(0.14))
                 VStack(alignment: .leading, spacing: 2) {
                     Text(t("academy.your_rank"))
                         .font(KrezusFont.body(10, .bold)).tracking(0.8)

@@ -58,6 +58,7 @@
 		7207AB851B15B623D55467C0 /* Money.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5664F137F4595596AC828F5A /* Money.swift */; };
 		739F36AB580BB52E0854458D /* MarketDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72639BB020BD080B96E208AB /* MarketDataTests.swift */; };
 		7AF281F518EEA06F66BE9957 /* NewPasswordScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = D607594E03BC642B0B7AD402 /* NewPasswordScreen.swift */; };
+		80EBB297DD9C1E53775B8AE0 /* RankBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2208057DCEEF45ECF43BC6D /* RankBadge.swift */; };
 		815E487EC1A4E10F981C9923 /* PortfolioRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = C313D8810D590C329C3D7DA0 /* PortfolioRepository.swift */; };
 		861DDC9D6BD9A25312B3F98D /* ProfileScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC043DEF8554C35455A40068 /* ProfileScreen.swift */; };
 		8817AE9D07AC0869D056E0C8 /* PortfolioHistoryRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB05E7589749F4B98C6C24FD /* PortfolioHistoryRepository.swift */; };
@@ -203,6 +204,7 @@
 		C313D8810D590C329C3D7DA0 /* PortfolioRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioRepository.swift; sourceTree = "<group>"; };
 		C76AFA48BD4BC77C2B521C19 /* PortfolioHistoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioHistoryTests.swift; sourceTree = "<group>"; };
 		CF4C8AD9A4A8E5823E5E8BC6 /* ranks.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = ranks.json; sourceTree = "<group>"; };
+		D2208057DCEEF45ECF43BC6D /* RankBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankBadge.swift; sourceTree = "<group>"; };
 		D292C2EB5C47CEF7F6D4F517 /* SupabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupabaseService.swift; sourceTree = "<group>"; };
 		D29C9E183B6D397E96635C4F /* Country.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Country.swift; sourceTree = "<group>"; };
 		D2F3674881D0DF302CEF4301 /* StreakScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakScreen.swift; sourceTree = "<group>"; };
@@ -579,6 +581,7 @@
 				32FB9A54DD48D95AE290D6C8 /* AcademyScreen.swift */,
 				EA6CA3369A57F3836806F979 /* LessonScreen.swift */,
 				F059B075FE17BB2EF8BA8131 /* QuizScreen.swift */,
+				D2208057DCEEF45ECF43BC6D /* RankBadge.swift */,
 				2AAE7286557688CFA5475954 /* RanksScreen.swift */,
 			);
 			path = Academy;
@@ -771,6 +774,7 @@
 				3390AA606BA9CBC065F9E21A /* ProfileStore.swift in Sources */,
 				384956EABD10605379C74A48 /* PushNotificationService.swift in Sources */,
 				8DCC96A76C0453386446E701 /* QuizScreen.swift in Sources */,
+				80EBB297DD9C1E53775B8AE0 /* RankBadge.swift in Sources */,
 				DCD71E5AC1F05E781A1D088C /* RanksScreen.swift in Sources */,
 				6E2DEF925650B85158AC9042 /* ReferralRepository.swift in Sources */,
 				43AB6F6ECED222A2301F7F75 /* ReferralScreen.swift in Sources */,
