@@ -1064,10 +1064,88 @@ add({
         "Un portefeuille virtuel pour tester tes stratégies.",
         "A paper portfolio to test your strategies."),
     "signin.tagline":    ("Apprends à investir sans risque.", "Learn to invest, risk-free."),
-    "signin.google":     ("Continuer avec Google", "Continue with Google"),
+    "signin.create_account": ("Créer un compte", "Create an account"),
+    "signin.have_account":   ("J'ai déjà un compte", "I already have an account"),
+
+    # Formulaire commun à l'inscription et à la connexion.
+    "account.signup.title":    ("Crée ton compte", "Create your account"),
+    "account.signup.subtitle": ("1 000 € fictifs t'attendent, sur de vraies actions.",
+                                "€1,000 in paper money is waiting for you, on real stocks."),
+    "account.signin.title":    ("Content de te revoir", "Welcome back"),
+    "account.signin.subtitle": ("Reprends là où tu t'étais arrêté.", "Pick up where you left off."),
+    "account.google.signup":   ("S'inscrire avec Google", "Sign up with Google"),
+    "account.google.signin":   ("Se connecter avec Google", "Sign in with Google"),
+    "account.or_email":        ("ou avec ton e-mail", "or with your email"),
+    "account.email.placeholder":    ("Adresse e-mail", "Email address"),
+    "account.password.placeholder": ("Mot de passe", "Password"),
+    "account.password.show":   ("Afficher le mot de passe", "Show password"),
+    "account.password.hide":   ("Masquer le mot de passe", "Hide password"),
+    "account.password.hint":   ("%d caractères minimum", "At least %d characters"),
+    "account.forgot_password": ("Mot de passe oublié ?", "Forgot password?"),
+    "account.working":         ("Un instant…", "One moment…"),
+    "account.signup.cta":      ("Créer mon compte", "Create my account"),
+    "account.signin.cta":      ("Se connecter", "Sign in"),
+    # Markdown : les deux %@ reçoivent legal.terms_url et legal.privacy_url.
+    "account.legal": (
+        "En créant un compte, tu acceptes les [conditions d'utilisation](%@) "
+        "et la [politique de confidentialité](%@).",
+        "By creating an account, you accept the [terms of use](%@) "
+        "and the [privacy policy](%@)."),
+    "account.signup.switch_prompt": ("Déjà un compte ?", "Already have an account?"),
+    "account.signup.switch_cta":    ("Se connecter", "Sign in"),
+    "account.signin.switch_prompt": ("Pas encore de compte ?", "No account yet?"),
+    "account.signin.switch_cta":    ("Créer un compte", "Create one"),
+
+    "account.check_email.title":  ("Vérifie ta boîte mail", "Check your inbox"),
+    "account.check_email.body": (
+        "On a envoyé un lien de confirmation à %@. Ouvre-le depuis cet iPhone "
+        "pour activer ton compte.",
+        "We sent a confirmation link to %@. Open it on this iPhone to activate "
+        "your account."),
+    "account.check_email.resend": ("Renvoyer l'e-mail", "Resend the email"),
+    "account.check_email.resent": ("E-mail renvoyé", "Email sent again"),
+    "account.check_email.back":   ("Retour", "Back"),
+
+    "account.reset.title": ("Mot de passe oublié", "Forgot your password"),
+    "account.reset.body": (
+        "Indique ton adresse : on t'envoie un lien pour en choisir un nouveau. "
+        "Ouvre-le depuis cet iPhone.",
+        "Enter your address and we'll send you a link to choose a new one. "
+        "Open it on this iPhone."),
+    "account.reset.cta":  ("Envoyer le lien", "Send the link"),
+    "account.reset.sent": (
+        "Si un compte existe pour %@, un lien de réinitialisation vient de "
+        "partir. Pense à regarder dans les courriers indésirables.",
+        "If an account exists for %@, a reset link is on its way. Remember to "
+        "check your spam folder."),
+
+    "account.new_password.title": ("Nouveau mot de passe", "New password"),
+    "account.new_password.body": (
+        "Choisis le mot de passe que tu utiliseras désormais pour te connecter.",
+        "Choose the password you'll use to sign in from now on."),
+    "account.new_password.cta":   ("Enregistrer", "Save"),
     "signin.paper_note": ("Argent 100 % fictif · aucune transaction réelle",
                           "100% paper money · no real transactions"),
     "auth.error.apple_token": ("Jeton Apple manquant", "Missing Apple token"),
+    "auth.error.generic": (
+        "Une erreur est survenue. Vérifie ta connexion et réessaie.",
+        "Something went wrong. Check your connection and try again."),
+    "auth.error.invalid_credentials": ("Adresse ou mot de passe incorrect.",
+                                       "Incorrect email or password."),
+    "auth.error.email_not_confirmed": (
+        "Confirme d'abord ton adresse : ouvre le lien reçu par e-mail.",
+        "Confirm your address first: open the link we emailed you."),
+    "auth.error.already_exists": (
+        "Un compte existe déjà avec cette adresse. Connecte-toi plutôt.",
+        "An account already uses this address. Sign in instead."),
+    "auth.error.weak_password": (
+        "Ce mot de passe est trop faible. Choisis-en un plus long ou moins courant.",
+        "That password is too weak. Pick a longer or less common one."),
+    "auth.error.rate_limit": (
+        "Trop de tentatives. Patiente quelques minutes avant de réessayer.",
+        "Too many attempts. Wait a few minutes before trying again."),
+    "auth.error.invalid_email": ("Cette adresse e-mail n'est pas valide.",
+                                 "That email address isn't valid."),
 })
 
 add({

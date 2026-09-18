@@ -118,7 +118,8 @@ private struct RebuildOnLanguageOrTextSize: ViewModifier {
 /// Aiguillage racine :
 /// - onboarding pas encore vu → présentation en trois étapes ;
 /// - app non configurée (pas de secrets Supabase) → shell en mode démo ;
-/// - configurée mais non connectée → écran de connexion ;
+/// - configurée mais non connectée → création de compte ou connexion ;
+/// - connectée via un lien de réinitialisation → nouveau mot de passe ;
 /// - connectée → app complète branchée sur les données.
 ///
 /// Le verrou biométrique se pose **au-dessus** de tout : il protège aussi le
@@ -134,7 +135,13 @@ struct AuthGate: View {
             } else if !AppConfig.isConfigured {
                 RootView()                     // mode démo : TradingStore en mémoire
             } else if auth.isSignedIn {
-                RootView()
+                // Un lien de réinitialisation ouvre une session : on ne laisse
+                // entrer qu'une fois le nouveau mot de passe choisi.
+                if auth.isRecoveringPassword {
+                    NewPasswordScreen()
+                } else {
+                    RootView()
+                }
             } else {
                 SignInScreen()
             }

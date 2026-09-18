@@ -358,6 +358,567 @@
         }
       }
     },
+    "account.check_email.back": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Retour"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Back"
+          }
+        }
+      }
+    },
+    "account.check_email.body": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "On a envoyé un lien de confirmation à %@. Ouvre-le depuis cet iPhone pour activer ton compte."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "We sent a confirmation link to %@. Open it on this iPhone to activate your account."
+          }
+        }
+      }
+    },
+    "account.check_email.resend": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Renvoyer l'e-mail"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Resend the email"
+          }
+        }
+      }
+    },
+    "account.check_email.resent": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "E-mail renvoyé"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Email sent again"
+          }
+        }
+      }
+    },
+    "account.check_email.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vérifie ta boîte mail"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Check your inbox"
+          }
+        }
+      }
+    },
+    "account.email.placeholder": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Adresse e-mail"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Email address"
+          }
+        }
+      }
+    },
+    "account.forgot_password": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mot de passe oublié ?"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Forgot password?"
+          }
+        }
+      }
+    },
+    "account.google.signin": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Se connecter avec Google"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sign in with Google"
+          }
+        }
+      }
+    },
+    "account.google.signup": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "S'inscrire avec Google"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sign up with Google"
+          }
+        }
+      }
+    },
+    "account.legal": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "En créant un compte, tu acceptes les [conditions d'utilisation](%@) et la [politique de confidentialité](%@)."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "By creating an account, you accept the [terms of use](%@) and the [privacy policy](%@)."
+          }
+        }
+      }
+    },
+    "account.new_password.body": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choisis le mot de passe que tu utiliseras désormais pour te connecter."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose the password you'll use to sign in from now on."
+          }
+        }
+      }
+    },
+    "account.new_password.cta": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enregistrer"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Save"
+          }
+        }
+      }
+    },
+    "account.new_password.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nouveau mot de passe"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New password"
+          }
+        }
+      }
+    },
+    "account.or_email": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ou avec ton e-mail"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "or with your email"
+          }
+        }
+      }
+    },
+    "account.password.hide": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Masquer le mot de passe"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hide password"
+          }
+        }
+      }
+    },
+    "account.password.hint": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d caractères minimum"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "At least %d characters"
+          }
+        }
+      }
+    },
+    "account.password.placeholder": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mot de passe"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Password"
+          }
+        }
+      }
+    },
+    "account.password.show": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Afficher le mot de passe"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show password"
+          }
+        }
+      }
+    },
+    "account.reset.body": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Indique ton adresse : on t'envoie un lien pour en choisir un nouveau. Ouvre-le depuis cet iPhone."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enter your address and we'll send you a link to choose a new one. Open it on this iPhone."
+          }
+        }
+      }
+    },
+    "account.reset.cta": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Envoyer le lien"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Send the link"
+          }
+        }
+      }
+    },
+    "account.reset.sent": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Si un compte existe pour %@, un lien de réinitialisation vient de partir. Pense à regarder dans les courriers indésirables."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "If an account exists for %@, a reset link is on its way. Remember to check your spam folder."
+          }
+        }
+      }
+    },
+    "account.reset.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mot de passe oublié"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Forgot your password"
+          }
+        }
+      }
+    },
+    "account.signin.cta": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Se connecter"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sign in"
+          }
+        }
+      }
+    },
+    "account.signin.subtitle": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reprends là où tu t'étais arrêté."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pick up where you left off."
+          }
+        }
+      }
+    },
+    "account.signin.switch_cta": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Créer un compte"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Create one"
+          }
+        }
+      }
+    },
+    "account.signin.switch_prompt": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pas encore de compte ?"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No account yet?"
+          }
+        }
+      }
+    },
+    "account.signin.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Content de te revoir"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Welcome back"
+          }
+        }
+      }
+    },
+    "account.signup.cta": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Créer mon compte"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Create my account"
+          }
+        }
+      }
+    },
+    "account.signup.subtitle": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 000 € fictifs t'attendent, sur de vraies actions."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "€1,000 in paper money is waiting for you, on real stocks."
+          }
+        }
+      }
+    },
+    "account.signup.switch_cta": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Se connecter"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sign in"
+          }
+        }
+      }
+    },
+    "account.signup.switch_prompt": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Déjà un compte ?"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Already have an account?"
+          }
+        }
+      }
+    },
+    "account.signup.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Crée ton compte"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Create your account"
+          }
+        }
+      }
+    },
+    "account.working": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Un instant…"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "One moment…"
+          }
+        }
+      }
+    },
     "appearance.dark": {
       "extractionState": "manual",
       "localizations": {
@@ -1276,6 +1837,23 @@
         }
       }
     },
+    "auth.error.already_exists": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Un compte existe déjà avec cette adresse. Connecte-toi plutôt."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "An account already uses this address. Sign in instead."
+          }
+        }
+      }
+    },
     "auth.error.apple_token": {
       "extractionState": "manual",
       "localizations": {
@@ -1289,6 +1867,108 @@
           "stringUnit": {
             "state": "translated",
             "value": "Missing Apple token"
+          }
+        }
+      }
+    },
+    "auth.error.email_not_confirmed": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Confirme d'abord ton adresse : ouvre le lien reçu par e-mail."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Confirm your address first: open the link we emailed you."
+          }
+        }
+      }
+    },
+    "auth.error.generic": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Une erreur est survenue. Vérifie ta connexion et réessaie."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Something went wrong. Check your connection and try again."
+          }
+        }
+      }
+    },
+    "auth.error.invalid_credentials": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Adresse ou mot de passe incorrect."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Incorrect email or password."
+          }
+        }
+      }
+    },
+    "auth.error.invalid_email": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cette adresse e-mail n'est pas valide."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "That email address isn't valid."
+          }
+        }
+      }
+    },
+    "auth.error.rate_limit": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trop de tentatives. Patiente quelques minutes avant de réessayer."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Too many attempts. Wait a few minutes before trying again."
+          }
+        }
+      }
+    },
+    "auth.error.weak_password": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ce mot de passe est trop faible. Choisis-en un plus long ou moins courant."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "That password is too weak. Pick a longer or less common one."
           }
         }
       }
@@ -7906,19 +8586,36 @@
         }
       }
     },
-    "signin.google": {
+    "signin.create_account": {
       "extractionState": "manual",
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Continuer avec Google"
+            "value": "Créer un compte"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Continue with Google"
+            "value": "Create an account"
+          }
+        }
+      }
+    },
+    "signin.have_account": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "J'ai déjà un compte"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "I already have an account"
           }
         }
       }

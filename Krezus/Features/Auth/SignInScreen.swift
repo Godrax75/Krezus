@@ -1,89 +1,101 @@
 import SwiftUI
-import AuthenticationServices
 
-/// Écran de connexion — Sign in with Apple + Google, comme « Création de compte »
-/// du design. Affiché uniquement quand l'app est configurée (Supabase) et
-/// qu'aucune session n'est active.
+/// Porte d'entrée des visiteurs sans session : deux chemins nettement séparés,
+/// créer un compte ou retrouver le sien.
+///
+/// L'ancien écran proposait les mêmes boutons Apple et Google à tout le monde :
+/// rien ne disait si l'on s'inscrivait ou si l'on se connectait, et sans
+/// compte Apple ni Google, on ne pouvait pas entrer du tout. Chacun des deux
+/// chemins propose désormais les trois moyens — Apple, Google, e-mail.
+///
+/// L'écran reprend l'univers de l'onboarding qui le précède : la mascotte sur
+/// le bleu profond, le bouton blanc. Les formulaires, eux, reviennent au fond
+/// clair de l'app, plus confortable pour taper.
 struct SignInScreen: View {
-    @Environment(AuthService.self) private var auth
-    @State private var error: String?
+    @State private var path: [AccountFormScreen.Mode] = []
 
     var body: some View {
-        VStack(spacing: 0) {
-            Spacer()
-            Image("krezus-mascot").resizable().scaledToFit().frame(width: 72, height: 72)
-            Text("Krezus")
-                .font(KrezusFont.display(34, .heavy))
-                .foregroundStyle(KrezusColor.brandText)
-                .padding(.top, 12)
-            Text(t("signin.tagline"))
-                .font(KrezusFont.bodyMd).foregroundStyle(KrezusColor.fg3)
-                .padding(.top, 4)
-
-            Spacer()
-
-            VStack(spacing: 12) {
-                SignInWithAppleButton(.signIn) { request in
-                    request.requestedScopes = [.fullName, .email]
-                } onCompletion: { result in
-                    handleApple(result)
-                }
-                .signInWithAppleButtonStyle(.black)
-                .frame(height: 52)
-                .clipShape(RoundedRectangle(cornerRadius: KrezusRadius.md, style: .continuous))
-
-                if !AppConfig.googleClientID.isEmpty {
-                    Button {
-                        Task { await signInGoogle() }
-                    } label: {
-                        HStack {
-                            Image(systemName: "globe")
-                            Text(t("signin.google"))
-                        }
-                        .font(KrezusFont.display(15.5, .semibold))
-                        .foregroundStyle(KrezusColor.ink)
-                        .frame(maxWidth: .infinity).frame(height: 52)
-                        .background(KrezusColor.surface)
-                        .clipShape(RoundedRectangle(cornerRadius: KrezusRadius.md, style: .continuous))
-                        .overlay(RoundedRectangle(cornerRadius: KrezusRadius.md)
-                            .stroke(KrezusColor.border, lineWidth: 1))
+        NavigationStack(path: $path) {
+            landing
+                .navigationDestination(for: AccountFormScreen.Mode.self) { mode in
+                    AccountFormScreen(mode: mode) { other in
+                        // Bascule « déjà un compte ? » : on remplace l'écran
+                        // plutôt que d'empiler, sans quoi le retour ferait
+                        // alterner les deux formulaires à l'infini.
+                        path = [other]
                     }
-                    .buttonStyle(.plain)
                 }
+        }
+    }
 
-                if let error {
-                    Text(error).font(KrezusFont.caption).foregroundStyle(KrezusColor.down)
+    private var landing: some View {
+        ZStack(alignment: .bottom) {
+            KrezusColor.navyDeep.ignoresSafeArea()
+
+            Image("onboarding-1")
+                .resizable()
+                .scaledToFit()
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+                .ignoresSafeArea()
+                .overlay {
+                    LinearGradient(
+                        stops: [
+                            .init(color: KrezusColor.navyDeep.opacity(0.35), location: 0.0),
+                            .init(color: .clear, location: 0.18),
+                            .init(color: .clear, location: 0.38),
+                            .init(color: KrezusColor.navyDeep.opacity(0.85), location: 0.58),
+                            .init(color: KrezusColor.navyDeep, location: 0.70),
+                        ],
+                        startPoint: .top, endPoint: .bottom)
+                    .ignoresSafeArea()
                 }
+                .accessibilityHidden(true)
+
+            VStack(spacing: KrezusSpacing.s3) {
+                Text("Krezus")
+                    .font(KrezusFont.display(38, .heavy))
+                    .foregroundStyle(.white)
+                Text(t("signin.tagline"))
+                    .font(KrezusFont.bodyMd)
+                    .foregroundStyle(.white.opacity(0.85))
+                    .multilineTextAlignment(.center)
+                    .padding(.bottom, KrezusSpacing.s5)
+
+                NavigationLink(value: AccountFormScreen.Mode.signUp) {
+                    Text(t("signin.create_account"))
+                        .font(KrezusFont.display(15.5, .bold))
+                        .foregroundStyle(KrezusColor.navyDeep)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 16)
+                        .background(
+                            LinearGradient(colors: [.white, Color(hex: 0xDFE4F0)],
+                                           startPoint: .top, endPoint: .bottom))
+                        .clipShape(RoundedRectangle(cornerRadius: KrezusRadius.md, style: .continuous))
+                        .shadow(color: .black.opacity(0.25), radius: 14, y: 6)
+                }
+                .buttonStyle(.plain)
+
+                NavigationLink(value: AccountFormScreen.Mode.signIn) {
+                    Text(t("signin.have_account"))
+                        .font(KrezusFont.display(15.5, .semibold))
+                        .foregroundStyle(.white)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 16)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: KrezusRadius.md, style: .continuous)
+                                .stroke(.white.opacity(0.45), lineWidth: 1.2))
+                        .contentShape(Rectangle())
+                }
+                .buttonStyle(.plain)
+
+                Text(t("signin.paper_note"))
+                    .font(KrezusFont.caption)
+                    .foregroundStyle(.white.opacity(0.6))
+                    .padding(.top, KrezusSpacing.s2)
             }
             .padding(.horizontal, KrezusSpacing.s6)
-
-            Text(t("signin.paper_note"))
-                .font(KrezusFont.caption).foregroundStyle(KrezusColor.fg3)
-                .padding(.top, 20).padding(.bottom, 32)
+            .padding(.bottom, KrezusSpacing.s6)
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(KrezusColor.bg.ignoresSafeArea())
-    }
-
-    private func handleApple(_ result: Result<ASAuthorization, Error>) {
-        switch result {
-        case .success(let authorization):
-            guard let credential = authorization.credential as? ASAuthorizationAppleIDCredential
-            else { return }
-            Task {
-                do { try await auth.signInWithApple(credential) }
-                catch { self.error = error.localizedDescription }
-            }
-        case .failure(let err):
-            // L'annulation par l'utilisateur n'est pas une erreur à afficher.
-            if (err as? ASAuthorizationError)?.code != .canceled {
-                self.error = err.localizedDescription
-            }
-        }
-    }
-
-    private func signInGoogle() async {
-        do { try await auth.signInWithGoogle() }
-        catch { self.error = error.localizedDescription }
+        .toolbar(.hidden, for: .navigationBar)
     }
 }
