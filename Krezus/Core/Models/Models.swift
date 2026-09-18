@@ -56,9 +56,13 @@ struct Security: Codable, Identifiable, Sendable {
     let descriptionEn: String?
     let herculeNoteFr: String?
     let herculeNoteEn: String?
+    /// Famille de secteur et zone d'exposition (0018). Facultatives : sans
+    /// la migration, l'app les devine.
+    let sectorGroup: String?
+    let region: String?
 
     enum CodingKeys: String, CodingKey {
-        case symbol, currency, name, country, sector, founded, initials, ceo
+        case symbol, currency, name, country, sector, founded, initials, ceo, region
         case eodhdSymbol = "eodhd_symbol"
         case sectorEn = "sector_en"
         case assetType = "asset_type"
@@ -72,6 +76,7 @@ struct Security: Codable, Identifiable, Sendable {
         case descriptionEn = "description_en"
         case herculeNoteFr = "hercule_note_fr"
         case herculeNoteEn = "hercule_note_en"
+        case sectorGroup = "sector_group"
     }
 }
 

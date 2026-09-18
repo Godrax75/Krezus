@@ -4597,13 +4597,13 @@
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Explorer les actions"
+            "value": "Explorer le marché"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Explore stocks"
+            "value": "Explore the market"
           }
         }
       }
@@ -5577,6 +5577,125 @@
         }
       }
     },
+    "market.empty.etfs": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aucun ETF ne correspond à ta recherche."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No ETF matches your search."
+          }
+        }
+      }
+    },
+    "market.empty.stocks": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aucune action ne correspond à ta recherche."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No stock matches your search."
+          }
+        }
+      }
+    },
+    "market.group.region": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zone"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Region"
+          }
+        }
+      }
+    },
+    "market.group.sector": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Secteur"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sector"
+          }
+        }
+      }
+    },
+    "market.group_by": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Grouper par"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Group by"
+          }
+        }
+      }
+    },
+    "market.kind.etfs": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ETF · %d"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ETFs · %d"
+          }
+        }
+      }
+    },
+    "market.kind.stocks": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Actions · %d"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stocks · %d"
+          }
+        }
+      }
+    },
     "market.search_placeholder": {
       "extractionState": "manual",
       "localizations": {
@@ -5600,13 +5719,13 @@
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Explorer les actions"
+            "value": "Explorer le marché"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Explore stocks"
+            "value": "Explore the market"
           }
         }
       }
@@ -8331,19 +8450,189 @@
         }
       }
     },
+    "region.asia_em": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Asie & émergents"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Asia & emerging"
+          }
+        }
+      }
+    },
+    "region.europe": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Europe (hors France)"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Europe (ex-France)"
+          }
+        }
+      }
+    },
+    "region.fr": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "France"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "France"
+          }
+        }
+      }
+    },
+    "region.us": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "États-Unis"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "United States"
+          }
+        }
+      }
+    },
+    "region.world": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Monde"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Global"
+          }
+        }
+      }
+    },
+    "sector.auto": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Automobile"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Automotive"
+          }
+        }
+      }
+    },
+    "sector.bonds": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Obligations"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bonds"
+          }
+        }
+      }
+    },
+    "sector.broad": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Indices larges"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Broad indices"
+          }
+        }
+      }
+    },
+    "sector.commodities": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Matières premières"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Commodities"
+          }
+        }
+      }
+    },
+    "sector.consumer": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Consommation & luxe"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Consumer & luxury"
+          }
+        }
+      }
+    },
     "sector.energy": {
       "extractionState": "manual",
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Énergie"
+            "value": "Énergie & services publics"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Energy"
+            "value": "Energy & utilities"
           }
         }
       }
@@ -8365,6 +8654,23 @@
         }
       }
     },
+    "sector.health": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Santé"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Healthcare"
+          }
+        }
+      }
+    },
     "sector.industry": {
       "extractionState": "manual",
       "localizations": {
@@ -8382,19 +8688,36 @@
         }
       }
     },
-    "sector.luxury": {
+    "sector.materials": {
       "extractionState": "manual",
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Luxe"
+            "value": "Matériaux"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Luxury"
+            "value": "Materials"
+          }
+        }
+      }
+    },
+    "sector.realestate": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Immobilier"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Real estate"
           }
         }
       }
@@ -8412,6 +8735,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Technology"
+          }
+        }
+      }
+    },
+    "sector.telecom": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Télécoms & médias"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Telecom & media"
           }
         }
       }

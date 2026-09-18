@@ -49,9 +49,12 @@ struct MarketDataTests {
         dividendYield: Double? = 2.9,
         initials: String? = "AL",
         countryCode: String? = "FR",
-        descriptionEn: String? = "Air Liquide produces industrial gases."
+        descriptionEn: String? = "Air Liquide produces industrial gases.",
+        assetType: String = "stock",
+        sectorGroup: String? = nil,
+        region: String? = nil
     ) -> Security {
-        Security(symbol: "AI", eodhdSymbol: "AI.PA", currency: "EUR", assetType: "stock",
+        Security(symbol: "AI", eodhdSymbol: "AI.PA", currency: "EUR", assetType: assetType,
                  name: "Air Liquide", countryCode: countryCode, country: "France",
                  sector: "Gaz industriels", sectorEn: "Industrial gases",
                  founded: "1902", logoAsset: nil,
@@ -61,7 +64,44 @@ struct MarketDataTests {
                  descriptionFr: "Air Liquide produit les gaz industriels.",
                  descriptionEn: descriptionEn,
                  herculeNoteFr: "L'oxygène des hôpitaux français.",
-                 herculeNoteEn: "The oxygen in French hospitals.")
+                 herculeNoteEn: "The oxygen in French hospitals.",
+                 sectorGroup: sectorGroup, region: region)
+    }
+
+    // MARK: Classification (0018)
+
+    @Test("La famille classée dans le référentiel l'emporte sur la devinette")
+    func classifiedGroupWins() {
+        let stock = StockInfo(security: Self.security(sectorGroup: "consumer", region: "world"), quote: nil)
+        #expect(stock.sectorGroup == .consumer)
+        #expect(stock.region == .world)
+    }
+
+    @Test("Sans classification, « Gaz industriels » se range en Matériaux, pas en Énergie")
+    func guessedGroupForIndustrialGases() {
+        // L'ancien regroupement par mots-clés rangeait Air Liquide en Énergie
+        // à cause du mot « gaz ».
+        let stock = StockInfo(security: Self.security(), quote: nil)
+        #expect(stock.sectorGroup == .materials)
+        #expect(stock.region == .fr)
+    }
+
+    @Test("Un ETF se range par sa zone d'exposition, pas par son pays de domiciliation")
+    func etfRegionIsExposure() {
+        let etf = StockInfo(security: Self.security(countryCode: "IE", assetType: "etf", region: "us"),
+                            quote: nil)
+        #expect(etf.isETF)
+        #expect(etf.region == .us)
+        // Sans classification, un ETF irlandais n'est pas « Europe » par défaut.
+        let unclassified = StockInfo(security: Self.security(countryCode: "IE", assetType: "etf"), quote: nil)
+        #expect(unclassified.region == .world)
+    }
+
+    @Test("Une clé inconnue retombe sur la devinette au lieu de planter")
+    func unknownKeyFallsBack() {
+        let stock = StockInfo(security: Self.security(sectorGroup: "aerospace", region: "mars"), quote: nil)
+        #expect(stock.sectorGroup == .materials)
+        #expect(stock.region == .fr)
     }
 
     @Test("Une fiche serveur reprend cours, référentiel et textes")

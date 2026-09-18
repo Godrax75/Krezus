@@ -92,11 +92,36 @@ add({
 
 # Familles de secteurs du camembert d'allocation.
 add({
-    "sector.technology": ("Technologie", "Technology"),
-    "sector.luxury":     ("Luxe", "Luxury"),
-    "sector.finance":    ("Finance", "Finance"),
-    "sector.energy":     ("Énergie", "Energy"),
-    "sector.industry":   ("Industrie", "Industrials"),
+    # Familles de secteur (securities.sector_group, 0018).
+    "sector.technology":  ("Technologie", "Technology"),
+    "sector.finance":     ("Finance", "Finance"),
+    "sector.consumer":    ("Consommation & luxe", "Consumer & luxury"),
+    "sector.industry":    ("Industrie", "Industrials"),
+    "sector.energy":      ("Énergie & services publics", "Energy & utilities"),
+    "sector.health":      ("Santé", "Healthcare"),
+    "sector.auto":        ("Automobile", "Automotive"),
+    "sector.materials":   ("Matériaux", "Materials"),
+    "sector.telecom":     ("Télécoms & médias", "Telecom & media"),
+    "sector.realestate":  ("Immobilier", "Real estate"),
+    "sector.broad":       ("Indices larges", "Broad indices"),
+    "sector.bonds":       ("Obligations", "Bonds"),
+    "sector.commodities": ("Matières premières", "Commodities"),
+    # Zones d'exposition (securities.region, 0018).
+    "region.fr":      ("France", "France"),
+    "region.europe":  ("Europe (hors France)", "Europe (ex-France)"),
+    "region.us":      ("États-Unis", "United States"),
+    "region.asia_em": ("Asie & émergents", "Asia & emerging"),
+    "region.world":   ("Monde", "Global"),
+    # Marché : actions et ETF séparés, regroupements.
+    "market.kind.stocks":   ("Actions · %d", "Stocks · %d"),
+    "market.kind.etfs":     ("ETF · %d", "ETFs · %d"),
+    "market.group_by":      ("Grouper par", "Group by"),
+    "market.group.sector":  ("Secteur", "Sector"),
+    "market.group.region":  ("Zone", "Region"),
+    "market.empty.stocks":  ("Aucune action ne correspond à ta recherche.",
+                             "No stock matches your search."),
+    "market.empty.etfs":    ("Aucun ETF ne correspond à ta recherche.",
+                             "No ETF matches your search."),
 })
 
 # Pays de l'univers de titres. Le reste retombe sur la table de l'OS.
@@ -146,7 +171,7 @@ add({
     "home.next_lesson":       ("Leçon %d · %@", "Lesson %d · %@"),
     "home.my_stocks":         ("Mes actions", "My stocks"),
     "home.paper_balance":     ("SOLDE PAPIER", "PAPER BALANCE"),
-    "home.explore_cta":       ("Explorer les actions", "Explore stocks"),
+    "home.explore_cta":       ("Explorer le marché", "Explore the market"),
     "home.hercule_tip.label": ("LE CONSEIL D'HERCULE", "HERCULE'S TIP"),
     "home.hercule_tip.body": (
         "Ton portefeuille est concentré sur la tech. Une action défensive comme "
@@ -199,7 +224,7 @@ add({
 # ------------------------------------------------------------------- Marché
 
 add({
-    "market.title":              ("Explorer les actions", "Explore stocks"),
+    "market.title":              ("Explorer le marché", "Explore the market"),
     "market.search_placeholder": ("Rechercher une action…", "Search for a stock…"),
     "market.already_owned":      ("Déjà en portefeuille", "Already in your portfolio"),
     "market.delayed_note": (
@@ -1226,6 +1251,7 @@ DYNAMIC_FAMILIES = (
     "locked.", "mission.", "coach.advice.", "coach.axis.", "help.faq.",
     "onboarding.", "archetype.", "hercule.answer.", "country.", "dna.",
     "portfolio.range.", "portfolio.range_caption.",
+    "sector.", "region.",
 )
 
 

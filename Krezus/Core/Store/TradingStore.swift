@@ -10,7 +10,7 @@ struct StockInfo: Identifiable, Sendable {
     let cc: String            // code pays (US, FR…)
     /// Secteur tel qu'il est écrit dans `securities.sector`, en français. C'est
     /// une donnée de référence, pas un libellé d'affichage : le regroupement du
-    /// portefeuille s'appuie dessus (voir `TradingStore.groupOf`).
+    /// famille de repli s'appuie dessus (voir `SectorGroup.guess`).
     let sector: String
     /// Traduction anglaise du secteur, purement d'affichage (`sector_en`).
     /// `nil` = pas encore traduit, on retombe sur le français.
@@ -40,6 +40,27 @@ struct StockInfo: Identifiable, Sendable {
     let tileHex: UInt32
     let open: Double
     var price: Double
+
+    /// Action ou ETF. Le catalogue de démonstration ne compte que des actions.
+    var assetType: AssetType = .stock
+    /// Famille de secteur et zone, telles que classées dans le référentiel
+    /// (0018). `nil` = pas encore classé : on devine (voir `sectorGroup`).
+    var sectorGroupKey: String? = nil
+    var regionKey: String? = nil
+
+    var isETF: Bool { assetType == .etf }
+
+    /// Famille de secteur, classée ou devinée.
+    var sectorGroup: SectorGroup {
+        sectorGroupKey.flatMap(SectorGroup.init(rawValue:))
+            ?? SectorGroup.guess(fromSector: sector, isETF: isETF)
+    }
+
+    /// Zone d'exposition, classée ou devinée.
+    var region: Region {
+        regionKey.flatMap(Region.init(rawValue:))
+            ?? Region.guess(countryCode: cc, isETF: isETF)
+    }
 
     /// Vrai quand le titre a une cotation exploitable.
     ///
@@ -109,7 +130,10 @@ extension StockInfo {
             initials: security.initials ?? Self.initials(from: security.name),
             tileHex: Self.tileColor(for: security.symbol),
             open: quote?.open ?? quote?.previousClose ?? price,
-            price: price)
+            price: price,
+            assetType: AssetType(rawValue: security.assetType) ?? .stock,
+            sectorGroupKey: security.sectorGroup,
+            regionKey: security.region)
     }
 
     /// Deux lettres de repli quand le référentiel n'en fournit pas.
@@ -281,7 +305,7 @@ final class TradingStore {
     /// Répartition par secteur (label, part 0…1) pour l'écran Portefeuille.
     var allocation: [(label: String, pct: Double)] {
         let byGroup = Dictionary(grouping: positions.keys) { sym in
-            groupOf(stock(sym)?.sector ?? "")
+            (stock(sym)?.sectorGroup ?? .industry).label
         }
         let total = positions.keys.reduce(0.0) { $0 + positionValue($1) }
         guard total > 0 else { return [] }
@@ -437,20 +461,6 @@ final class TradingStore {
             positions["AI"] = (0.21, Int((Double(amount) / 0.21).rounded()))
             cashCents -= amount
         }
-    }
-
-    /// Regroupe les secteurs en cinq familles. Le test porte sur le libellé
-    /// français de `securities.sector` — c'est la donnée, pas de l'affichage ;
-    /// seul le libellé rendu est traduit.
-    private func groupOf(_ sector: String) -> String {
-        let s = sector.lowercased()
-        if s.contains("semi") || s.contains("logiciel") || s.contains("techno") || s.contains("internet") {
-            return t("sector.technology")
-        }
-        if s.contains("luxe") { return t("sector.luxury") }
-        if s.contains("banqu") || s.contains("assur") { return t("sector.finance") }
-        if s.contains("énergie") || s.contains("pétrole") || s.contains("gaz") { return t("sector.energy") }
-        return t("sector.industry")
     }
 }
 

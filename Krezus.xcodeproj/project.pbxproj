@@ -94,6 +94,7 @@
 		DB35E1068553505358FEC45B /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = 2EB2AFDCC3E834109F377DD4 /* Supabase */; };
 		DCD71E5AC1F05E781A1D088C /* RanksScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AAE7286557688CFA5475954 /* RanksScreen.swift */; };
 		DE85EFC2BAF2ABB4F32C9EB4 /* PortfolioHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A52B91CC498A41181118E98D /* PortfolioHistory.swift */; };
+		DE992FB329480F0D610B606C /* SecurityClassification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38D246E02018EA77C1B6910A /* SecurityClassification.swift */; };
 		E352734E0DF384D9A00B6821 /* ranks.json in Resources */ = {isa = PBXBuildFile; fileRef = CF4C8AD9A4A8E5823E5E8BC6 /* ranks.json */; };
 		E365B80FDFA1CE4CEDC4A691 /* lessons.en.json in Resources */ = {isa = PBXBuildFile; fileRef = 20A168AE58FB639C9DDC52FD /* lessons.en.json */; };
 		E72AC69A43D20848EF57E48B /* SupabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D292C2EB5C47CEF7F6D4F517 /* SupabaseService.swift */; };
@@ -141,6 +142,7 @@
 		3489994F8A08F69247B0C387 /* KrezusApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KrezusApp.swift; sourceTree = "<group>"; };
 		3703310CFEC1EC8DCAC5B93B /* MarketDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketDataService.swift; sourceTree = "<group>"; };
 		38759C784CF7883FDB745AD5 /* StockDetailScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockDetailScreen.swift; sourceTree = "<group>"; };
+		38D246E02018EA77C1B6910A /* SecurityClassification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityClassification.swift; sourceTree = "<group>"; };
 		3CDAD2F4D9881CE6E04C99B4 /* LockedFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockedFeature.swift; sourceTree = "<group>"; };
 		3E8CAEDC30E668847F943013 /* SellScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SellScreen.swift; sourceTree = "<group>"; };
 		4252D187E8DE10504CF1C92B /* ArenaFriendsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArenaFriendsView.swift; sourceTree = "<group>"; };
@@ -269,6 +271,7 @@
 				78F3B872D226E0431A602D5F /* DemoCatalog.swift */,
 				0F8C66FCBB20235A787D64D6 /* Models.swift */,
 				A52B91CC498A41181118E98D /* PortfolioHistory.swift */,
+				38D246E02018EA77C1B6910A /* SecurityClassification.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -759,6 +762,7 @@
 				ABABA96D1B11AEC5F47D0BCE /* RootView.swift in Sources */,
 				CCFE9CAB3E93EDCEC65A26B5 /* Router.swift in Sources */,
 				AFE8D5B4D619EDE816909D4A /* SecuritiesRepository.swift in Sources */,
+				DE992FB329480F0D610B606C /* SecurityClassification.swift in Sources */,
 				537B6D74741E95A9F670EE38 /* SecurityScreen.swift in Sources */,
 				6C1EDC48C2E839604DE4E7D0 /* SellScreen.swift in Sources */,
 				3C966BBA4AA5FEB4B553B89B /* SettingsScreen.swift in Sources */,
