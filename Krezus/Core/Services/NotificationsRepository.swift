@@ -82,6 +82,16 @@ struct NotificationsRepository {
     /// le reste : portefeuille, ordres, progression, messages Hercule.
     func deleteAccount() async throws {
         let client = try SupabaseService.shared.requireClient()
+        // La photo d'abord : supprimer l'utilisateur n'efface pas ses
+        // fichiers, et un fichier orphelin ne peut plus être retiré par
+        // personne d'autre qu'un administrateur. Une photo absente n'est pas
+        // une erreur.
+        if let userID = client.auth.currentUser?.id {
+            _ = try? await client.storage
+                .from(ProfileRepository.avatarBucket)
+                .remove(paths: [ProfileRepository.avatarPath(for: userID)])
+            AvatarCache.clear(userID: userID)
+        }
         try await client.rpc("delete_own_account").execute()
     }
 }

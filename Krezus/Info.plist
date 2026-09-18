@@ -40,6 +40,8 @@
 	<string>$(GOOGLE_OAUTH_CLIENT_ID)</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
+	<key>NSCameraUsageDescription</key>
+	<string>Prendre ta photo de profil.</string>
 	<key>NSFaceIDUsageDescription</key>
 	<string>Déverrouiller Krezus avec Face ID.</string>
 	<key>SUPABASE_ANON_KEY</key>

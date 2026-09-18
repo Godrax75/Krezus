@@ -49,6 +49,7 @@ targets:
         # Verrou biométrique optionnel (Réglages → Sécurité). Sans cette clé,
         # iOS tue l'app à la première évaluation de politique.
         NSFaceIDUsageDescription: Déverrouiller Krezus avec Face ID.
+        NSCameraUsageDescription: Prendre ta photo de profil.
         CFBundleShortVersionString: "$(MARKETING_VERSION)"
         CFBundleVersion: "$(CURRENT_PROJECT_VERSION)"
         # Krezus n'utilise que HTTPS et les primitives du système : chiffrement

@@ -239,14 +239,26 @@ struct KrzSegmented<Value: Hashable>: View {
 struct KrzAvatar: View {
     let initial: String
     var size: CGFloat = 32
+    /// Photo de profil ; à défaut, l'initiale dans une pastille teintée.
+    var image: UIImage? = nil
 
     var body: some View {
-        Text(initial)
-            .font(KrezusFont.display(size * 0.42, .bold))
-            .foregroundStyle(KrezusColor.brandText)
-            .frame(width: size, height: size)
-            .background(KrezusColor.tintStrong)
-            .clipShape(Circle())
+        Group {
+            if let image {
+                Image(uiImage: image)
+                    .resizable()
+                    .scaledToFill()
+            } else {
+                Text(initial)
+                    .font(KrezusFont.display(size * 0.42, .bold))
+                    .foregroundStyle(KrezusColor.brandText)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .background(KrezusColor.tintStrong)
+            }
+        }
+        .frame(width: size, height: size)
+        .clipShape(Circle())
+        .accessibilityHidden(true)
     }
 }
 

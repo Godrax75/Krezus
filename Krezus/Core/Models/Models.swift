@@ -15,6 +15,8 @@ struct Profile: Codable, Identifiable, Sendable {
     var rankLevel: Int
     var streakDays: Int
     var premiumUntil: Date?
+    /// Date de la dernière photo de profil ; nil = pas de photo.
+    var avatarUpdatedAt: Date?
 
     enum CodingKeys: String, CodingKey {
         case id, username, locale, xp
@@ -24,6 +26,7 @@ struct Profile: Codable, Identifiable, Sendable {
         case rankLevel = "rank_level"
         case streakDays = "streak_days"
         case premiumUntil = "premium_until"
+        case avatarUpdatedAt = "avatar_updated_at"
     }
 }
 

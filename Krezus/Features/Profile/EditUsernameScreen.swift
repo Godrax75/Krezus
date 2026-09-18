@@ -27,7 +27,7 @@ struct EditUsernameScreen: View {
                 VStack(alignment: .leading, spacing: KrezusSpacing.s3) {
                     HStack {
                         Spacer()
-                        KrzAvatar(initial: initialPreview, size: 72)
+                        KrzAvatar(initial: initialPreview, size: 72, image: profile.avatar)
                         Spacer()
                     }
                     .padding(.vertical, KrezusSpacing.s4)

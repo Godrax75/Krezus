@@ -151,7 +151,7 @@ struct KrezusHeader: View {
                                 : t("a11y.notifications"))
 
             Button { router.push(.profile) } label: {
-                KrzAvatar(initial: profile.initial)
+                KrzAvatar(initial: profile.initial, image: profile.avatar)
                     .frame(width: 44, height: 44)
                     .contentShape(Circle())
             }

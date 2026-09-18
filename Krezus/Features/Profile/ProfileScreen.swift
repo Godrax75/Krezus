@@ -1,4 +1,5 @@
 import SwiftUI
+import PhotosUI
 
 /// Écran « Profil » — identité, progression, réglages, vitrine du mode réel.
 ///
@@ -17,6 +18,11 @@ struct ProfileScreen: View {
     @Environment(Router.self) private var router
 
     @State private var confirmingReset = false
+    @State private var choosingPhotoSource = false
+    @State private var showingLibrary = false
+    @State private var showingCamera = false
+    @State private var libraryItem: PhotosPickerItem?
+    @State private var avatarError: String?
     @State private var confirmingSignOut = false
     @State private var confirmingDeletion = false
     @State private var deletionError: String?
@@ -90,6 +96,85 @@ struct ProfileScreen: View {
         } message: {
             Text(t("profile.delete.message"))
         }
+        .confirmationDialog(t("avatar.dialog.title"), isPresented: $choosingPhotoSource,
+                            titleVisibility: .visible) {
+            if CameraPicker.isAvailable {
+                Button(t("avatar.take_photo")) { showingCamera = true }
+            }
+            Button(t("avatar.choose_photo")) { showingLibrary = true }
+            if profile.avatar != nil {
+                Button(t("avatar.remove"), role: .destructive) {
+                    Task { await removeAvatar() }
+                }
+            }
+            Button(t("common.cancel"), role: .cancel) {}
+        }
+        // Le sélecteur de photos tourne hors du processus de l'app : il ne
+        // demande aucune autorisation d'accès à la photothèque, et l'app ne
+        // voit que la photo choisie.
+        .photosPicker(isPresented: $showingLibrary, selection: $libraryItem,
+                      matching: .images, preferredItemEncoding: .compatible)
+        .onChange(of: libraryItem) { _, item in
+            guard let item else { return }
+            libraryItem = nil
+            Task {
+                guard let data = try? await item.loadTransferable(type: Data.self),
+                      let image = UIImage(data: data) else {
+                    avatarError = t("avatar.error.unreadable")
+                    return
+                }
+                await setAvatar(image)
+            }
+        }
+        .fullScreenCover(isPresented: $showingCamera) {
+            CameraPicker { image in Task { await setAvatar(image) } }
+                .ignoresSafeArea()
+        }
+        .alert(t("avatar.error.title"), isPresented: Binding(
+            get: { avatarError != nil }, set: { if !$0 { avatarError = nil } })) {
+            Button(t("common.ok"), role: .cancel) {}
+        } message: {
+            Text(avatarError ?? "")
+        }
+    }
+
+    // MARK: Photo de profil
+
+    /// L'avatar ouvre le choix de la source ; un badge appareil photo signale
+    /// qu'il est modifiable, et une roue remplace la photo pendant l'envoi.
+    private var avatarButton: some View {
+        Button { choosingPhotoSource = true } label: {
+            KrzAvatar(initial: profile.initial, size: 62, image: profile.avatar)
+                .overlay {
+                    if profile.isUpdatingAvatar {
+                        Circle().fill(.black.opacity(0.35))
+                        ProgressView().tint(.white)
+                    }
+                }
+                .overlay(alignment: .bottomTrailing) {
+                    Image(systemName: "camera.fill")
+                        .font(.system(size: 10, weight: .bold))
+                        .foregroundStyle(.white)
+                        .frame(width: 22, height: 22)
+                        .background(KrezusColor.brandFill)
+                        .clipShape(Circle())
+                        .overlay(Circle().stroke(KrezusColor.surface, lineWidth: 2))
+                        .offset(x: 2, y: 2)
+                }
+        }
+        .buttonStyle(.plain)
+        .disabled(profile.isUpdatingAvatar)
+        .accessibilityLabel(t("avatar.a11y"))
+    }
+
+    private func setAvatar(_ image: UIImage) async {
+        do { try await profile.setAvatar(image, userID: auth.userID) }
+        catch { avatarError = t("avatar.error.upload") }
+    }
+
+    private func removeAvatar() async {
+        do { try await profile.removeAvatar(userID: auth.userID) }
+        catch { avatarError = t("avatar.error.upload") }
     }
 
     // MARK: Identité
@@ -98,7 +183,7 @@ struct ProfileScreen: View {
         KrzCard(shadow: KrezusShadow.level2) {
             VStack(spacing: KrezusSpacing.s3) {
                 HStack(spacing: KrezusSpacing.s3) {
-                    KrzAvatar(initial: profile.initial, size: 62)
+                    avatarButton
 
                     VStack(alignment: .leading, spacing: 3) {
                         Text(profile.username)

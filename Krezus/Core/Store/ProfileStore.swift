@@ -1,7 +1,8 @@
 import SwiftUI
+import UIKit
 import Observation
 
-/// Identité du compte : pseudo, prénom/nom, date d'inscription.
+/// Identité du compte : pseudo, photo, prénom/nom, date d'inscription.
 ///
 /// La progression (XP, rang, série) reste dans `LearningStore` — une seule
 /// source de vérité — et les montants dans `TradingStore`. Ce store ne porte
@@ -19,6 +20,10 @@ final class ProfileStore {
     private(set) var isSaving = false
     private(set) var lastError: String?
 
+    /// Photo de profil, déjà décodée. Nil = initiale dans une pastille.
+    private(set) var avatar: UIImage?
+    private(set) var isUpdatingAvatar = false
+
     private let repository = ProfileRepository()
 
     /// Initiale affichée dans l'avatar. Repli sur « K » plutôt que sur une
@@ -34,9 +39,71 @@ final class ProfileStore {
     // MARK: Chargement
 
     func load(userID: UUID?) async {
-        guard AppConfig.isConfigured, let userID else { return }
+        guard AppConfig.isConfigured, let userID else {
+            // Mode démo : la photo ne vit que sur l'appareil.
+            if avatar == nil { avatar = AvatarCache.loadDemo() }
+            return
+        }
         guard let profile = try? await repository.fetch(userID: userID) else { return }
         apply(profile)
+        await loadAvatar(userID: userID, version: profile.avatarUpdatedAt)
+    }
+
+    /// Le cache est indexé sur la date de la photo : une photo changée depuis
+    /// un autre appareil porte une autre date, donc se retélécharge.
+    private func loadAvatar(userID: UUID, version: Date?) async {
+        guard let version else {
+            avatar = nil
+            AvatarCache.clear(userID: userID)
+            return
+        }
+        if let cached = AvatarCache.load(userID: userID, version: version) {
+            avatar = cached
+            return
+        }
+        guard let data = try? await repository.downloadAvatar(userID: userID),
+              let image = UIImage(data: data) else { return }
+        avatar = image
+        AvatarCache.store(data, userID: userID, version: version)
+    }
+
+    // MARK: Photo de profil
+
+    /// Recadre, réduit, envoie. L'image affichée change immédiatement, mais
+    /// n'est gardée qu'une fois l'envoi réussi : sinon on reprend l'ancienne.
+    func setAvatar(_ image: UIImage, userID: UUID?) async throws {
+        guard let jpeg = AvatarImage.prepare(image), let prepared = UIImage(data: jpeg) else {
+            throw KrezusError.server(t("avatar.error.unreadable"))
+        }
+        let previous = avatar
+        avatar = prepared
+        isUpdatingAvatar = true
+        defer { isUpdatingAvatar = false }
+
+        guard AppConfig.isConfigured, let userID else {
+            AvatarCache.storeDemo(jpeg)
+            return
+        }
+        do {
+            let version = try await repository.uploadAvatar(userID: userID, jpeg: jpeg)
+            AvatarCache.store(jpeg, userID: userID, version: version)
+        } catch {
+            avatar = previous
+            throw error
+        }
+    }
+
+    func removeAvatar(userID: UUID?) async throws {
+        isUpdatingAvatar = true
+        defer { isUpdatingAvatar = false }
+        guard AppConfig.isConfigured, let userID else {
+            AvatarCache.clearDemo()
+            avatar = nil
+            return
+        }
+        try await repository.removeAvatar(userID: userID)
+        AvatarCache.clear(userID: userID)
+        avatar = nil
     }
 
     private func apply(_ profile: Profile) {

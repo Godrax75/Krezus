@@ -38,6 +38,7 @@ def add(section: dict[str, tuple[str, str]]) -> None:
 add({
     "common.back":      ("Retour", "Back"),
     "common.close":     ("Fermer", "Close"),
+    "common.ok":        ("OK", "OK"),
     "common.cancel":    ("Annuler", "Cancel"),
     "common.continue":  ("Continuer", "Continue"),
     "common.go_back":   ("Revenir", "Go back"),
@@ -1063,6 +1064,18 @@ add({
     "onboarding.4.body": (
         "Un portefeuille virtuel pour tester tes stratégies.",
         "A paper portfolio to test your strategies."),
+    # Photo de profil.
+    "avatar.a11y":          ("Changer la photo de profil", "Change profile photo"),
+    "avatar.dialog.title":  ("Photo de profil", "Profile photo"),
+    "avatar.take_photo":    ("Prendre une photo", "Take a photo"),
+    "avatar.choose_photo":  ("Choisir dans la photothèque", "Choose from library"),
+    "avatar.remove":        ("Retirer la photo", "Remove photo"),
+    "avatar.error.title":   ("Photo non enregistrée", "Photo not saved"),
+    "avatar.error.upload": (
+        "La photo n'a pas pu être enregistrée. Vérifie ta connexion et réessaie.",
+        "The photo couldn't be saved. Check your connection and try again."),
+    "avatar.error.unreadable": ("Cette image n'a pas pu être lue.",
+                                "This image couldn't be read."),
     "signin.tagline":    ("Apprends à investir sans risque.", "Learn to invest, risk-free."),
     "signin.create_account": ("Créer un compte", "Create an account"),
     "signin.have_account":   ("J'ai déjà un compte", "I already have an account"),
