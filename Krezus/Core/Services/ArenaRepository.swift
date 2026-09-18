@@ -368,6 +368,62 @@ struct ArenaRepository {
         } catch { throw mapPostgrestError(error) }
     }
 
+    // MARK: Classement par période et recherche (0020)
+
+    /// Ligne de `arena_leaderboard` : la place vient du serveur, qui classe
+    /// tout le monde avant de ne renvoyer que les cent premiers et soi.
+    struct RankedRow: Decodable, Sendable {
+        let place: Int
+        let userID: UUID
+        let username: String?
+        let rankLevel: Int
+        let streakDays: Int
+        let performancePct: Double
+        let isMe: Bool
+
+        enum CodingKeys: String, CodingKey {
+            case place, username
+            case userID = "user_id"
+            case rankLevel = "rank_level"
+            case streakDays = "streak_days"
+            case performancePct = "performance_pct"
+            case isMe = "is_me"
+        }
+    }
+
+    struct SearchRow: Decodable, Sendable {
+        let userID: UUID
+        let username: String
+        let rankLevel: Int
+        /// none | sent | received | friend
+        let relation: String
+
+        enum CodingKeys: String, CodingKey {
+            case username, relation
+            case userID = "user_id"
+            case rankLevel = "rank_level"
+        }
+    }
+
+    func fetchRanking(period: String, scope: String) async throws -> [RankedRow] {
+        let client = try SupabaseService.shared.requireClient()
+        do {
+            return try await client
+                .rpc("arena_leaderboard", params: ["p_period": AnyJSON.string(period),
+                                                   "p_scope": AnyJSON.string(scope)])
+                .execute().value
+        } catch { throw mapPostgrestError(error) }
+    }
+
+    func searchUsers(_ query: String) async throws -> [SearchRow] {
+        let client = try SupabaseService.shared.requireClient()
+        do {
+            return try await client
+                .rpc("search_users", params: ["p_query": AnyJSON.string(query)])
+                .execute().value
+        } catch { throw mapPostgrestError(error) }
+    }
+
     // MARK: Interne
 
     private func call(_ name: String, params: [String: AnyJSON]) async throws {

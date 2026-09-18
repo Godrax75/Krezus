@@ -6,11 +6,144 @@ struct ArenaFriendsView: View {
     @Environment(ArenaStore.self) private var arena
     @Environment(Router.self) private var router
 
+    @State private var query = ""
+    @State private var results: [PlayerSearchResult] = []
+    @State private var isSearching = false
+    @State private var searchError: String?
+    @FocusState private var searchFocused: Bool
+
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
+            searchCard
             if !arena.requests.isEmpty { requestsCard }
             friendsCard
         }
+        // Recherche après une courte pause de frappe : pas un appel par lettre.
+        .task(id: query) {
+            let trimmed = query.trimmingCharacters(in: .whitespaces)
+            guard trimmed.count >= 2 else {
+                results = []
+                searchError = nil
+                return
+            }
+            try? await Task.sleep(for: .milliseconds(300))
+            guard !Task.isCancelled else { return }
+            isSearching = true
+            defer { isSearching = false }
+            do {
+                results = try await arena.searchPlayers(trimmed)
+                searchError = nil
+            } catch {
+                searchError = error.localizedDescription
+            }
+        }
+    }
+
+    // MARK: Recherche
+
+    private var searchCard: some View {
+        KrzCard(padding: KrezusSpacing.s4) {
+            VStack(alignment: .leading, spacing: 0) {
+                HStack(spacing: 8) {
+                    Image(systemName: "magnifyingglass").foregroundStyle(KrezusColor.fg3)
+                    TextField(t("arena.search.placeholder"), text: $query)
+                        .font(KrezusFont.bodyMd)
+                        .textInputAutocapitalization(.never)
+                        .autocorrectionDisabled()
+                        .submitLabel(.search)
+                        .focused($searchFocused)
+                    if isSearching {
+                        ProgressView().controlSize(.small)
+                    } else if !query.isEmpty {
+                        Button { query = "" } label: {
+                            Image(systemName: "xmark.circle.fill").foregroundStyle(KrezusColor.fg4)
+                        }
+                        .buttonStyle(.plain)
+                        .accessibilityLabel(t("arena.search.clear"))
+                    }
+                }
+                .padding(12)
+                .background(KrezusColor.tint)
+                .clipShape(RoundedRectangle(cornerRadius: KrezusRadius.md, style: .continuous))
+
+                if let searchError {
+                    Text(searchError).font(KrezusFont.caption).foregroundStyle(KrezusColor.down)
+                        .padding(.top, 8)
+                } else if query.trimmingCharacters(in: .whitespaces).count >= 2 && !isSearching && results.isEmpty {
+                    Text(t("arena.search.no_result"))
+                        .font(KrezusFont.bodySm).foregroundStyle(KrezusColor.fg3)
+                        .padding(.top, 10)
+                }
+
+                ForEach(Array(results.enumerated()), id: \.element.id) { index, player in
+                    if index > 0 { Divider().overlay(KrezusColor.divider) }
+                    searchRow(player, index: index)
+                }
+                .padding(.top, results.isEmpty ? 0 : 4)
+            }
+        }
+    }
+
+    private func searchRow(_ player: PlayerSearchResult, index: Int) -> some View {
+        HStack(spacing: 11) {
+            Text(player.rankEmoji).font(.system(size: 22))
+            Text(player.username)
+                .font(KrezusFont.body(13.5, .semibold)).foregroundStyle(KrezusColor.ink)
+            Spacer(minLength: 0)
+            relationButton(player, index: index)
+        }
+        .padding(.vertical, 9)
+    }
+
+    @ViewBuilder
+    private func relationButton(_ player: PlayerSearchResult, index: Int) -> some View {
+        switch player.relation {
+        case .friend:
+            Label(t("arena.search.friend"), systemImage: "checkmark")
+                .font(KrezusFont.body(12, .semibold)).foregroundStyle(KrezusColor.up)
+        case .sent:
+            pill(t("arena.search.sent"), filled: false) {
+                Task {
+                    do {
+                        try await arena.cancelRequest(to: player)
+                        setRelation(.none, at: index)
+                    } catch { searchError = error.localizedDescription }
+                }
+            }
+        case .received:
+            pill(t("arena.search.accept"), filled: true) {
+                arena.acceptRequest(from: player)
+                setRelation(.friend, at: index)
+                router.showToast(t("arena.toast.request_accepted", player.username))
+            }
+        case .none:
+            pill(t("arena.search.add"), filled: true) {
+                Task {
+                    do {
+                        try await arena.sendRequest(to: player)
+                        setRelation(.sent, at: index)
+                        router.showToast(t("arena.toast.request_sent", player.username))
+                    } catch { searchError = error.localizedDescription }
+                }
+            }
+        }
+    }
+
+    private func pill(_ title: String, filled: Bool, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            Text(title)
+                .font(KrezusFont.body(12, .semibold))
+                .foregroundStyle(filled ? .white : KrezusColor.fg3)
+                .padding(.horizontal, 12).padding(.vertical, 7)
+                .background(filled ? KrezusColor.brandFill : KrezusColor.tint)
+                .clipShape(Capsule())
+        }
+        .buttonStyle(.plain)
+    }
+
+    private func setRelation(_ relation: PlayerSearchResult.Relation, at index: Int) {
+        guard results.indices.contains(index) else { return }
+        results[index].relation = relation
     }
 
     private var requestsCard: some View {

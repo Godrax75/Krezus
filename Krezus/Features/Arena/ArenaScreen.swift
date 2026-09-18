@@ -11,6 +11,8 @@ struct ArenaScreen: View {
     @Environment(LearningStore.self) private var learning
 
     @State private var section: Section = .leaderboard
+    @State private var period: RankingPeriod = .week
+    @State private var scope: RankingScope = .global
 
     enum Section: String, CaseIterable, Identifiable {
         case leaderboard, friends, feed, groups
@@ -70,19 +72,17 @@ struct ArenaScreen: View {
 
     // MARK: Classement
 
-    /// Performance mesurée contre le capital de départ (1 000 €), comme la vue
-    /// serveur. La rapporter au solde courant permettrait de figer un bon score
-    /// en vendant tout.
+    /// Performance mesurée contre le capital de départ (1 000 €), comme le
+    /// serveur. La rapporter au solde courant permettrait de figer un bon
+    /// score en vendant tout. Ne sert qu'en démo : en mode serveur, chacun est
+    /// mesuré par `arena_leaderboard`.
     private var myPerformance: Double {
         (Double(trading.totalValueCents) - 100_000) / 1_000
     }
 
-    private var players: [ArenaPlayer] {
-        arena.leaderboard(
-            myPerformance: myPerformance,
-            myStreak: learning.streakDays,
-            myRank: learning.rankLevel,
-            myEmoji: learning.currentRank?.emoji ?? "🏛️")
+    /// Clé de rechargement : période, portée et groupe filtré.
+    private var rankingKey: String {
+        "\(period.rawValue)-\(scope.rawValue)-\(arena.selectedGroup?.id.uuidString ?? "")"
     }
 
     private var leaderboardSection: some View {
@@ -99,7 +99,11 @@ struct ArenaScreen: View {
                     }
                     .buttonStyle(.plain)
                 }
+            } else {
+                KrzSegmented(options: RankingScope.allCases.map { ($0, $0.label) }, selection: $scope)
             }
+
+            periodPicker
 
             KrzCard(padding: KrezusSpacing.s4) {
                 VStack(alignment: .leading, spacing: 0) {
@@ -107,17 +111,59 @@ struct ArenaScreen: View {
                         Text(t("arena.performance_title"))
                             .font(KrezusFont.cardTitle).foregroundStyle(KrezusColor.ink)
                         Spacer()
+                        if arena.isRankingLoading { ProgressView().controlSize(.small) }
                     }
-                    Text(t("arena.performance_subtitle", Money.euros(1000)))
+                    Text(period.subtitle)
                         .font(KrezusFont.caption).foregroundStyle(KrezusColor.fg3)
                         .padding(.bottom, 10)
                         .fixedSize(horizontal: false, vertical: true)
 
+                    let players = arena.ranking
                     ForEach(Array(players.enumerated()), id: \.element.id) { index, player in
-                        if index > 0 { Divider().overlay(KrezusColor.divider) }
-                        row(rank: index + 1, player: player)
+                        if index > 0 {
+                            // Hors des cent premiers, on se voit quand même : un
+                            // trait pointillé signale le saut de places.
+                            if let place = player.place, let previous = players[index - 1].place, place > previous + 1 {
+                                Text("⋯").font(KrezusFont.body(14, .bold)).foregroundStyle(KrezusColor.fg4)
+                                    .frame(maxWidth: .infinity).padding(.vertical, 2)
+                            } else {
+                                Divider().overlay(KrezusColor.divider)
+                            }
+                        }
+                        row(rank: player.place ?? index + 1, player: player)
+                    }
+                    if players.count <= 1 && !arena.isRankingLoading {
+                        Text(scope == .friends ? t("arena.ranking.empty_friends") : t("arena.ranking.empty_global"))
+                            .font(KrezusFont.bodySm).foregroundStyle(KrezusColor.fg3)
+                            .fixedSize(horizontal: false, vertical: true)
+                            .padding(.top, 8)
                     }
                 }
+            }
+        }
+        .task(id: rankingKey) {
+            await arena.loadRanking(period: period, scope: scope,
+                                    myPerformance: myPerformance,
+                                    myStreak: learning.streakDays,
+                                    myRank: learning.rankLevel,
+                                    myEmoji: learning.currentRank?.emoji ?? "🏛️")
+        }
+    }
+
+    private var periodPicker: some View {
+        HStack(spacing: 4) {
+            ForEach(RankingPeriod.allCases) { item in
+                Button { period = item } label: {
+                    Text(item.label)
+                        .font(KrezusFont.body(12.5, .bold))
+                        .foregroundStyle(item == period ? KrezusColor.brandText : KrezusColor.fg3)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 7)
+                        .background(item == period ? KrezusColor.tintStrong : .clear)
+                        .clipShape(Capsule())
+                }
+                .buttonStyle(.plain)
+                .accessibilityAddTraits(item == period ? [.isButton, .isSelected] : .isButton)
             }
         }
     }

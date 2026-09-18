@@ -13,6 +13,33 @@ struct ArenaPlayer: Identifiable, Sendable {
     let streakDays: Int
     let performancePct: Double
     var isMe: Bool = false
+    /// Place au classement, quand elle vient du serveur (qui classe tout le
+    /// monde, pas seulement les lignes renvoyées).
+    var place: Int? = nil
+}
+
+/// Période du classement : la performance se mesure depuis la clôture qui
+/// la précède (0020), ou depuis les 1 000 € de départ pour « all ».
+enum RankingPeriod: String, CaseIterable, Identifiable, Sendable {
+    case day, week, month, ytd, all
+    var id: String { rawValue }
+    var label: String { t("arena.period.\(rawValue)") }
+    var subtitle: String { t("arena.period_subtitle.\(rawValue)") }
+}
+
+enum RankingScope: String, CaseIterable, Sendable {
+    case global, friends
+    var label: String { t("arena.scope.\(rawValue)") }
+}
+
+/// Joueur trouvé par la recherche, avec où l'on en est avec lui.
+struct PlayerSearchResult: Identifiable, Sendable {
+    let id: UUID
+    let username: String
+    let rankEmoji: String
+    var relation: Relation
+
+    enum Relation: String, Sendable { case none, sent, received, friend }
 }
 
 /// Demande d'ami reçue, en attente de réponse.
@@ -87,6 +114,10 @@ final class ArenaStore {
     private(set) var requests: [FriendRequest] = []
     private(set) var feed: [FeedEvent] = []
     private(set) var groups: [ArenaGroup] = []
+
+    /// Classement affiché, déjà trié et numéroté.
+    private(set) var ranking: [ArenaPlayer] = []
+    private(set) var isRankingLoading = false
 
     /// Groupe dont le classement est affiché ; `nil` = cercle d'amis.
     var selectedGroup: ArenaGroup?
@@ -204,6 +235,122 @@ final class ArenaStore {
         }
 
         return (pool + [me]).sorted { $0.performancePct > $1.performancePct }
+    }
+
+    // MARK: Classement par période
+
+    /// Charge le classement. En mode serveur, `arena_leaderboard` mesure
+    /// chaque joueur contre sa propre valeur au début de la période ; en démo,
+    /// les amis inventés et une poignée de joueurs fictifs, pour voir l'écran.
+    func loadRanking(period: RankingPeriod, scope: RankingScope,
+                     myPerformance: Double, myStreak: Int, myRank: Int, myEmoji: String) async {
+        let groupMembers: Set<UUID>? = selectedGroup.flatMap {
+            source == .server ? serverGroupMembers[$0.id] : Self.groupMembers[$0.id]
+        }
+
+        guard source == .server else {
+            let me = ArenaPlayer(id: Self.meID, username: t("arena.me"), rankLevel: myRank,
+                                 rankEmoji: myEmoji, streakDays: myStreak,
+                                 performancePct: myPerformance * period.demoScale, isMe: true)
+            var pool = friends.map { friend in
+                ArenaPlayer(id: friend.id, username: friend.username, rankLevel: friend.rankLevel,
+                            rankEmoji: friend.rankEmoji, streakDays: friend.streakDays,
+                            performancePct: (friend.performancePct * period.demoScale).rounded(toPlaces: 2))
+            }
+            if let groupMembers { pool = pool.filter { groupMembers.contains($0.id) } }
+            if scope == .global && groupMembers == nil { pool += Self.demoStrangers(period) }
+            ranking = (pool + [me]).sorted { $0.performancePct > $1.performancePct }
+                .enumerated().map { index, player in
+                    var ranked = player
+                    ranked.place = index + 1
+                    return ranked
+                }
+            return
+        }
+
+        isRankingLoading = true
+        defer { isRankingLoading = false }
+        do {
+            let effectiveScope = groupMembers == nil ? scope : .friends
+            let rows = try await repository.fetchRanking(period: period.rawValue, scope: effectiveScope.rawValue)
+            var players = rows.map { row in
+                ArenaPlayer(id: row.userID,
+                            username: row.isMe ? t("arena.me") : (row.username ?? "—"),
+                            rankLevel: row.rankLevel,
+                            rankEmoji: emoji(for: row.rankLevel),
+                            streakDays: row.streakDays,
+                            performancePct: row.performancePct,
+                            isMe: row.isMe,
+                            place: row.place)
+            }
+            // Un groupe restreint le classement à ses membres ; les places
+            // sont alors recomptées dans le groupe.
+            if let groupMembers {
+                players = players.filter { $0.isMe || groupMembers.contains($0.id) }
+                    .enumerated().map { index, player in
+                        var ranked = player
+                        ranked.place = index + 1
+                        return ranked
+                    }
+            }
+            ranking = players
+            lastError = nil
+        } catch {
+            lastError = error.localizedDescription
+        }
+    }
+
+    /// Joueurs fictifs du classement général en démo.
+    private static func demoStrangers(_ period: RankingPeriod) -> [ArenaPlayer] {
+        let base: [(String, Int, String, Int, Double)] = [
+            ("maxime_trader", 5, "👑", 44, 23.4), ("jade.b", 4, "📜", 18, 15.1),
+            ("theo_invest", 3, "⚔️", 9, 11.8), ("ines", 3, "⚔️", 30, 6.6),
+            ("lucas92", 2, "🛡️", 4, 3.2), ("emma_l", 2, "🛡️", 6, 0.9),
+            ("adam", 1, "🏛️", 2, -2.4), ("zoe_bourse", 1, "🏛️", 1, -7.9),
+        ]
+        return base.map { name, level, emoji, streak, pct in
+            ArenaPlayer(id: UUID(), username: name, rankLevel: level, rankEmoji: emoji,
+                        streakDays: streak, performancePct: (pct * period.demoScale).rounded(toPlaces: 2))
+        }
+    }
+
+    // MARK: Recherche
+
+    /// Joueurs dont le pseudo contient `query` (deux caractères au moins).
+    func searchPlayers(_ query: String) async throws -> [PlayerSearchResult] {
+        let trimmed = query.trimmingCharacters(in: .whitespaces)
+        guard trimmed.count >= 2 else { return [] }
+        guard source == .server else {
+            let known = friends.map { ($0.username, $0.rankEmoji, PlayerSearchResult.Relation.friend) }
+                + requests.map { ($0.username, $0.rankEmoji, PlayerSearchResult.Relation.received) }
+                + Self.demoStrangers(.all).map { ($0.username, $0.rankEmoji, PlayerSearchResult.Relation.none) }
+            return known
+                .filter { $0.0.localizedCaseInsensitiveContains(trimmed) }
+                .map { PlayerSearchResult(id: UUID(), username: $0.0, rankEmoji: $0.1, relation: $0.2) }
+        }
+        return try await repository.searchUsers(trimmed).map {
+            PlayerSearchResult(id: $0.userID, username: $0.username,
+                               rankEmoji: emoji(for: $0.rankLevel),
+                               relation: PlayerSearchResult.Relation(rawValue: $0.relation) ?? .none)
+        }
+    }
+
+    /// Envoie une demande depuis la recherche. En démo, rien ne part.
+    func sendRequest(to player: PlayerSearchResult) async throws {
+        guard source == .server, let userID else { return }
+        try await repository.sendFriendRequest(from: userID, to: player.id)
+    }
+
+    /// Annule une demande envoyée : la même suppression qu'une amitié.
+    func cancelRequest(to player: PlayerSearchResult) async throws {
+        guard source == .server, let userID else { return }
+        try await repository.removeFriend(userID: userID, otherID: player.id)
+    }
+
+    /// Accepte depuis la recherche une demande reçue.
+    func acceptRequest(from player: PlayerSearchResult) {
+        accept(FriendRequest(id: player.id, username: player.username,
+                             rankEmoji: player.rankEmoji, mutualFriends: 0))
     }
 
     // MARK: Demandes d'ami
@@ -409,6 +556,19 @@ final class ArenaStore {
             .init(id: UUID(), actor: "camille", kind: .sell, subject: "TotalEnergies", minutesAgo: 96),
             .init(id: UUID(), actor: "noah", kind: .buy, subject: "Air Liquide", minutesAgo: 180),
         ]
+    }
+}
+
+private extension RankingPeriod {
+    /// En démo, une performance sur une période courte est plus petite.
+    var demoScale: Double {
+        switch self {
+        case .day:   return 0.08
+        case .week:  return 0.25
+        case .month: return 0.6
+        case .ytd:   return 0.9
+        case .all:   return 1
+        }
     }
 }
 
