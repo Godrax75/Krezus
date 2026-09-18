@@ -66,11 +66,30 @@ struct RootView: View {
                 content
             }
 
+            // Fondu sous la barre flottante : sans lui, le contenu défilait
+            // jusqu'au bord de l'écran et se montrait coupé entre la barre et
+            // l'indicateur d'accueil.
+            // Le conteneur, et non le dégradé, ignore la zone sûre : un cadre
+            // de hauteur fixe ne s'étend pas sous l'indicateur d'accueil.
+            VStack(spacing: 0) {
+                Spacer(minLength: 0)
+                LinearGradient(
+                    stops: [
+                        .init(color: KrezusColor.bg.opacity(0), location: 0),
+                        .init(color: KrezusColor.bg.opacity(0.94), location: 0.38),
+                        .init(color: KrezusColor.bg, location: 0.5),
+                    ],
+                    startPoint: .top, endPoint: .bottom)
+                    .frame(height: 160)
+            }
+            .ignoresSafeArea(edges: .bottom)
+            .allowsHitTesting(false)
+
             KrezusTabBar()
 
             HerculeFab()
                 .padding(.trailing, KrezusSpacing.s4)
-                .padding(.bottom, 96)
+                .padding(.bottom, 80)
                 .frame(maxWidth: .infinity, alignment: .trailing)
         }
         .toolbar(.hidden, for: .navigationBar)
@@ -208,8 +227,12 @@ struct KrezusTabBar: View {
                     app.tab = tab
                 } label: {
                     VStack(spacing: 4) {
+                        // Hauteur fixe : chaque symbole a la sienne (le livre
+                        // de l'Academy est plus bas que la maison), et sans
+                        // cadre commun les libellés ne s'alignaient pas.
                         Image(systemName: tab.systemImage)
                             .font(.system(size: 18, weight: .semibold))
+                            .frame(height: 22)
                         Text(tab.label).font(KrezusFont.body(10, .semibold))
                             .lineLimit(1).minimumScaleFactor(0.6)
                     }
@@ -222,8 +245,10 @@ struct KrezusTabBar: View {
                 .accessibilityAddTraits(app.tab == tab ? [.isButton, .isSelected] : .isButton)
             }
         }
-        .padding(.top, 10)
-        .padding(.bottom, 26)
+        // Marges égales : la barre flotte déjà au-dessus de l'indicateur
+        // d'accueil, dans la zone sûre. Les 26 points qui le dégageaient une
+        // seconde fois tassaient les icônes contre le haut.
+        .padding(.vertical, 10)
         .padding(.horizontal, KrezusSpacing.s3)
         .background(.regularMaterial)
         .clipShape(RoundedRectangle(cornerRadius: KrezusRadius.xl, style: .continuous))
