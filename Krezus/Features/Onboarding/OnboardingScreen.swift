@@ -113,9 +113,11 @@ struct OnboardingScreen: View {
 
             LinearGradient(
                 stops: [
-                    .init(color: .clear, location: 0.66),
-                    .init(color: KrezusColor.navyDeep.opacity(0.80), location: 0.84),
-                    .init(color: KrezusColor.navyDeep, location: 1.0),
+                    .init(color: .clear, location: 0.62),
+                    .init(color: KrezusColor.navyDeep.opacity(0.80), location: 0.80),
+                    // Opaque dès 90 % : l'illustration ajustée s'arrête vers
+                    // cette hauteur, et sa lisière doit tomber dans un bleu plein.
+                    .init(color: KrezusColor.navyDeep, location: 0.90),
                 ],
                 startPoint: .top, endPoint: .bottom)
         }
@@ -177,10 +179,10 @@ struct OnboardingScreen: View {
         .accessibilityHidden(true)
     }
 
-    /// Le bouton du design system est un aplat bleu : posé sur ces
-    /// illustrations, il s'y découpait comme une pièce rapportée. Celui-ci
-    /// reprend l'or des maquettes en dégradé, la couleur vers laquelle tendent
-    /// déjà les cinq décors.
+    /// Le bouton du design system est un aplat bleu : posé sur le voile bleu
+    /// profond, il s'y fondait au point de disparaître. Celui-ci passe au
+    /// blanc, adouci d'un dégradé vers un gris bleuté pour ne pas trancher
+    /// comme une découpe.
     private func ctaButton(_ title: String, action: @escaping () -> Void) -> some View {
         Button(action: action) {
             Text(title)
@@ -190,10 +192,10 @@ struct OnboardingScreen: View {
                 .padding(.vertical, 16)
                 .background(
                     LinearGradient(
-                        colors: [KrezusColor.goldLight, KrezusColor.gold],
+                        colors: [.white, Color(hex: 0xDFE4F0)],
                         startPoint: .top, endPoint: .bottom))
                 .clipShape(RoundedRectangle(cornerRadius: KrezusRadius.md, style: .continuous))
-                .shadow(color: KrezusColor.gold.opacity(0.35), radius: 16, y: 6)
+                .shadow(color: .black.opacity(0.25), radius: 14, y: 6)
         }
         .buttonStyle(.plain)
     }

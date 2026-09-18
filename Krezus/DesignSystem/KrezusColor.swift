@@ -32,10 +32,9 @@ enum KrezusColor {
     static let navyDeep  = Color(hex: 0x081541)
 
     /// Or des illustrations d'onboarding, emprunté aux couronnes de laurier de
-    /// la mascotte. Fixe dans les deux thèmes : il ne se pose jamais que sur le
-    /// bleu profond, lui-même fixe.
+    /// la mascotte — celui des pastilles de mot-repère. Fixe dans les deux
+    /// thèmes : il ne se pose jamais que sur le bleu profond, lui-même fixe.
     static let gold      = Color(hex: 0xDDB064)
-    static let goldLight = Color(hex: 0xF4DCA2)
 
     // MARK: Accent (ambre)
     static let amberTint = dynamic(light: 0xFFE9DD, dark: 0x3A2A20)
