@@ -90,7 +90,7 @@ struct RootView: View {
 
             HerculeFab()
                 .padding(.trailing, KrezusSpacing.s4)
-                .padding(.bottom, 80)
+                .padding(.bottom, 96)
                 .frame(maxWidth: .infinity, alignment: .trailing)
         }
         .toolbar(.hidden, for: .navigationBar)
@@ -219,45 +219,70 @@ struct KrezusHeader: View {
 struct KrezusTabBar: View {
     @Environment(AppState.self) private var app
     @Environment(Router.self) private var router
+    @Namespace private var selection
+
+    /// Couleur de l'onglet actif : l'orange d'Hercule, qui ressort sur le
+    /// bleu nuit de la barre.
+    private let accent = KrezusColor.amber500
 
     var body: some View {
-        HStack {
+        HStack(spacing: 2) {
             ForEach(KrezusTab.allCases) { tab in
+                let isSelected = app.tab == tab
                 Button {
                     router.popToRoot()
-                    app.tab = tab
+                    withAnimation(.snappy(duration: 0.28)) { app.tab = tab }
                 } label: {
                     VStack(spacing: 4) {
-                        // Hauteur fixe : chaque symbole a la sienne (le livre
-                        // de l'Academy est plus bas que la maison), et sans
+                        // Hauteur fixe : chaque symbole a la sienne, et sans
                         // cadre commun les libellés ne s'alignaient pas.
                         Image(systemName: tab.systemImage)
-                            .font(.system(size: 18, weight: .semibold))
-                            .frame(height: 22)
-                        Text(tab.label).font(KrezusFont.body(10, .semibold))
-                            .lineLimit(1).minimumScaleFactor(0.6)
+                            .font(.system(size: 20, weight: .semibold))
+                            .frame(height: 24)
+                        Text(tab.label)
+                            .font(KrezusFont.body(10.5, isSelected ? .bold : .medium))
+                            .lineLimit(1).minimumScaleFactor(0.7)
                     }
-                    .foregroundStyle(app.tab == tab ? KrezusColor.brandText : KrezusColor.fg4)
+                    .foregroundStyle(isSelected ? accent : .white.opacity(0.92))
                     .frame(maxWidth: .infinity)
-                    .contentShape(Rectangle())
+                    .padding(.vertical, 9)
+                    .background {
+                        // Pastille de l'onglet actif : elle glisse d'un onglet
+                        // à l'autre plutôt que de disparaître et réapparaître.
+                        if isSelected {
+                            Capsule()
+                                .fill(.white.opacity(0.13))
+                                .matchedGeometryEffect(id: "selection", in: selection)
+                        }
+                    }
+                    .contentShape(Capsule())
                 }
                 .buttonStyle(.plain)
                 .accessibilityLabel(tab.label)
-                .accessibilityAddTraits(app.tab == tab ? [.isButton, .isSelected] : .isButton)
+                .accessibilityAddTraits(isSelected ? [.isButton, .isSelected] : .isButton)
             }
         }
-        // Marges égales : la barre flotte déjà au-dessus de l'indicateur
-        // d'accueil, dans la zone sûre. Les 26 points qui le dégageaient une
-        // seconde fois tassaient les icônes contre le haut.
-        .padding(.vertical, 10)
+        .padding(6)
+        .background {
+            // Verre sombre : un flou pour que le contenu se devine dessous, un
+            // voile bleu nuit pour la couleur, dans les deux thèmes.
+            ZStack {
+                Capsule().fill(.ultraThinMaterial).environment(\.colorScheme, .dark)
+                Capsule().fill(
+                    LinearGradient(colors: [Color(hex: 0x1D2152).opacity(0.92),
+                                            Color(hex: 0x0D1030).opacity(0.94)],
+                                   startPoint: .topLeading, endPoint: .bottomTrailing))
+            }
+        }
+        .overlay {
+            // Liseré plus vif à gauche, qui s'éteint vers la droite.
+            Capsule().strokeBorder(
+                LinearGradient(colors: [Color(hex: 0x6A6FE0).opacity(0.75), .white.opacity(0.10)],
+                               startPoint: .leading, endPoint: .trailing),
+                lineWidth: 1.2)
+        }
+        .shadow(color: Color(hex: 0x0D1030).opacity(0.35), radius: 18, y: 8)
         .padding(.horizontal, KrezusSpacing.s3)
-        .background(.regularMaterial)
-        .clipShape(RoundedRectangle(cornerRadius: KrezusRadius.xl, style: .continuous))
-        .overlay(
-            RoundedRectangle(cornerRadius: KrezusRadius.xl, style: .continuous)
-                .stroke(KrezusColor.border.opacity(0.5), lineWidth: 0.5))
-        .padding(.horizontal, KrezusSpacing.s3)
-        .krezusShadow(KrezusShadow.level2)
     }
 }
 
