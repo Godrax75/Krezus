@@ -78,10 +78,22 @@ OPTIONS="build/ExportOptions.plist"
 sed "s/TEAM_ID_PLACEHOLDER/$TEAM_ID/" tools/ExportOptions.plist > "$OPTIONS"
 
 echo "▸ Export du .ipa"
+# Avec une clé d'API, Xcode crée ou récupère lui-même le certificat de
+# distribution : sans elle, l'export échoue si ce certificat n'est pas
+# déjà dans le trousseau.
+SIGNING_ARGS=()
+if [[ -n "${ASC_KEY_ID:-}" && -n "${ASC_ISSUER_ID:-}" ]]; then
+  SIGNING_ARGS=(-allowProvisioningUpdates
+    -authenticationKeyPath "$HOME/.appstoreconnect/private_keys/AuthKey_${ASC_KEY_ID}.p8"
+    -authenticationKeyID "$ASC_KEY_ID"
+    -authenticationKeyIssuerID "$ASC_ISSUER_ID")
+fi
+
 xcodebuild -exportArchive \
   -archivePath "$ARCHIVE_PATH" \
   -exportPath "$EXPORT_DIR" \
   -exportOptionsPlist "$OPTIONS" \
+  ${SIGNING_ARGS[@]+"${SIGNING_ARGS[@]}"} \
   | grep -E '^(\*\*|.*error:)' || true
 
 IPA="$(find "$EXPORT_DIR" -name '*.ipa' -maxdepth 1 | head -1)"
