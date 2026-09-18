@@ -44,7 +44,9 @@ struct HomeScreen: View {
                         .foregroundStyle(KrezusColor.fg3)
                     Text(t("home.hercule_tip.body"))
                         .font(KrezusFont.bodyMd).foregroundStyle(KrezusColor.ink)
-                    KrzPill(title: t("home.hercule_tip.cta"), bg: KrezusColor.tintStrong)
+                    KrzPill(title: t("home.hercule_tip.cta"), bg: KrezusColor.tintStrong) {
+                        router.cover = .hercule
+                    }
                 }
             }
         }
@@ -113,6 +115,8 @@ struct HomeScreen: View {
 
                 ForEach(LearningStore.missions) { mission in
                     let done = learning.isMissionDone(mission.code)
+                    let action = done ? nil : missionAction(mission.code)
+                    Button { action?() } label: {
                     HStack(spacing: 11) {
                         ZStack {
                             Circle().fill(done ? KrezusColor.up : Color.clear)
@@ -132,8 +136,18 @@ struct HomeScreen: View {
                             .foregroundStyle(KrezusColor.amberText)
                             .padding(.horizontal, 8).padding(.vertical, 3)
                             .background(KrezusColor.amberTint).clipShape(Capsule())
+                        // Le chevron dit qu'on peut y aller : une mission faite,
+                        // ou sans destination, n'en a pas.
+                        Image(systemName: "chevron.right")
+                            .font(.system(size: 11, weight: .semibold))
+                            .foregroundStyle(KrezusColor.fg4)
+                            .opacity(action == nil ? 0 : 1)
                     }
                     .padding(.vertical, 9)
+                    .contentShape(Rectangle())
+                    }
+                    .buttonStyle(.plain)
+                    .disabled(action == nil)
                 }
 
                 // Raccourci vers la leçon à suivre : les missions restent
@@ -159,6 +173,28 @@ struct HomeScreen: View {
                     .buttonStyle(.plain)
                 }
             }
+        }
+    }
+
+    /// Où mène chaque mission. La leçon et le quiz du jour s'accomplissent
+    /// sur la prochaine leçon à suivre ; sans leçon accessible (toutes faites,
+    /// ou la suite réservée à Premium), l'Academy montre où en est l'élève.
+    /// « Activer ton compte » est validée d'office à l'inscription : rien à
+    /// ouvrir.
+    private func missionAction(_ code: String) -> (() -> Void)? {
+        switch code {
+        case "lesson":
+            if let next = learning.nextLesson { return { router.push(.lesson(next.position)) } }
+            return { app.tab = .academy }
+        case "quiz":
+            if let next = learning.nextLesson {
+                return next.quiz != nil
+                    ? { router.push(.quiz(next.position)) }
+                    : { router.push(.lesson(next.position)) }
+            }
+            return { app.tab = .academy }
+        default:
+            return nil
         }
     }
 
