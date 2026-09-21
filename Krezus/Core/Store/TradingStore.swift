@@ -36,6 +36,8 @@ struct StockInfo: Identifiable, Sendable {
     var whatEn: String?
     var herculeEn: String?
     let logoAsset: String?
+    /// Logo distant, quand aucune image n'est embarquée (0022).
+    var logoURL: URL?
     let initials: String
     let tileHex: UInt32
     let open: Double
@@ -129,6 +131,7 @@ extension StockInfo {
             whatEn: security.descriptionEn,
             herculeEn: security.herculeNoteEn,
             logoAsset: security.logoAsset,
+            logoURL: security.logoURL.flatMap(URL.init(string:)),
             initials: security.initials ?? Self.initials(from: security.name),
             tileHex: Self.tileColor(for: security.symbol),
             open: quote?.open ?? quote?.previousClose ?? price,
@@ -265,7 +268,7 @@ final class TradingStore {
     /// Rafraîchit les seules cotations — c'est ce que fait le tick en mode
     /// serveur, plutôt que de retélécharger le référentiel toutes les minutes.
     private func refreshQuotes() async throws {
-        let rows = try await securitiesRepo.fetchQuotes(symbols: securities.map(\.symbol))
+        let rows = try await securitiesRepo.fetchQuotes()
         quotes = Dictionary(uniqueKeysWithValues: rows.map { ($0.symbol, $0) })
         catalog = securities.map { StockInfo(security: $0, quote: quotes[$0.symbol]) }
     }

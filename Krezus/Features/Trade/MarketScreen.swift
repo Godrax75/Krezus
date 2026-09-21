@@ -163,7 +163,7 @@ struct MarketScreen: View {
 
     private func marketRow(_ s: StockInfo) -> some View {
         HStack(spacing: KrezusSpacing.s3) {
-            KrzSecurityBadge(logoAsset: s.logoAsset, initials: s.initials,
+            KrzSecurityBadge(logoAsset: s.logoAsset, logoURL: s.logoURL, initials: s.initials,
                              tileColor: Color(hex: s.tileHex))
             VStack(alignment: .leading, spacing: 2) {
                 HStack(spacing: 6) {

@@ -46,6 +46,9 @@ struct Security: Codable, Identifiable, Sendable {
     let sectorEn: String?
     let founded: String?
     let logoAsset: String?
+    /// URL publique du logo (0022), pour les titres qui n'ont pas d'image
+    /// embarquée — les 500 du S&P 500, notamment.
+    var logoURL: String?
     let initials: String?
     let dividendYield: Double?
     let marketCapLabel: String?
@@ -68,6 +71,7 @@ struct Security: Codable, Identifiable, Sendable {
         case assetType = "asset_type"
         case countryCode = "country_code"
         case logoAsset = "logo_asset"
+        case logoURL = "logo_url"
         case dividendYield = "dividend_yield"
         case marketCapLabel = "market_cap_label"
         case peRatio = "pe_ratio"

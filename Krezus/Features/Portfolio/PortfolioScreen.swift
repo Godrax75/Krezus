@@ -99,7 +99,7 @@ struct PortfolioScreen: View {
                             value: Money.euros(store.positionValue(symbol)),
                             change: Money.percent(chg),
                             changeColor: chg >= 0 ? KrezusColor.up : KrezusColor.down,
-                            logoAsset: s.logoAsset, initials: s.initials, badgeText: nil,
+                            logoAsset: s.logoAsset, logoURL: s.logoURL, initials: s.initials, badgeText: nil,
                             action: { router.push(.stock(symbol)) })
                     }
                 }

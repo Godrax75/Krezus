@@ -36,7 +36,7 @@ struct StockDetailScreen: View {
 
     private func identity(_ s: StockInfo) -> some View {
         HStack(spacing: 12) {
-            KrzSecurityBadge(logoAsset: s.logoAsset, initials: s.initials,
+            KrzSecurityBadge(logoAsset: s.logoAsset, logoURL: s.logoURL, initials: s.initials,
                              tileColor: Color(hex: s.tileHex), size: 44)
             VStack(alignment: .leading, spacing: 2) {
                 HStack(spacing: 6) {

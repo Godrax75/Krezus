@@ -46,10 +46,12 @@ final class MarketDataService {
 
     // MARK: Cotations
 
-    /// Cotations en cache, indexées par symbole interne. Un seul aller-retour.
+    /// Cotations en cache des symboles demandés, indexées par symbole interne.
     func quotes(for symbols: [String]) async throws -> [String: Quote] {
-        let rows = try await securities.fetchQuotes(symbols: symbols)
-        return Dictionary(uniqueKeysWithValues: rows.map { ($0.symbol, $0) })
+        let wanted = Set(symbols)
+        let rows = try await securities.fetchQuotes()
+        return Dictionary(uniqueKeysWithValues:
+            rows.filter { wanted.contains($0.symbol) }.map { ($0.symbol, $0) })
     }
 
     /// Historique quotidien d'un titre, du plus ancien au plus récent.

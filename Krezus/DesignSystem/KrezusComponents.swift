@@ -96,6 +96,10 @@ struct KrzProgressBar: View {
 /// Logo carré ou initiales en repli, quand l'asset logo est absent.
 struct KrzSecurityBadge: View {
     var logoAsset: String?
+    /// Logo servi par le réseau, pour les titres sans image embarquée. Le
+    /// chargement est confié à `AsyncImage` : le cache d'URLSession évite de
+    /// retélécharger le même logo à chaque défilement.
+    var logoURL: URL?
     var initials: String
     var tileColor: Color = KrezusColor.brandFill
     var size: CGFloat = 40
@@ -104,13 +108,18 @@ struct KrzSecurityBadge: View {
         Group {
             if let logoAsset, UIImage(named: logoAsset) != nil {
                 Image(logoAsset).resizable().scaledToFit().padding(5)
+            } else if let logoURL {
+                AsyncImage(url: logoURL) { phase in
+                    if let image = phase.image {
+                        image.resizable().scaledToFit().padding(5)
+                    } else {
+                        // Pendant le chargement, et si le logo manque : les
+                        // initiales, jamais un carré vide.
+                        initialsTile
+                    }
+                }
             } else {
-                RoundedRectangle(cornerRadius: KrezusRadius.xs, style: .continuous)
-                    .fill(tileColor)
-                    .overlay(
-                        Text(initials)
-                            .font(KrezusFont.display(9.5, .heavy))
-                            .foregroundStyle(.white))
+                initialsTile
             }
         }
         .frame(width: size, height: size)
@@ -123,6 +132,15 @@ struct KrzSecurityBadge: View {
         // seconde fois allongerait chaque ligne de liste sans rien apporter.
         .accessibilityHidden(true)
     }
+
+    private var initialsTile: some View {
+        RoundedRectangle(cornerRadius: KrezusRadius.xs, style: .continuous)
+            .fill(tileColor)
+            .overlay(
+                Text(initials)
+                    .font(KrezusFont.display(9.5, .heavy))
+                    .foregroundStyle(.white))
+    }
 }
 
 /// Ligne de titre : badge · nom + sous-titre · valeur + variation.
@@ -133,6 +151,7 @@ struct KrzStockRow: View {
     let change: String
     var changeColor: Color
     var logoAsset: String?
+    var logoURL: URL?
     var initials: String
     var badgeText: String?          // ex. le code pays « US »
     var action: () -> Void = {}
@@ -140,7 +159,7 @@ struct KrzStockRow: View {
     var body: some View {
         Button(action: action) {
             HStack(spacing: KrezusSpacing.s3) {
-                KrzSecurityBadge(logoAsset: logoAsset, initials: initials)
+                KrzSecurityBadge(logoAsset: logoAsset, logoURL: logoURL, initials: initials)
                 VStack(alignment: .leading, spacing: 2) {
                     HStack(spacing: 6) {
                         Text(name).font(KrezusFont.stockName).foregroundStyle(KrezusColor.ink)
