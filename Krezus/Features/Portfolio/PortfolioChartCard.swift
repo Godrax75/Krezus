@@ -35,7 +35,7 @@ final class PortfolioHistoryModel {
             depositedCents = source.depositedCents
             daily = PortfolioHistory.daily(
                 orders: source.orders, deposits: source.deposits, closes: source.closes, currencies: source.currencies,
-                eurUsd: source.eurUsd, fallbackEurUsd: source.fallbackEurUsd,
+                fx: source.fx, fallbackFx: source.fallbackFx,
                 inception: source.inception, now: Date())
             intraday = nil
             failed = false

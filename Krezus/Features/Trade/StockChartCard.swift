@@ -51,19 +51,13 @@ final class StockHistoryModel {
                 offset += Self.pageSize
             }
 
-            var fx: [DatedValue] = []
-            var fallback: Double?
-            if currency.uppercased() == "USD" {
-                let rows: [FxRow] = try await client
-                    .from("fx_history")
-                    .select("date, rate")
-                    .eq("pair", value: "EURUSD")
-                    .order("date", ascending: true)
-                    .range(from: 0, to: 4_999)
-                    .execute().value
-                fx = rows.compactMap { row in PricePoint.dayFormatter.date(from: row.date).map { DatedValue(date: $0, value: row.rate) } }
-                fallback = try? await MarketDataService.shared.fxRate()?.rate
-            }
+            // Toute la série de change, par pages : lue d'un bloc, elle
+            // s'arrêtait à ses mille premières lignes, et les cours récents
+            // se convertissaient au taux de 2010.
+            let fxRepository = FxHistoryRepository()
+            let fxKey = PortfolioHistory.fxCurrency(for: currency)
+            let fx = try await fxRepository.series(for: [currency])[fxKey ?? ""] ?? []
+            let fallback = fxKey == nil ? nil : await fxRepository.latestRates(for: [currency])[fxKey!]
 
             daily = closes.compactMap { point in
                 guard let day = point.day,
@@ -124,7 +118,6 @@ final class StockHistoryModel {
         loaded = true
     }
 
-    private struct FxRow: Decodable { let date: String; let rate: Double }
     private struct IntradayRow: Decodable { let ts: Date; let price: Double }
 }
 

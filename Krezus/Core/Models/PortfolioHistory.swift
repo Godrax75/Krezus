@@ -124,10 +124,21 @@ enum PortfolioHistory {
                       deposits: [PortfolioDeposit] = [],
                       closes: [String: [DatedValue]],
                       currencies: [String: String],
-                      eurUsd: [DatedValue],
-                      fallbackEurUsd: Double?,
+                      eurUsd: [DatedValue] = [],
+                      fallbackEurUsd: Double? = nil,
+                      fx: [String: [DatedValue]] = [:],
+                      fallbackFx: [String: Double] = [:],
                       inception: Date,
                       now: Date) -> [PortfolioPoint] {
+        // Taux d'une devise un jour donné. `eurUsd` reste accepté seul pour
+        // le dollar ; les autres devises passent par `fx`.
+        func rate(for currency: String, on day: Date) -> Double? {
+            guard let key = fxCurrency(for: currency) else { return 1 }
+            let series = fx[key] ?? (key == "USD" ? eurUsd : [])
+            return lastValue(in: series, onOrBefore: day)
+                ?? fallbackFx[key] ?? (key == "USD" ? fallbackEurUsd : nil)
+        }
+
         let events = LedgerEvent.merge(orders: orders, deposits: deposits)
         let today = utc.startOfDay(for: now)
 
@@ -153,8 +164,8 @@ enum PortfolioHistory {
             }
             let value = ledger.valueCents { symbol in
                 guard let close = lastValue(in: closes[symbol] ?? [], onOrBefore: day) else { return nil }
-                return toEuros(close, currency: currencies[symbol] ?? "EUR",
-                               rate: lastValue(in: eurUsd, onOrBefore: day) ?? fallbackEurUsd)
+                let currency = currencies[symbol] ?? "EUR"
+                return toEuros(close, currency: currency, rate: rate(for: currency, on: day))
             }
             // Horodaté en fin de séance plutôt qu'à minuit : le point du
             // vendredi ne doit pas tomber sur le samedi.
@@ -300,15 +311,24 @@ enum PortfolioHistory {
         return found
     }
 
-    /// Cours en euros. `rate` = dollars pour un euro.
-    static func toEuros(_ value: Double, currency: String, rate: Double?) -> Double? {
+    /// Devise de la paire de change qui convertit une devise de cotation en
+    /// euros : « USD » pour le dollar, « GBP » pour la livre **et** pour les
+    /// pence de Londres (GBX). `nil` pour l'euro.
+    static func fxCurrency(for currency: String) -> String? {
         switch currency.uppercased() {
-        case "EUR": return value
-        case "USD":
-            guard let rate, rate > 0 else { return nil }
-            return value / rate
-        default: return nil
+        case "EUR": return nil
+        case "GBX": return "GBP"
+        case let code: return code
         }
+    }
+
+    /// Cours en euros. `rate` = unités de la devise de la paire pour un euro
+    /// (dollars, livres, yens…). Les pence valent un centième de livre.
+    static func toEuros(_ value: Double, currency: String, rate: Double?) -> Double? {
+        let code = currency.uppercased()
+        if code == "EUR" { return value }
+        guard let rate, rate > 0 else { return nil }
+        return code == "GBX" ? value / 100 / rate : value / rate
     }
 
     private static func bucket(_ date: Date) -> Date {

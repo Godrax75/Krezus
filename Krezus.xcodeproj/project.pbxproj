@@ -113,6 +113,7 @@
 		DE992FB329480F0D610B606C /* SecurityClassification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38D246E02018EA77C1B6910A /* SecurityClassification.swift */; };
 		E352734E0DF384D9A00B6821 /* ranks.json in Resources */ = {isa = PBXBuildFile; fileRef = CF4C8AD9A4A8E5823E5E8BC6 /* ranks.json */; };
 		E365B80FDFA1CE4CEDC4A691 /* lessons.en.json in Resources */ = {isa = PBXBuildFile; fileRef = 20A168AE58FB639C9DDC52FD /* lessons.en.json */; };
+		E51314A9B49442D3C1442BBA /* FxHistoryRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E4C19DC82E77BA6DC805EE0 /* FxHistoryRepository.swift */; };
 		E72AC69A43D20848EF57E48B /* SupabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D292C2EB5C47CEF7F6D4F517 /* SupabaseService.swift */; };
 		EA0A4B49D27C40F2550080EB /* KrezusMetrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE30FFF74A82D1CD1713AA57 /* KrezusMetrics.swift */; };
 		EB00367A3008EDCD57EA1C7C /* OracleStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E86641128734535E938F4A /* OracleStore.swift */; };
@@ -180,6 +181,7 @@
 		5B55B11C85C6BD0FDD7C637F /* HerculeRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HerculeRepository.swift; sourceTree = "<group>"; };
 		5C3EB3F90AAAB3C7159E86E6 /* DebugLaunch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugLaunch.swift; sourceTree = "<group>"; };
 		5DD2078BF0B0B14BE2D9C3B3 /* TradingStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradingStore.swift; sourceTree = "<group>"; };
+		5E4C19DC82E77BA6DC805EE0 /* FxHistoryRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FxHistoryRepository.swift; sourceTree = "<group>"; };
 		602CB27DD2A460D6DA431BD7 /* lessons.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = lessons.json; sourceTree = "<group>"; };
 		61B0FA018CBEDCDCDD25BB34 /* Krezus.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Krezus.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6D9FD8C4FD7E1B54982702C3 /* Inter-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-SemiBold.ttf"; sourceTree = "<group>"; };
@@ -548,6 +550,7 @@
 				852A1B438D5653FEABBFADFE /* AuthService.swift */,
 				F6F37CA26B15AFD3A4374D8A /* BiometricLock.swift */,
 				844E350D343310F62F6C468F /* CrisisHistoryRepository.swift */,
+				5E4C19DC82E77BA6DC805EE0 /* FxHistoryRepository.swift */,
 				5B55B11C85C6BD0FDD7C637F /* HerculeRepository.swift */,
 				3703310CFEC1EC8DCAC5B93B /* MarketDataService.swift */,
 				D56DD5C97E21F8583296870C /* NotificationsRepository.swift */,
@@ -777,6 +780,7 @@
 				85E27AD698E0E7186F9CB9D9 /* DebugLaunch.swift in Sources */,
 				BBE856A4F9B8CE0B3D808889 /* DemoCatalog.swift in Sources */,
 				06FE3F9E417452BC90FB0A74 /* EditUsernameScreen.swift in Sources */,
+				E51314A9B49442D3C1442BBA /* FxHistoryRepository.swift in Sources */,
 				391C63E042B485C567C1EFEB /* HelpScreen.swift in Sources */,
 				C00942A0417A581F15CAA3FB /* HerculeChatScreen.swift in Sources */,
 				BC0B752BA93C76CCCE5F119D /* HerculeRepository.swift in Sources */,

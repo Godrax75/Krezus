@@ -155,4 +155,28 @@ struct PortfolioHistoryTests {
         #expect(summary.gainCents == 2_600)
         #expect(abs(summary.gainPct - 2.0) < 1e-9)
     }
+
+    // MARK: Devises
+
+    @Test func lesPenceDeLondresSeConvertissentAvecLaLivre() {
+        // 8 500 pence = 85 £ ; à 0,85 £ pour un euro, 100 €.
+        #expect(PortfolioHistory.toEuros(8_500, currency: "GBX", rate: 0.85).map { ($0 * 1e6).rounded() / 1e6 } == 100)
+        #expect(PortfolioHistory.fxCurrency(for: "GBX") == "GBP")
+        #expect(PortfolioHistory.fxCurrency(for: "eur") == nil)
+        #expect(PortfolioHistory.toEuros(100, currency: "CHF", rate: nil) == nil)
+    }
+
+    @Test func unTitreEnFrancsSuissesSuitLeTauxDeSaDate() {
+        // 100 € d'un titre à 90 CHF quand 1 € = 0,9 CHF : une part.
+        // Le lendemain, même cours, mais 1 € = 1 CHF : la part vaut 90 €.
+        let orders = [Self.order("NESN", "buy", cents: 10_000, qty: 1, at: Self.at(1, 15))]
+        let closes = ["NESN": [DatedValue(date: Self.at(1), value: 90),
+                               DatedValue(date: Self.at(2), value: 90)]]
+        let fx = ["CHF": [DatedValue(date: Self.at(1), value: 0.9),
+                          DatedValue(date: Self.at(2), value: 1.0)]]
+        let points = PortfolioHistory.daily(
+            orders: orders, closes: closes, currencies: ["NESN": "CHF"], fx: fx,
+            inception: Self.at(1, 8), now: Self.at(3, 12))
+        #expect(points.map(\.valueCents) == [100_000, 100_000, 99_000])
+    }
 }

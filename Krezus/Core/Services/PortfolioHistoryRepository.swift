@@ -15,8 +15,10 @@ struct PortfolioHistoryRepository {
         let deposits: [PortfolioDeposit]
         let closes: [String: [DatedValue]]
         let currencies: [String: String]
-        let eurUsd: [DatedValue]
-        let fallbackEurUsd: Double?
+        /// Change par devise de paire (« USD », « GBP »…), et dernier taux
+        /// connu en repli.
+        let fx: [String: [DatedValue]]
+        let fallbackFx: [String: Double]
 
         var symbols: [String] { Array(Set(orders.map(\.symbol))).sorted() }
         var depositedCents: Int { deposits.reduce(0) { $0 + $1.amountCents } }
@@ -65,7 +67,7 @@ struct PortfolioHistoryRepository {
         let symbols = Array(Set(orders.map(\.symbol)))
         guard !symbols.isEmpty else {
             return DailySource(inception: inception, orders: [], deposits: deposits, closes: [:],
-                               currencies: [:], eurUsd: [], fallbackEurUsd: nil)
+                               currencies: [:], fx: [:], fallbackFx: [:])
         }
 
         // Une semaine de marge avant l'ouverture : le premier jour doit
@@ -94,26 +96,14 @@ struct PortfolioHistoryRepository {
             .value
         let currencies = Dictionary(uniqueKeysWithValues: currencyRows.map { ($0.symbol, $0.currency) })
 
-        // Le change ne compte que si un titre en dollars a été détenu.
-        var eurUsd: [DatedValue] = []
-        var fallback: Double?
-        if currencies.values.contains(where: { $0.uppercased() == "USD" }) {
-            let fxRows: [FxClose] = try await client
-                .from("fx_history")
-                .select("date, rate")
-                .eq("pair", value: "EURUSD")
-                .gte("date", value: fromDay)
-                .order("date", ascending: true)
-                .execute()
-                .value
-            eurUsd = fxRows.compactMap { row in
-                Self.parseDay(row.date).map { DatedValue(date: $0, value: row.rate) }
-            }
-            fallback = try await MarketDataService.shared.fxRate()?.rate
-        }
+        // Le change des seules devises détenues.
+        let fxRepository = FxHistoryRepository()
+        let fx = try await fxRepository.series(for: currencies.values,
+                                               from: Self.parseDay(fromDay))
+        let fallback = await fxRepository.latestRates(for: currencies.values)
 
         return DailySource(inception: inception, orders: orders, deposits: deposits, closes: closes,
-                           currencies: currencies, eurUsd: eurUsd, fallbackEurUsd: fallback)
+                           currencies: currencies, fx: fx, fallbackFx: fallback)
     }
 
     /// Relevés intraday en euros depuis `since`, par symbole.
@@ -166,11 +156,6 @@ struct PortfolioHistoryRepository {
     private struct SecurityCurrency: Decodable {
         let symbol: String
         let currency: String
-    }
-
-    private struct FxClose: Decodable {
-        let date: String
-        let rate: Double
     }
 
     private struct IntradayRow: Decodable {

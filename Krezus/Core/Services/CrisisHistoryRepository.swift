@@ -42,29 +42,17 @@ struct CrisisHistoryRepository {
             .value
         let currencies = Dictionary(uniqueKeysWithValues: currencyRows.map { ($0.symbol, $0.currency) })
 
-        var eurUsd: [DatedValue] = []
-        if currencies.values.contains(where: { $0.uppercased() == "USD" }) {
-            let fxRows: [FxRow] = try await fetchAll { start, end in
-                client.from("fx_history")
-                    .select("date, rate")
-                    .eq("pair", value: "EURUSD")
-                    .gte("date", value: fromDay)
-                    .lte("date", value: toDay)
-                    .order("date", ascending: true)
-                    .range(from: start, to: end)
-            }
-            eurUsd = fxRows.compactMap { row in
-                Self.parseDay(row.date).map { DatedValue(date: $0, value: row.rate) }
-            }
-        }
+        let fx = try await FxHistoryRepository().series(
+            for: currencies.values, from: Self.parseDay(fromDay), to: to)
 
         var closes: [String: [DatedValue]] = [:]
         for row in rows {
             guard let day = Self.parseDay(row.date) else { continue }
             let currency = currencies[row.symbol] ?? "EUR"
+            let series = PortfolioHistory.fxCurrency(for: currency).flatMap { fx[$0] } ?? []
             guard let euros = PortfolioHistory.toEuros(
                 row.close, currency: currency,
-                rate: PortfolioHistory.lastValue(in: eurUsd, onOrBefore: day)) else { continue }
+                rate: PortfolioHistory.lastValue(in: series, onOrBefore: day)) else { continue }
             closes[row.symbol, default: []].append(DatedValue(date: day, value: euros))
         }
         return closes
@@ -96,11 +84,6 @@ struct CrisisHistoryRepository {
     private struct SecurityCurrency: Decodable {
         let symbol: String
         let currency: String
-    }
-
-    private struct FxRow: Decodable {
-        let date: String
-        let rate: Double
     }
 
     // MARK: Dates ISO
