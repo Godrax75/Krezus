@@ -373,13 +373,64 @@ add({
         "Dividende annuel rapporté au cours, tel que publié par l'entreprise.",
         "Annual dividend relative to the share price, as published by the company."),
     "oracle.scenarios.intro": (
-        "Quatre situations qui reviennent régulièrement sur les marchés, et ce "
-        "qu'elles impliquent mécaniquement. Aucune n'est une prévision.",
-        "Four situations that come up regularly in the markets, and what they "
-        "mechanically imply. None of them is a forecast."),
+        "Quatre situations qui reviennent régulièrement sur les marchés. "
+        "L'impact est estimé à partir du poids de chaque secteur chez toi — "
+        "c'est une estimation, pas une prévision.",
+        "Four situations that come up regularly in the markets. The impact is "
+        "estimated from each sector's weight in your portfolio — an estimate, "
+        "not a forecast."),
     "oracle.scenario.trigger":   ("LE DÉCLENCHEUR", "THE TRIGGER"),
     "oracle.scenario.mechanism": ("CE QUI SE PASSE", "WHAT HAPPENS"),
     "oracle.scenario.portfolio": ("CÔTÉ PORTEFEUILLE", "FOR A PORTFOLIO"),
+    # Rejouer une crise passée sur le portefeuille.
+    "oracle.backtest.title": ("Rejoue une crise sur ton portefeuille",
+                              "Replay a crisis on your portfolio"),
+    "oracle.backtest.subtitle": (
+        "Tes positions d'aujourd'hui, aux cours de l'époque. Ce n'est pas une "
+        "prévision : c'est ce qu'un choc déjà survenu leur aurait fait.",
+        "Today's holdings, at the prices of the time. Not a forecast: what a "
+        "shock that already happened would have done to them."),
+    "oracle.backtest.window":    ("Fenêtre observée : %@ à %@", "Window: %@ to %@"),
+    "oracle.backtest.loading":   ("Lecture des cours de l'époque…", "Reading prices from the time…"),
+    "oracle.backtest.error": (
+        "Impossible de rejouer cette crise avec tes titres actuels.",
+        "This crisis can't be replayed with your current holdings."),
+    "oracle.backtest.no_positions": (
+        "Achète une première action : il n'y a encore rien à rejouer.",
+        "Buy your first stock — there's nothing to replay yet."),
+    "oracle.backtest.demo": (
+        "Les cours d'archive arrivent avec ton compte.",
+        "Historical prices come with your account."),
+    "oracle.backtest.drawdown":  ("Baisse max.", "Worst fall"),
+    "oracle.backtest.low":       ("Au plus bas", "At the low"),
+    "oracle.backtest.recovery":  ("Récupération", "Recovery"),
+    "oracle.backtest.no_recovery": ("Pas encore repassé au-dessus", "Never made it back"),
+    "oracle.backtest.recovery_weeks": ("Moins d'un mois", "Under a month"),
+    "oracle.backtest.loss": (
+        "Au creux de la vague, ton portefeuille affichait %@ par rapport à sa valeur d'aujourd'hui.",
+        "At the low point, your portfolio showed %@ against today's value."),
+    "oracle.backtest.worst":     ("LE PIRE", "WORST"),
+    "oracle.backtest.best":      ("LE MEILLEUR", "BEST"),
+    "oracle.backtest.missing_one": (
+        "%@ n'était pas coté à l'époque : le calcul porte sur %d %% de ton portefeuille.",
+        "%@ wasn't listed back then: this covers %d%% of your portfolio."),
+    "oracle.backtest.missing": (
+        "%@ n'étaient pas cotés à l'époque : le calcul porte sur %d %% de ton portefeuille.",
+        "%@ weren't listed back then: this covers %d%% of your portfolio."),
+    # Scénarios projetés.
+    "oracle.scenarios.title":    ("Scénarios possibles", "Possible scenarios"),
+    "oracle.scenario.impact":    ("IMPACT ESTIMÉ SUR 12 MOIS", "ESTIMATED 12-MONTH IMPACT"),
+    "oracle.scenario.assumptions": ("Voir les hypothèses", "See the assumptions"),
+    "oracle.scenario.weight":    ("%d %% du portefeuille", "%d%% of the portfolio"),
+    "oracle.scenario.assumptions_note": (
+        "Chocs posés secteur par secteur, d'après l'ampleur des épisodes passés, "
+        "puis appliqués au poids réel de chaque secteur chez toi. Aucune "
+        "probabilité n'est avancée : personne ne sait si ni quand cela arrivera.",
+        "Shocks set sector by sector, from the scale of past episodes, then "
+        "applied to each sector's real weight in your portfolio. No probability "
+        "is given: nobody knows whether or when this will happen."),
+    "oracle.scenario.replay":    ("Rejouer %@ sur ton portefeuille", "Replay %@ on your portfolio"),
+    "format.months_short":       ("%d mois", "%d months"),
 })
 
 add({

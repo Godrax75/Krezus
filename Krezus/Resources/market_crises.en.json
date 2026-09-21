@@ -1,0 +1,42 @@
+[
+  {
+    "id": "subprimes_2008",
+    "emoji": "🏚️",
+    "label": "The 2008 crash",
+    "summary": "American mortgages granted to households who could not repay ended up on bank balance sheets worldwide. Lehman Brothers' collapse in September 2008 froze credit and sank every exchange.",
+    "start": "2007-10-09",
+    "end": "2014-12-31"
+  },
+  {
+    "id": "euro_debt_2011",
+    "emoji": "🇪🇺",
+    "label": "Eurozone debt crisis",
+    "summary": "Greece, then Italy and Spain, struggled to borrow. The euro's survival was in doubt, and European banks, loaded with government debt, took the worst of it.",
+    "start": "2011-05-02",
+    "end": "2014-12-31"
+  },
+  {
+    "id": "covid_2020",
+    "emoji": "🦠",
+    "label": "Covid-19",
+    "summary": "Within weeks, half the planet was in lockdown. The fall was the fastest in stock market history — and so was the rebound, as central banks flooded markets with cash.",
+    "start": "2020-02-19",
+    "end": "2021-12-31"
+  },
+  {
+    "id": "inflation_2022",
+    "emoji": "🔥",
+    "label": "Inflation and the war in Ukraine",
+    "summary": "The invasion of Ukraine sent energy prices soaring just as inflation was picking up. Central banks raised rates at speed, and growth stocks, the most rate-sensitive, tumbled.",
+    "start": "2022-01-03",
+    "end": "2024-12-31"
+  },
+  {
+    "id": "tariffs_2025",
+    "emoji": "⚓️",
+    "label": "Tariff shock",
+    "summary": "The United States announced the steepest tariffs in a century. Supply chains were rearranged in a hurry, and exporting industry absorbed the blow.",
+    "start": "2025-02-19",
+    "end": "2026-09-18"
+  }
+]

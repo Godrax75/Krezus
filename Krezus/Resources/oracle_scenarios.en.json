@@ -6,7 +6,22 @@
     "trigger": "A central bank cuts its rates to stimulate the economy.",
     "mechanism": "Money becomes cheaper to borrow. Companies invest more readily, and risk-free savings pay less — which makes shares relatively more attractive.",
     "portfolio": "Growth stocks, which live off future investment, usually react the most. Banks, on the other hand, see their lending margins squeezed.",
-    "lesson": "A rate cut is not good news for everyone at once. The sector decides."
+    "lesson": "A rate cut is not good news for everyone at once. The sector decides.",
+    "shocks": {
+      "technology": 12,
+      "realestate": 10,
+      "finance": -4,
+      "bonds": 6,
+      "consumer": 5,
+      "industry": 5,
+      "health": 4,
+      "telecom": 3,
+      "auto": 6,
+      "materials": 4,
+      "broad": 6,
+      "commodities": 2
+    },
+    "fallback": 5
   },
   {
     "id": "inflation_up",
@@ -15,7 +30,24 @@
     "trigger": "Prices rise faster than expected for several months.",
     "mechanism": "Every euro buys less than before. Central banks often raise rates to slow the rise, which makes credit more expensive.",
     "portfolio": "Companies able to raise their prices without losing customers — luxury, certain brands — absorb the shock better than those stuck with rising costs.",
-    "lesson": "The real return on an investment is what it earns once inflation is deducted."
+    "lesson": "The real return on an investment is what it earns once inflation is deducted.",
+    "shocks": {
+      "technology": -12,
+      "finance": 3,
+      "consumer": -2,
+      "energy": 10,
+      "materials": 6,
+      "realestate": -10,
+      "bonds": -8,
+      "auto": -8,
+      "industry": -5,
+      "health": -3,
+      "telecom": -4,
+      "broad": -6,
+      "commodities": 8
+    },
+    "fallback": -5,
+    "analogue": "inflation_2022"
   },
   {
     "id": "recession",
@@ -24,7 +56,24 @@
     "trigger": "Activity contracts for two consecutive quarters.",
     "mechanism": "Households and companies spend less. Profits fall, and markets price that fall in before it shows up in the accounts.",
     "portfolio": "So-called defensive sectors — healthcare, food, industrial gases — usually fall less than cyclical ones such as carmakers or luxury.",
-    "lesson": "Recessions are part of the cycle. Historically markets have come through them — but never on a predictable schedule."
+    "lesson": "Recessions are part of the cycle. Historically markets have come through them — but never on a predictable schedule.",
+    "shocks": {
+      "technology": -25,
+      "finance": -30,
+      "consumer": -18,
+      "industry": -25,
+      "energy": -20,
+      "health": -8,
+      "auto": -35,
+      "materials": -25,
+      "telecom": -10,
+      "realestate": -25,
+      "broad": -22,
+      "bonds": 4,
+      "commodities": -15
+    },
+    "fallback": -20,
+    "analogue": "subprimes_2008"
   },
   {
     "id": "tech_concentration",
@@ -33,6 +82,23 @@
     "trigger": "A handful of very large technology companies accounts for most of the rise in the indices.",
     "mechanism": "When a few stocks weigh heavily in an index, the index's performance mostly reflects theirs — even if the hundreds of other companies are flat.",
     "portfolio": "A portfolio that looks diversified can in fact run on the same engine as the index, if its main holdings belong to the same sector.",
-    "lesson": "Diversifying is not about multiplying holdings: it is about multiplying engines."
+    "lesson": "Diversifying is not about multiplying holdings: it is about multiplying engines.",
+    "shocks": {
+      "technology": -35,
+      "finance": -10,
+      "consumer": -8,
+      "industry": -10,
+      "energy": -3,
+      "health": -3,
+      "auto": -10,
+      "materials": -6,
+      "telecom": -5,
+      "realestate": -6,
+      "broad": -15,
+      "bonds": 2,
+      "commodities": -3
+    },
+    "fallback": -8,
+    "analogue": "inflation_2022"
   }
 ]

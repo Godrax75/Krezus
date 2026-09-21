@@ -9,7 +9,8 @@
 //   supabase functions deploy history --no-verify-jwt
 //
 // Paramètres (query string) :
-//   days=400     profondeur d'historique (défaut 400 ≈ 1 an de séances + marge)
+//   days=400     profondeur d'historique (défaut 400 ≈ 1 an de séances + marge,
+//                jusqu'à 20 000 ≈ 55 ans pour rejouer les crises passées)
 //   symbols=MC,AI  restreint à quelques titres (rattrapage ciblé)
 // =====================================================================
 
@@ -41,7 +42,7 @@ Deno.serve(async (request: Request): Promise<Response> => {
   if (!token) return json({ error: "EODHD_API_TOKEN manquant" }, 500);
 
   const params = new URL(request.url).searchParams;
-  const days = clamp(Number(params.get("days") ?? 400), 1, 5000);
+  const days = clamp(Number(params.get("days") ?? 400), 1, 20000);
   const only = (params.get("symbols") ?? "")
     .split(",").map((s) => s.trim()).filter((s) => s.length > 0);
 

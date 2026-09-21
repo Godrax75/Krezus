@@ -4217,6 +4217,23 @@
         }
       }
     },
+    "format.months_short": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d mois"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d months"
+          }
+        }
+      }
+    },
     "format.percent_int": {
       "extractionState": "manual",
       "localizations": {
@@ -6886,6 +6903,295 @@
         }
       }
     },
+    "oracle.backtest.best": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "LE MEILLEUR"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "BEST"
+          }
+        }
+      }
+    },
+    "oracle.backtest.demo": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les cours d'archive arrivent avec ton compte."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Historical prices come with your account."
+          }
+        }
+      }
+    },
+    "oracle.backtest.drawdown": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Baisse max."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Worst fall"
+          }
+        }
+      }
+    },
+    "oracle.backtest.error": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Impossible de rejouer cette crise avec tes titres actuels."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This crisis can't be replayed with your current holdings."
+          }
+        }
+      }
+    },
+    "oracle.backtest.loading": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lecture des cours de l'époque…"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reading prices from the time…"
+          }
+        }
+      }
+    },
+    "oracle.backtest.loss": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Au creux de la vague, ton portefeuille affichait %@ par rapport à sa valeur d'aujourd'hui."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "At the low point, your portfolio showed %@ against today's value."
+          }
+        }
+      }
+    },
+    "oracle.backtest.low": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Au plus bas"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "At the low"
+          }
+        }
+      }
+    },
+    "oracle.backtest.missing": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ n'étaient pas cotés à l'époque : le calcul porte sur %d %% de ton portefeuille."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ weren't listed back then: this covers %d%% of your portfolio."
+          }
+        }
+      }
+    },
+    "oracle.backtest.missing_one": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ n'était pas coté à l'époque : le calcul porte sur %d %% de ton portefeuille."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ wasn't listed back then: this covers %d%% of your portfolio."
+          }
+        }
+      }
+    },
+    "oracle.backtest.no_positions": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Achète une première action : il n'y a encore rien à rejouer."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Buy your first stock — there's nothing to replay yet."
+          }
+        }
+      }
+    },
+    "oracle.backtest.no_recovery": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pas encore repassé au-dessus"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Never made it back"
+          }
+        }
+      }
+    },
+    "oracle.backtest.recovery": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Récupération"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recovery"
+          }
+        }
+      }
+    },
+    "oracle.backtest.recovery_weeks": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Moins d'un mois"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Under a month"
+          }
+        }
+      }
+    },
+    "oracle.backtest.subtitle": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tes positions d'aujourd'hui, aux cours de l'époque. Ce n'est pas une prévision : c'est ce qu'un choc déjà survenu leur aurait fait."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Today's holdings, at the prices of the time. Not a forecast: what a shock that already happened would have done to them."
+          }
+        }
+      }
+    },
+    "oracle.backtest.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rejoue une crise sur ton portefeuille"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Replay a crisis on your portfolio"
+          }
+        }
+      }
+    },
+    "oracle.backtest.window": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fenêtre observée : %@ à %@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Window: %@ to %@"
+          }
+        }
+      }
+    },
+    "oracle.backtest.worst": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "LE PIRE"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "WORST"
+          }
+        }
+      }
+    },
     "oracle.disclaimer": {
       "extractionState": "manual",
       "localizations": {
@@ -6988,6 +7294,57 @@
         }
       }
     },
+    "oracle.scenario.assumptions": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Voir les hypothèses"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "See the assumptions"
+          }
+        }
+      }
+    },
+    "oracle.scenario.assumptions_note": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chocs posés secteur par secteur, d'après l'ampleur des épisodes passés, puis appliqués au poids réel de chaque secteur chez toi. Aucune probabilité n'est avancée : personne ne sait si ni quand cela arrivera."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Shocks set sector by sector, from the scale of past episodes, then applied to each sector's real weight in your portfolio. No probability is given: nobody knows whether or when this will happen."
+          }
+        }
+      }
+    },
+    "oracle.scenario.impact": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "IMPACT ESTIMÉ SUR 12 MOIS"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ESTIMATED 12-MONTH IMPACT"
+          }
+        }
+      }
+    },
     "oracle.scenario.mechanism": {
       "extractionState": "manual",
       "localizations": {
@@ -7022,6 +7379,23 @@
         }
       }
     },
+    "oracle.scenario.replay": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rejouer %@ sur ton portefeuille"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Replay %@ on your portfolio"
+          }
+        }
+      }
+    },
     "oracle.scenario.trigger": {
       "extractionState": "manual",
       "localizations": {
@@ -7039,19 +7413,53 @@
         }
       }
     },
+    "oracle.scenario.weight": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d %% du portefeuille"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%d%% of the portfolio"
+          }
+        }
+      }
+    },
     "oracle.scenarios.intro": {
       "extractionState": "manual",
       "localizations": {
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Quatre situations qui reviennent régulièrement sur les marchés, et ce qu'elles impliquent mécaniquement. Aucune n'est une prévision."
+            "value": "Quatre situations qui reviennent régulièrement sur les marchés. L'impact est estimé à partir du poids de chaque secteur chez toi — c'est une estimation, pas une prévision."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Four situations that come up regularly in the markets, and what they mechanically imply. None of them is a forecast."
+            "value": "Four situations that come up regularly in the markets. The impact is estimated from each sector's weight in your portfolio — an estimate, not a forecast."
+          }
+        }
+      }
+    },
+    "oracle.scenarios.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scénarios possibles"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Possible scenarios"
           }
         }
       }

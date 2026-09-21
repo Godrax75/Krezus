@@ -17,6 +17,14 @@ struct OracleScenario: Identifiable, Codable, Sendable {
     /// portefeuille nommément, ce qui relèverait du conseil personnalisé.
     let portfolio: String
     let lesson: String
+    /// Variation supposée par secteur (clé `SectorGroup`), en % sur douze
+    /// mois, et variation appliquée aux secteurs absents de la table. Ces
+    /// hypothèses sont montrées à l'utilisateur : c'est ce qui sépare une
+    /// estimation assumée d'un chiffre tombé du ciel.
+    let shocks: [String: Double]?
+    let fallback: Double?
+    /// Crise passée qui ressemble le plus à ce scénario, s'il y en a une.
+    let analogue: String?
 }
 
 /// Question du profil investisseur. Chaque option porte directement ses
@@ -90,6 +98,8 @@ struct RadarAxis: Identifiable, Sendable {
 final class OracleStore {
 
     private(set) var scenarios: [OracleScenario] = []
+    /// Crises passées qu'on peut rejouer sur le portefeuille.
+    private(set) var crises: [MarketCrisis] = []
     private(set) var questions: [InvestorQuestion] = []
 
     enum Source: Equatable { case demo, server }
@@ -156,6 +166,7 @@ final class OracleStore {
     /// recalculé pour que son texte suive.
     func loadContent() {
         scenarios = Bundle.main.decodeJSON("oracle_scenarios.json") ?? []
+        crises = Bundle.main.decodeJSON("market_crises.json") ?? []
         questions = Bundle.main.decodeJSON("investor_questions.json") ?? []
         if isComplete { computeArchetype() }
     }

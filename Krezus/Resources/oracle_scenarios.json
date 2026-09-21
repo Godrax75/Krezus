@@ -6,7 +6,22 @@
     "trigger": "Une banque centrale baisse ses taux pour relancer l'économie.",
     "mechanism": "L'argent coûte moins cher à emprunter. Les entreprises investissent plus facilement, et les placements sans risque rapportent moins — ce qui rend les actions relativement plus attractives.",
     "portfolio": "Les valeurs de croissance, qui vivent d'investissements futurs, réagissent en général le plus fort. Les banques, elles, voient leurs marges de prêt se resserrer.",
-    "lesson": "Une baisse de taux n'est pas une bonne nouvelle pour tout le monde en même temps. C'est le secteur qui décide."
+    "lesson": "Une baisse de taux n'est pas une bonne nouvelle pour tout le monde en même temps. C'est le secteur qui décide.",
+    "shocks": {
+      "technology": 12,
+      "realestate": 10,
+      "finance": -4,
+      "bonds": 6,
+      "consumer": 5,
+      "industry": 5,
+      "health": 4,
+      "telecom": 3,
+      "auto": 6,
+      "materials": 4,
+      "broad": 6,
+      "commodities": 2
+    },
+    "fallback": 5
   },
   {
     "id": "inflation_up",
@@ -15,7 +30,24 @@
     "trigger": "Les prix augmentent plus vite que prévu pendant plusieurs mois.",
     "mechanism": "Chaque euro achète moins qu'avant. Les banques centrales relèvent souvent leurs taux pour freiner la hausse, ce qui renchérit le crédit.",
     "portfolio": "Les entreprises capables d'augmenter leurs prix sans perdre de clients — le luxe, certaines marques — encaissent mieux le choc que celles qui subissent la hausse de leurs coûts.",
-    "lesson": "Le vrai rendement d'un placement, c'est ce qu'il rapporte une fois l'inflation déduite."
+    "lesson": "Le vrai rendement d'un placement, c'est ce qu'il rapporte une fois l'inflation déduite.",
+    "shocks": {
+      "technology": -12,
+      "finance": 3,
+      "consumer": -2,
+      "energy": 10,
+      "materials": 6,
+      "realestate": -10,
+      "bonds": -8,
+      "auto": -8,
+      "industry": -5,
+      "health": -3,
+      "telecom": -4,
+      "broad": -6,
+      "commodities": 8
+    },
+    "fallback": -5,
+    "analogue": "inflation_2022"
   },
   {
     "id": "recession",
@@ -24,7 +56,24 @@
     "trigger": "L'activité se contracte pendant deux trimestres consécutifs.",
     "mechanism": "Les ménages et les entreprises dépensent moins. Les bénéfices reculent, et les marchés anticipent ce recul avant qu'il n'apparaisse dans les comptes.",
     "portfolio": "Les secteurs dits défensifs — santé, alimentation, gaz industriels — reculent en général moins que les secteurs cycliques comme l'automobile ou le luxe.",
-    "lesson": "Les récessions font partie du cycle. Historiquement, les marchés les ont traversées — mais jamais selon un calendrier prévisible."
+    "lesson": "Les récessions font partie du cycle. Historiquement, les marchés les ont traversées — mais jamais selon un calendrier prévisible.",
+    "shocks": {
+      "technology": -25,
+      "finance": -30,
+      "consumer": -18,
+      "industry": -25,
+      "energy": -20,
+      "health": -8,
+      "auto": -35,
+      "materials": -25,
+      "telecom": -10,
+      "realestate": -25,
+      "broad": -22,
+      "bonds": 4,
+      "commodities": -15
+    },
+    "fallback": -20,
+    "analogue": "subprimes_2008"
   },
   {
     "id": "tech_concentration",
@@ -33,6 +82,23 @@
     "trigger": "Une poignée de très grandes entreprises technologiques concentre l'essentiel de la hausse des indices.",
     "mechanism": "Quand quelques titres pèsent très lourd dans un indice, la performance de l'indice reflète surtout la leur — même si les centaines d'autres entreprises stagnent.",
     "portfolio": "Un portefeuille qui semble diversifié peut en réalité suivre le même moteur que l'indice, si ses principales lignes appartiennent au même secteur.",
-    "lesson": "Diversifier, ce n'est pas multiplier les lignes : c'est multiplier les moteurs."
+    "lesson": "Diversifier, ce n'est pas multiplier les lignes : c'est multiplier les moteurs.",
+    "shocks": {
+      "technology": -35,
+      "finance": -10,
+      "consumer": -8,
+      "industry": -10,
+      "energy": -3,
+      "health": -3,
+      "auto": -10,
+      "materials": -6,
+      "telecom": -5,
+      "realestate": -6,
+      "broad": -15,
+      "bonds": 2,
+      "commodities": -3
+    },
+    "fallback": -8,
+    "analogue": "inflation_2022"
   }
 ]

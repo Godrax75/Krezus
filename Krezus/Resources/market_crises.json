@@ -1,0 +1,42 @@
+[
+  {
+    "id": "subprimes_2008",
+    "emoji": "🏚️",
+    "label": "Crise de 2008",
+    "summary": "Des crédits immobiliers américains accordés à des ménages insolvables se retrouvent dans les bilans des banques du monde entier. La faillite de Lehman Brothers, en septembre 2008, gèle le crédit et fait plonger toutes les places.",
+    "start": "2007-10-09",
+    "end": "2014-12-31"
+  },
+  {
+    "id": "euro_debt_2011",
+    "emoji": "🇪🇺",
+    "label": "Crise de la dette en zone euro",
+    "summary": "La Grèce, puis l'Italie et l'Espagne, peinent à emprunter. On doute de la survie de l'euro, et les banques européennes, gorgées de dette d'État, sont les plus attaquées.",
+    "start": "2011-05-02",
+    "end": "2014-12-31"
+  },
+  {
+    "id": "covid_2020",
+    "emoji": "🦠",
+    "label": "Covid-19",
+    "summary": "En quelques semaines, la moitié de la planète est confinée. La chute est la plus rapide de l'histoire boursière, et la reprise aussi : les banques centrales inondent les marchés de liquidités.",
+    "start": "2020-02-19",
+    "end": "2021-12-31"
+  },
+  {
+    "id": "inflation_2022",
+    "emoji": "🔥",
+    "label": "Inflation et guerre en Ukraine",
+    "summary": "L'invasion de l'Ukraine fait flamber l'énergie alors que l'inflation repartait déjà. Les banques centrales remontent leurs taux au pas de charge, et les valeurs de croissance, les plus sensibles aux taux, dévissent.",
+    "start": "2022-01-03",
+    "end": "2024-12-31"
+  },
+  {
+    "id": "tariffs_2025",
+    "emoji": "⚓️",
+    "label": "Choc des droits de douane",
+    "summary": "Les États-Unis annoncent des droits de douane d'ampleur inédite depuis un siècle. Les chaînes d'approvisionnement se réorganisent dans l'urgence, et l'industrie exportatrice encaisse le choc.",
+    "start": "2025-02-19",
+    "end": "2026-09-18"
+  }
+]
