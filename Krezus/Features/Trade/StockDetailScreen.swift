@@ -96,7 +96,11 @@ struct StockDetailScreen: View {
         }
     }
 
+    /// L'éclairage d'Hercule n'existe que pour les fiches rédigées à la main :
+    /// une bulle vide vaudrait moins que pas de bulle du tout.
+    @ViewBuilder
     private func herculeCard(_ s: StockInfo) -> some View {
+        if !s.herculeLocalized.isEmpty {
         KrzCard {
             HStack(alignment: .top, spacing: 12) {
                 HerculeAvatar(size: 40)
@@ -107,13 +111,16 @@ struct StockDetailScreen: View {
                 }
             }
         }
+        }
     }
 
     private func aboutCard(_ s: StockInfo) -> some View {
         KrzCard {
             VStack(alignment: .leading, spacing: 10) {
                 Text(t("stock.about_title")).font(KrezusFont.cardTitle).foregroundStyle(KrezusColor.ink)
-                Text(s.whatLocalized).font(KrezusFont.bodyMd).foregroundStyle(KrezusColor.fg2)
+                if !s.whatLocalized.isEmpty {
+                    Text(s.whatLocalized).font(KrezusFont.bodyMd).foregroundStyle(KrezusColor.fg2)
+                }
                 factRow(t("stock.fact.country"), Country.name(s.cc))
                 factRow(t("stock.fact.founded"), s.founded)
                 factRow(t("stock.fact.dividend"), MarketLabel.percent(s.dividendYield))
