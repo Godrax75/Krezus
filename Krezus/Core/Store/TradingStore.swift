@@ -275,6 +275,23 @@ final class TradingStore {
 
     // MARK: Fraîcheur des cotations
 
+    /// Rafraîchit à la demande la cotation de quelques titres — la fiche
+    /// qu'on ouvre, l'ordre qu'on passe. Le serveur ne dépense un appel que si
+    /// la cotation a plus d'une minute ; un échec laisse le cache tel quel, et
+    /// c'est alors le moteur d'ordres qui tranchera sur sa fraîcheur.
+    func refreshQuotes(_ symbols: [String]) async {
+        guard source == .server, !symbols.isEmpty else { return }
+        try? await securitiesRepo.requestRefresh(symbols: symbols)
+        guard let rows = try? await securitiesRepo.fetchQuotes(symbols: symbols) else { return }
+        for row in rows { quotes[row.symbol] = row }
+        let refreshed = Set(rows.map(\.symbol))
+        catalog = catalog.map { stock in
+            guard refreshed.contains(stock.symbol),
+                  let security = securities.first(where: { $0.symbol == stock.symbol }) else { return stock }
+            return StockInfo(security: security, quote: quotes[stock.symbol])
+        }
+    }
+
     /// Cotation en cache d'un titre, en mode serveur uniquement.
     func quote(_ symbol: String) -> Quote? { quotes[symbol] }
 
@@ -364,6 +381,7 @@ final class TradingStore {
             try demoBuy(symbol: symbol, amountCents: amountCents)
         case .server:
             guard let userID else { throw OrderError.notSignedIn }
+            await refreshQuotes([symbol])
             try await portfolioRepo.buy(userID: userID, symbol: symbol, amountCents: amountCents)
             await reload()
         }
@@ -376,6 +394,7 @@ final class TradingStore {
             try demoSell(symbol: symbol, pct: pct)
         case .server:
             guard let userID else { throw OrderError.notSignedIn }
+            await refreshQuotes([symbol])
             try await portfolioRepo.sell(userID: userID, symbol: symbol, pct: pct)
             await reload()
         }

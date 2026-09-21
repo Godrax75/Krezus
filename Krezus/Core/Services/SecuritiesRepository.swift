@@ -46,6 +46,29 @@ struct SecuritiesRepository {
         }
     }
 
+    /// Cotations de quelques titres seulement : après un rafraîchissement à
+    /// la demande, inutile de relire tout le cache.
+    func fetchQuotes(symbols: [String]) async throws -> [Quote] {
+        guard !symbols.isEmpty else { return [] }
+        let client = try SupabaseService.shared.requireClient()
+        return try await client
+            .from("quotes_cache")
+            .select()
+            .in("symbol", values: symbols)
+            .execute()
+            .value
+    }
+
+    /// Demande au serveur de rafraîchir ces cotations (`quote-refresh`) : le
+    /// cron ne tient plus tout le catalogue à la minute, il faut un cours
+    /// frais au moment de consulter ou d'acheter un titre.
+    func requestRefresh(symbols: [String]) async throws {
+        struct Body: Encodable { let symbols: [String] }
+        let client = try SupabaseService.shared.requireClient()
+        try await client.functions.invoke(
+            "quote-refresh", options: FunctionInvokeOptions(body: Body(symbols: symbols)))
+    }
+
     private func fetchPaged<T: Decodable>(
         _ page: (Int, Int) -> PostgrestTransformBuilder
     ) async throws -> [T] {

@@ -46,6 +46,25 @@ export async function selectRows<T>(
 }
 
 /**
+ * Comme `selectRows`, mais par pages : PostgREST s'arrête à 1 000 lignes, et
+ * le référentiel les dépasse depuis l'entrée des grands indices. La requête
+ * doit porter un `order=` pour que les pages ne se chevauchent pas.
+ */
+export async function selectAllRows<T>(
+  config: DbConfig,
+  table: string,
+  query: string,
+  pageSize = 1000,
+): Promise<T[]> {
+  const all: T[] = [];
+  for (let offset = 0; ; offset += pageSize) {
+    const page = await selectRows<T>(config, table, `${query}&limit=${pageSize}&offset=${offset}`);
+    all.push(...page);
+    if (page.length < pageSize) return all;
+  }
+}
+
+/**
  * Upsert en masse. `onConflict` doit nommer la contrainte d'unicité, sinon
  * PostgREST insère et échoue sur la clé primaire.
  */

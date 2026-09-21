@@ -28,6 +28,9 @@ struct SellScreen: View {
             }
         }
         .background(KrezusColor.surface.ignoresSafeArea())
+        // Un cours frais avant de saisir un montant : le moteur refuse une
+        // cotation de plus de quinze minutes.
+        .task { await store.refreshQuotes([symbol]) }
     }
 
     private func form(_ s: StockInfo) -> some View {

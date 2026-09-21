@@ -78,3 +78,57 @@ export function currentSession(date: Date): Session {
 export function refreshIntervalSeconds(session: Session): number {
   return session === "closed" ? 600 : 60;
 }
+
+// ---------------------------------------------------------------------
+// Heures d'ouverture par place.
+//
+// Depuis que le référentiel compte plus de mille titres, on ne rafraîchit
+// plus tout à chaque minute : chaque titre coûte un appel EODHD, et le
+// quota est de 100 000 par jour. Il faut donc savoir, titre par titre, si
+// sa place est ouverte. Le suffixe du symbole EODHD désigne la place.
+// ---------------------------------------------------------------------
+
+interface ExchangeHours {
+  timeZone: string;
+  /** Ouverture et clôture, en minutes depuis minuit, heure locale. */
+  open: number;
+  close: number;
+}
+
+const HOURS = {
+  europe: { timeZone: "Europe/Paris", open: 9 * 60, close: 17 * 60 + 30 },
+  london: { timeZone: "Europe/London", open: 8 * 60, close: 16 * 60 + 30 },
+  zurich: { timeZone: "Europe/Zurich", open: 9 * 60, close: 17 * 60 + 30 },
+  nordic: { timeZone: "Europe/Stockholm", open: 9 * 60, close: 17 * 60 + 30 },
+  us:     { timeZone: "America/New_York", open: 9 * 60 + 30, close: 16 * 60 },
+  toronto: { timeZone: "America/Toronto", open: 9 * 60 + 30, close: 16 * 60 },
+  tokyo:  { timeZone: "Asia/Tokyo", open: 9 * 60, close: 15 * 60 + 30 },
+  hongkong: { timeZone: "Asia/Hong_Kong", open: 9 * 60 + 30, close: 16 * 60 },
+  seoul:  { timeZone: "Asia/Seoul", open: 9 * 60, close: 15 * 60 + 30 },
+} satisfies Record<string, ExchangeHours>;
+
+/** Suffixe EODHD -> horaires. Place inconnue : horaires européens. */
+const EXCHANGES: Record<string, ExchangeHours> = {
+  PA: HOURS.europe, AS: HOURS.europe, BR: HOURS.europe, LS: HOURS.europe,
+  XETRA: HOURS.europe, F: HOURS.europe, MC: HOURS.europe, MI: HOURS.europe,
+  VI: HOURS.europe, IR: HOURS.europe, HE: HOURS.europe,
+  LSE: HOURS.london,
+  SW: HOURS.zurich,
+  ST: HOURS.nordic, CO: HOURS.nordic, OL: HOURS.nordic,
+  US: HOURS.us,
+  TO: HOURS.toronto,
+  TSE: HOURS.tokyo,
+  HK: HOURS.hongkong,
+  KO: HOURS.seoul,
+};
+
+/** « MC.PA » -> « PA », « AAPL.US » -> « US ». */
+export function exchangeOf(eodhdSymbol: string): string {
+  const dot = eodhdSymbol.lastIndexOf(".");
+  return dot < 0 ? "US" : eodhdSymbol.slice(dot + 1).toUpperCase();
+}
+
+export function isExchangeOpen(exchange: string, date: Date): boolean {
+  const hours = EXCHANGES[exchange.toUpperCase()] ?? HOURS.europe;
+  return isOpen(date, hours.timeZone, hours.open, hours.close);
+}

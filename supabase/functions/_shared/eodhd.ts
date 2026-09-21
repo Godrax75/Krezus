@@ -156,16 +156,51 @@ export function parseEOD(symbol: string, payload: unknown): HistoryPoint[] {
   return points;
 }
 
+/** Taux de change par devise : unités de la devise pour 1 euro. */
+export type FxRates = Readonly<Record<string, number>>;
+
+/**
+ * Paire EODHD à demander pour convertir une devise en euros, ou null pour
+ * l'euro. Les cours de Londres sont en pence (GBX) : la paire est celle de
+ * la livre, la division par cent vient à la conversion.
+ */
+export function fxPairFor(currency: string): string | null {
+  const code = currency.trim().toUpperCase();
+  if (code === ACCOUNT_CURRENCY) return null;
+  if (code === "GBX" || code === "GBP") return "EURGBP.FOREX";
+  return `EUR${code}.FOREX`;
+}
+
+/** Taux présents dans une réponse temps réel, indexés par devise (« USD »). */
+export function extractFxRates(quotes: readonly RawQuote[]): Record<string, number> {
+  const rates: Record<string, number> = {};
+  for (const quote of quotes) {
+    const match = /^EUR([A-Z]{3})\.FOREX$/.exec(quote.code.toUpperCase());
+    if (match && quote.close !== null && quote.close > 0) rates[match[1]] = quote.close;
+  }
+  return rates;
+}
+
 /** Extrait le taux EURUSD d'une réponse temps réel contenant la paire FOREX. */
 export function extractFxRate(quotes: readonly RawQuote[]): number | null {
-  const fx = quotes.find((q) => q.code.toUpperCase() === FX_PAIR);
-  if (!fx || fx.close === null || fx.close <= 0) return null;
-  return fx.close;
+  return extractFxRates(quotes)["USD"] ?? null;
 }
 
 /**
- * Ramène un cours à la devise de compte. `eurUsd` = dollars pour 1 euro, donc
- * un cours en dollars se divise par ce taux.
+ * Taux à appliquer à une devise de cotation : unités pour 1 euro. Les pence
+ * valent cent fois moins que la livre, d'où le facteur cent.
+ */
+export function rateFor(currency: string, rates: FxRates): number | null {
+  const code = currency.trim().toUpperCase();
+  if (code === ACCOUNT_CURRENCY) return 1;
+  if (code === "GBX") return rates["GBP"] ? rates["GBP"] * 100 : null;
+  const rate = rates[code];
+  return rate && rate > 0 ? rate : null;
+}
+
+/**
+ * Ramène un cours à la devise de compte : un cours se divise par le nombre
+ * d'unités de sa devise pour un euro.
  *
  * Renvoie null si la conversion est impossible : mieux vaut ne pas rafraîchir
  * une ligne que d'écrire un prix faux, sur lequel un ordre serait exécuté.
@@ -173,15 +208,13 @@ export function extractFxRate(quotes: readonly RawQuote[]): number | null {
 export function convertToAccountCurrency(
   priceNative: number,
   currency: string,
-  eurUsd: number | null,
+  rates: FxRates | number | null,
 ): { price: number; fxRate: number } | null {
-  const code = currency.trim().toUpperCase();
-  if (code === ACCOUNT_CURRENCY) return { price: priceNative, fxRate: 1 };
-  if (code === "USD") {
-    if (eurUsd === null || eurUsd <= 0) return null;
-    return { price: priceNative / eurUsd, fxRate: eurUsd };
-  }
-  return null;
+  // Appel historique : un nombre seul est le taux EURUSD.
+  const table: FxRates = typeof rates === "number" ? { USD: rates } : rates ?? {};
+  const rate = rateFor(currency, table);
+  if (rate === null) return null;
+  return { price: priceNative / rate, fxRate: rate };
 }
 
 /**
@@ -194,9 +227,10 @@ export function convertToAccountCurrency(
 export function buildQuoteRows(
   quotes: readonly RawQuote[],
   securities: readonly SecurityRef[],
-  eurUsd: number | null,
+  rates: FxRates | number | null,
   now: Date,
 ): { rows: QuoteRow[]; skipped: string[] } {
+  const eurUsd = rates;
   const byEodhdSymbol = new Map<string, SecurityRef>();
   for (const sec of securities) {
     if (sec.eodhd_symbol) byEodhdSymbol.set(sec.eodhd_symbol.toUpperCase(), sec);
@@ -208,7 +242,7 @@ export function buildQuoteRows(
 
   for (const quote of quotes) {
     const code = quote.code.toUpperCase();
-    if (code === FX_PAIR) continue;             // la paire de change n'est pas un titre
+    if (code.endsWith(".FOREX")) continue;     // une paire de change n'est pas un titre
 
     const security = byEodhdSymbol.get(code);
     if (!security) { skipped.push(quote.code); continue; }

@@ -32,6 +32,9 @@ struct StockDetailScreen: View {
         }
         .background(KrezusColor.surface.ignoresSafeArea())
         .navigationBarBackButtonHidden()
+        // Le catalogue ne tourne plus à la minute : la fiche ouverte réclame
+        // son propre cours frais.
+        .task { await store.refreshQuotes([symbol]) }
     }
 
     private func identity(_ s: StockInfo) -> some View {
