@@ -27,6 +27,7 @@ fiches rédigées à la main, seul leur logo est complété.
 """
 
 import argparse
+import html.parser
 import json
 import pathlib
 import re
@@ -184,7 +185,12 @@ def fetch(url: str, cache_name: str, offline: bool) -> bytes:
 
 
 def api(url: str, cache_name: str, offline: bool) -> dict:
-    return json.loads(fetch(url, cache_name, offline))
+    data = fetch(url, cache_name, offline)
+    try:
+        return json.loads(data)
+    except json.JSONDecodeError:
+        (CACHE / cache_name).unlink(missing_ok=True)
+        raise SystemExit(f"{cache_name} : réponse non JSON — {data[:120]!r}")
 
 
 def eodhd_token() -> str | None:
@@ -202,8 +208,13 @@ def eodhd_listings(exchange: str, offline: bool) -> list[dict]:
     token = eodhd_token()
     if token is None and not (CACHE / cache).exists():
         raise SystemExit("EODHD_API_TOKEN introuvable dans supabase/functions/.env")
-    return api(f"https://eodhd.com/api/exchange-symbol-list/{exchange}"
+    rows = api(f"https://eodhd.com/api/exchange-symbol-list/{exchange}"
                f"?api_token={token}&fmt=json", cache, offline)
+    if not isinstance(rows, list):
+        # Quota épuisé ou place inconnue : on ne garde pas la réponse en cache.
+        (CACHE / cache).unlink(missing_ok=True)
+        raise SystemExit(f"EODHD {exchange} : réponse inattendue {str(rows)[:120]}")
+    return rows
 
 
 # -------------------------------------------------------------- Compositions
@@ -445,20 +456,21 @@ def emit(title: str, inserts: list[dict], updates: list[tuple[str, str]]) -> str
         "",
         "insert into public.securities",
         "  (symbol, eodhd_symbol, currency, asset_type, name, country_code, country,",
-        "   sector, sector_en, sector_group, region, initials, logo_url)",
+        "   sector, sector_en, sector_group, region, initials, logo_url, isin)",
         "values",
     ]
     values = []
     for item in inserts:
         values.append(
             "  ({symbol}, {eodhd}, {currency}, 'stock', {name}, {cc}, {country},"
-            " {sector}, {sector_en}, {group}, {region}, {initials}, {logo})".format(
+            " {sector}, {sector_en}, {group}, {region}, {initials}, {logo}, {isin})".format(
                 symbol=sql_string(item["symbol"]), eodhd=sql_string(item["eodhd_symbol"]),
                 currency=sql_string(item["currency"]), name=sql_string(item["name"]),
                 cc=sql_string(item["country_code"]), country=sql_string(item["country"]),
                 sector=sql_string(item["sector"]), sector_en=sql_string(item["sector_en"]),
                 group=sql_string(item["sector_group"]), region=sql_string(item["region"]),
-                initials=sql_string(item["initials"]), logo=sql_string(item["logo_url"])))
+                initials=sql_string(item["initials"]), logo=sql_string(item["logo_url"]),
+                isin=sql_string(item.get("isin"))))
     lines.append(",\n".join(values))
     lines.append("on conflict (symbol) do update set")
     lines.append("  logo_url = coalesce(public.securities.logo_url, excluded.logo_url);")
@@ -475,6 +487,366 @@ def emit(title: str, inserts: list[dict], updates: list[tuple[str, str]]) -> str
         lines.append("")
 
     return "\n".join(lines)
+
+
+# ------------------------------------------------------ Tables de Wikipédia
+
+class WikiTables(html.parser.HTMLParser):
+    """Tables `wikitable` d'une page rendue : texte et premier lien de chaque
+    cellule. Plus sûr que le wikicode, où chaque indice a ses modèles."""
+
+    def __init__(self):
+        super().__init__()
+        self.tables: list[list[list[dict]]] = []
+        self._table = None
+        self._depth = 0
+        self._row = None
+        self._cell = None
+
+    def handle_starttag(self, tag, attrs):
+        attributes = dict(attrs)
+        if tag == "table":
+            if self._table is None and "wikitable" in (attributes.get("class") or ""):
+                self._table, self._depth = [], 1
+            elif self._table is not None:
+                self._depth += 1
+            return
+        if self._table is None or self._depth != 1:
+            return
+        if tag == "tr":
+            self._row = []
+        elif tag in ("td", "th") and self._row is not None:
+            self._cell = {"text": "", "link": None}
+        elif tag == "a" and self._cell is not None and self._cell["link"] is None:
+            href = attributes.get("href", "")
+            if href.startswith("/wiki/") and ":" not in href[6:]:
+                self._cell["link"] = urllib.parse.unquote(href[6:]).replace("_", " ")
+
+    def handle_endtag(self, tag):
+        if self._table is None:
+            return
+        if tag == "table":
+            self._depth -= 1
+            if self._depth == 0:
+                self.tables.append(self._table)
+                self._table = None
+        elif self._depth == 1 and tag in ("td", "th") and self._cell is not None:
+            self._cell["text"] = re.sub(r"\s+", " ", self._cell["text"]).strip()
+            if self._row is not None:
+                self._row.append(self._cell)
+            self._cell = None
+        elif self._depth == 1 and tag == "tr" and self._row is not None:
+            if self._row:
+                self._table.append(self._row)
+            self._row = None
+
+    def handle_data(self, data):
+        if self._cell is not None:
+            self._cell["text"] += data
+
+
+def wiki_tables(page: str, cache_name: str, offline: bool) -> list:
+    data = api("https://en.wikipedia.org/w/api.php?action=parse&page="
+               + urllib.parse.quote(page) + "&prop=text&format=json&formatversion=2",
+               cache_name, offline)
+    parser = WikiTables()
+    parser.feed(data["parse"]["text"])
+    return parser.tables
+
+
+# Indices européens, canadien et hongkongais : une table de composition par
+# page Wikipédia, un mnémonique par ligne. `ticker`, `name` et `sector`
+# nomment les colonnes ; `country` est le pays du siège par défaut.
+WIKI_INDICES = {
+    "ftse100": dict(page="FTSE 100 Index", exchange="LSE", country="GB",
+                    ticker="Ticker", name="Company", sector="FTSE industry"),
+    "dax":     dict(page="DAX", exchange="XETRA", country="DE",
+                    ticker="Ticker", name="Company", sector="Prime Standard Sector"),
+    "smi":     dict(page="Swiss Market Index", exchange="SW", country="CH",
+                    ticker="Ticker", name="Name", sector="Sector"),
+    "aex":     dict(page="AEX index", exchange="AS", country="NL",
+                    ticker="Ticker", name="Company", sector="ICB Sector"),
+    "ibex35":  dict(page="IBEX 35", exchange="MC", country="ES",
+                    ticker="Ticker", name="Company", sector="Sector"),
+    "ftsemib": dict(page="FTSE MIB", exchange="MI", country="IT",
+                    ticker="Ticker", name="Company", sector="ICB Sector"),
+    "omxs30":  dict(page="OMX Stockholm 30", exchange="ST", country="SE",
+                    ticker="Ticker", name="Company", sector="GICS sector"),
+    "c25":     dict(page="OMX Copenhagen 25", exchange="CO", country="DK",
+                    ticker="Ticker symbol", name="Company", sector="ICB Sector"),
+    "omxh25":  dict(page="OMX Helsinki 25", exchange="HE", country="FI",
+                    ticker="Ticker", name="Company", sector="GICS sector"),
+    "bel20":   dict(page="BEL 20", exchange="BR", country="BE",
+                    ticker="Ticker symbol", name="Company", sector="ICB Sector"),
+    "tsx60":   dict(page="S&P/TSX 60", exchange="TO", country="CA",
+                    ticker="Symbol", name="Company", sector="Sector"),
+    "hsi":     dict(page="Hang Seng Index", exchange="HK", country="HK",
+                    ticker="Ticker", name="Name", sector="Sub-index"),
+}
+
+COUNTRY_NAMES_FR = {
+    "GB": "Royaume-Uni", "DE": "Allemagne", "CH": "Suisse", "NL": "Pays-Bas",
+    "ES": "Espagne", "IT": "Italie", "SE": "Suède", "DK": "Danemark",
+    "FI": "Finlande", "BE": "Belgique", "CA": "Canada", "HK": "Hong Kong",
+    "US": "États-Unis", "JP": "Japon", "TW": "Taïwan", "IN": "Inde",
+    "BR": "Brésil", "CN": "Chine", "KR": "Corée du Sud", "SG": "Singapour",
+    "AR": "Argentine", "MX": "Mexique", "IE": "Irlande", "LU": "Luxembourg",
+    "IL": "Israël", "UY": "Uruguay", "FR": "France",
+}
+
+REGION_BY_COUNTRY = {
+    "FR": "fr", "US": "us", "CA": "world", "HK": "asia_em", "CN": "asia_em",
+    "JP": "asia_em", "TW": "asia_em", "IN": "asia_em", "KR": "asia_em",
+    "SG": "asia_em", "BR": "asia_em", "AR": "asia_em", "MX": "asia_em",
+    "UY": "asia_em", "IL": "world",
+}
+
+# Secteur en anglais (ICB, GICS, Prime Standard) -> famille. Même logique
+# que KEYWORD_GROUPS : premier mot-clé trouvé.
+EN_KEYWORD_GROUPS = [
+    ("realestate", ("real estate", "reit", "property", "properties")),
+    ("utilities",  ("utilit", "electricity", "water", "gas, water")),
+    ("finance",    ("bank", "insurance", "financ", "investment", "asset manage",
+                    "exchange", "payment", "capital", "life assurance")),
+    ("energy",     ("oil", "energy", "gas producer", "petrol", "coal")),
+    ("health",     ("health", "pharma", "biotech", "medical", "drug", "life science")),
+    ("auto",       ("automobile", "auto", "car", "tyre", "tire")),
+    ("technology", ("technology", "software", "semiconductor", "information",
+                    "internet", "electronic", "computer", "it ")),
+    ("telecom",    ("telecom", "media", "communication", "broadcast", "publishing",
+                    "advertising", "entertainment")),
+    ("materials",  ("chemical", "material", "mining", "metal", "steel", "paper",
+                    "forest", "construction material", "cement", "packaging", "gold")),
+    ("consumer",   ("consumer", "retail", "food", "beverage", "drink", "tobacco",
+                    "apparel", "luxury", "personal", "household", "leisure", "travel",
+                    "hotel", "restaurant", "cosmetic", "properties & conglomerates",
+                    "properties and conglomerates", "gaming")),
+    ("industry",   ("industrial", "aerospace", "defence", "defense", "transport",
+                    "construction", "engineering", "logistic", "machinery", "airline",
+                    "shipping", "conglomerate", "business services", "support services")),
+]
+
+
+def group_from_english(sector: str) -> str:
+    text = f" {sector.lower()} "
+    for group, keywords in EN_KEYWORD_GROUPS:
+        if any(keyword in text for keyword in keywords):
+            return group
+    return "industry"
+
+
+def normalize_ticker(raw: str, exchange: str) -> str | None:
+    """Mnémonique de Wikipédia -> code EODHD de la place."""
+    text = raw.strip()
+    # « Euronext Brussels: ABI », « SEHK: 5 »
+    if ":" in text:
+        text = text.split(":")[-1].strip()
+    text = text.split()[0] if exchange not in ("ST", "CO") else text
+    # Suffixe de place déjà présent (« ADS.DE », « ACS.MC »).
+    text = re.sub(r"\.(DE|AS|MC|MI|ST|CO|HE|BR|L|SW|TO|HK)$", "", text, flags=re.I)
+    if exchange == "HK":
+        digits = re.sub(r"\D", "", text)
+        return digits.zfill(4) if digits else None
+    text = text.replace(" ", "-").replace(".", "-").rstrip("-")
+    return text.upper() or None
+
+
+def wiki_index_rows(key: str, offline: bool) -> list[dict]:
+    spec = WIKI_INDICES[key]
+    for table in wiki_tables(spec["page"], f"wikipedia-{key}.json", offline):
+        header = [cell["text"] for cell in table[0]]
+        def column(label):
+            for index, text in enumerate(header):
+                if text.lower().startswith(label.lower()):
+                    return index
+            return None
+        ticker_col, name_col, sector_col = column(spec["ticker"]), column(spec["name"]), column(spec["sector"])
+        if ticker_col is None or name_col is None:
+            continue
+        rows = []
+        for row in table[1:]:
+            if len(row) <= max(ticker_col, name_col):
+                continue
+            name_cell = row[name_col]
+            rows.append({
+                "ticker": row[ticker_col]["text"],
+                "name": re.sub(r"\[\d+\]", "", name_cell["text"]).strip(),
+                "article": name_cell["link"] or name_cell["text"],
+                "sector": row[sector_col]["text"] if sector_col is not None and sector_col < len(row) else "",
+            })
+        return rows
+    raise SystemExit(f"{key} : table de composition introuvable")
+
+
+# Valeurs très connues cotées à New York hors S&P 500 : les géants
+# japonais, taïwanais, indiens et latino-américains qu'aucune place couverte
+# ne liste, et les favoris des particuliers américains. Choisies à la main ;
+# EODHD valide chaque ticker, un ticker inconnu est écarté.
+# (ticker, nom, pays du siège, famille)
+US_EXTRAS = [
+    ("TM", "Toyota", "JP", "auto"), ("SONY", "Sony", "JP", "technology"),
+    ("HMC", "Honda", "JP", "auto"), ("MUFG", "Mitsubishi UFJ", "JP", "finance"),
+    ("SMFG", "Sumitomo Mitsui", "JP", "finance"), ("MFG", "Mizuho", "JP", "finance"),
+    ("TAK", "Takeda", "JP", "health"), ("NMR", "Nomura", "JP", "finance"),
+    ("IX", "ORIX", "JP", "finance"),
+    ("TSM", "TSMC", "TW", "technology"), ("UMC", "United Microelectronics", "TW", "technology"),
+    ("ASX", "ASE Technology", "TW", "technology"),
+    ("INFY", "Infosys", "IN", "technology"), ("HDB", "HDFC Bank", "IN", "finance"),
+    ("IBN", "ICICI Bank", "IN", "finance"), ("WIT", "Wipro", "IN", "technology"),
+    ("RDY", "Dr. Reddy's", "IN", "health"),
+    ("KB", "KB Financial", "KR", "finance"), ("PKX", "POSCO", "KR", "materials"),
+    ("SKM", "SK Telecom", "KR", "telecom"),
+    ("PDD", "PDD Holdings (Temu)", "CN", "consumer"), ("NIO", "NIO", "CN", "auto"),
+    ("BILI", "Bilibili", "CN", "telecom"), ("FUTU", "Futu", "HK", "finance"),
+    ("TME", "Tencent Music", "CN", "telecom"), ("ZTO", "ZTO Express", "CN", "industry"),
+    ("BEKE", "KE Holdings", "CN", "realestate"), ("YUMC", "Yum China", "CN", "consumer"),
+    ("MELI", "MercadoLibre", "UY", "consumer"), ("NU", "Nu Holdings", "BR", "finance"),
+    ("VALE", "Vale", "BR", "materials"), ("PBR", "Petrobras", "BR", "energy"),
+    ("ITUB", "Itaú Unibanco", "BR", "finance"), ("BBD", "Bradesco", "BR", "finance"),
+    ("ABEV", "Ambev", "BR", "consumer"), ("AMX", "América Movil", "MX", "telecom"),
+    ("FMX", "FEMSA", "MX", "consumer"), ("CX", "Cemex", "MX", "materials"),
+    ("GGAL", "Grupo Galicia", "AR", "finance"), ("YPF", "YPF", "AR", "energy"),
+    ("SQM", "SQM", "CL", "materials"), ("EC", "Ecopetrol", "CO", "energy"),
+    ("TEVA", "Teva", "IL", "health"), ("CHKP", "Check Point", "IL", "technology"),
+    ("MNDY", "monday.com", "IL", "technology"), ("NICE", "NICE", "IL", "technology"),
+    ("WIX", "Wix", "IL", "technology"),
+    ("SE", "Sea Limited", "SG", "consumer"), ("GRAB", "Grab", "SG", "industry"),
+    ("SPOT", "Spotify", "LU", "telecom"), ("ARM", "Arm Holdings", "GB", "technology"),
+    ("ONON", "On Holding", "CH", "consumer"), ("TEAM", "Atlassian", "US", "technology"),
+    ("RIVN", "Rivian", "US", "auto"), ("LCID", "Lucid", "US", "auto"),
+    ("RBLX", "Roblox", "US", "telecom"), ("SNOW", "Snowflake", "US", "technology"),
+    ("NET", "Cloudflare", "US", "technology"), ("MDB", "MongoDB", "US", "technology"),
+    ("ZS", "Zscaler", "US", "technology"), ("OKTA", "Okta", "US", "technology"),
+    ("TWLO", "Twilio", "US", "technology"), ("DOCU", "DocuSign", "US", "technology"),
+    ("ZM", "Zoom", "US", "technology"), ("PINS", "Pinterest", "US", "telecom"),
+    ("SNAP", "Snap", "US", "telecom"), ("RDDT", "Reddit", "US", "telecom"),
+    ("DUOL", "Duolingo", "US", "consumer"), ("SOFI", "SoFi", "US", "finance"),
+    ("AFRM", "Affirm", "US", "finance"), ("UPST", "Upstart", "US", "finance"),
+    ("TOST", "Toast", "US", "technology"), ("U", "Unity", "US", "technology"),
+    ("ROKU", "Roku", "US", "telecom"), ("ETSY", "Etsy", "US", "consumer"),
+    ("CHWY", "Chewy", "US", "consumer"), ("W", "Wayfair", "US", "consumer"),
+    ("PTON", "Peloton", "US", "consumer"), ("GME", "GameStop", "US", "consumer"),
+    ("AMC", "AMC Entertainment", "US", "telecom"), ("HIMS", "Hims & Hers", "US", "health"),
+    ("IONQ", "IonQ", "US", "technology"), ("RKLB", "Rocket Lab", "US", "industry"),
+    ("JOBY", "Joby Aviation", "US", "industry"), ("ACHR", "Archer Aviation", "US", "industry"),
+    ("SOUN", "SoundHound AI", "US", "technology"), ("CELH", "Celsius", "US", "consumer"),
+    ("MSTR", "Strategy", "US", "technology"), ("MARA", "MARA Holdings", "US", "finance"),
+    ("RIOT", "Riot Platforms", "US", "finance"), ("PATH", "UiPath", "US", "technology"),
+    ("AI", "C3.ai", "US", "technology"), ("PLUG", "Plug Power", "US", "energy"),
+    ("CRWV", "CoreWeave", "US", "technology"), ("CAVA", "Cava", "US", "consumer"),
+    ("CROX", "Crocs", "US", "consumer"), ("DKNG", "DraftKings", "US", "consumer"),
+    ("SHOP", "Shopify", "CA", "technology"), ("BIDU", "Baidu", "CN", "technology"),
+]
+
+
+def listing_isins(lists: dict[str, list[dict]]) -> dict[str, str]:
+    """`CODE.PLACE` -> ISIN, d'après les référentiels EODHD chargés."""
+    return {f"{row['Code']}.{exchange}": row["Isin"]
+            for exchange, rows in lists.items() for row in rows if row.get("Isin")}
+
+
+def build_global(offline: bool, existing: dict[str, str]) -> str:
+    exchanges = sorted({spec["exchange"] for spec in WIKI_INDICES.values()} | {"US", "PA"})
+    lists = {exchange: eodhd_listings(exchange, offline) for exchange in exchanges}
+    by_code = {exchange: {row["Code"].upper(): row for row in rows}
+               for exchange, rows in lists.items()}
+    by_name = {exchange: {} for exchange in lists}
+    for exchange, rows in lists.items():
+        for row in rows:
+            if row.get("Type") == "Common Stock":
+                by_name[exchange].setdefault(normalized_name(row["Name"]), []).append(row)
+
+    isin_of = listing_isins(lists)
+    # Une société déjà au catalogue — même cotée ailleurs — n'entre pas deux
+    # fois : Airbus est au DAX, mais déjà listé à Paris.
+    seen_isins = {isin_of[e] for e in existing if e in isin_of}
+    existing_names = set()
+    used_symbols = set(existing.values())
+    seen_articles: set[str] = set()
+
+    inserts, skipped = [], []
+
+    # 1. Indices de Wikipédia.
+    all_rows = []
+    for key, spec in WIKI_INDICES.items():
+        for row in wiki_index_rows(key, offline):
+            all_rows.append((key, spec, row))
+    claims = wikidata_claims([row for _, _, row in all_rows], "en.wikipedia.org", "global", offline)
+    logos = commons_logos({article: claim.get("logo") for article, claim in claims.items()},
+                          "global", offline)
+
+    for key, spec, row in all_rows:
+        exchange = spec["exchange"]
+        if row["article"] in seen_articles:
+            continue
+        code = normalize_ticker(row["ticker"], exchange)
+        listing = by_code[exchange].get(code or "")
+        if listing is None:
+            candidates = by_name[exchange].get(normalized_name(row["name"]), [])
+            listing = candidates[0] if len(candidates) == 1 else None
+        if listing is None or listing.get("Type") not in ("Common Stock", "Preferred Stock"):
+            skipped.append(f"{key}:{row['ticker']}")
+            continue
+        eodhd_symbol = f"{listing['Code']}.{exchange}"
+        isin = listing.get("Isin")
+        if eodhd_symbol in existing or (isin and isin in seen_isins):
+            continue
+        seen_articles.add(row["article"])
+        if isin:
+            seen_isins.add(isin)
+
+        symbol = listing["Code"].upper()
+        if symbol in used_symbols:
+            symbol = f"{symbol}.{exchange}"
+        if symbol in used_symbols:
+            skipped.append(f"{key}:{row['ticker']} (symbole pris)")
+            continue
+        used_symbols.add(symbol)
+
+        group = group_from_english(row["sector"])
+        country = spec["country"]
+        sector_en = row["sector"][:1].upper() + row["sector"][1:] if row["sector"] else GROUP_LABELS[group][1]
+        inserts.append({
+            "symbol": symbol, "eodhd_symbol": eodhd_symbol,
+            "currency": listing.get("Currency") or "EUR", "name": row["name"],
+            "country_code": country, "country": COUNTRY_NAMES_FR.get(country, country),
+            "sector": GROUP_LABELS[group][0], "sector_en": sector_en,
+            "sector_group": group, "region": REGION_BY_COUNTRY.get(country, "europe"),
+            "initials": re.sub(r"[^A-Z0-9]", "", row["name"].upper())[:2] or symbol[:2],
+            "logo_url": logos.get(row["article"]), "isin": isin,
+        })
+        existing_names.add(normalized_name(row["name"]))
+
+    # 2. Valeurs choisies cotées à New York.
+    for ticker, name, country, group in US_EXTRAS:
+        listing = by_code["US"].get(ticker)
+        if listing is None:
+            skipped.append(f"us:{ticker}")
+            continue
+        eodhd_symbol = f"{ticker}.US"
+        isin = listing.get("Isin")
+        if (eodhd_symbol in existing or (isin and isin in seen_isins)
+                or normalized_name(name) in existing_names):
+            continue
+        if isin:
+            seen_isins.add(isin)
+        symbol = ticker if ticker not in used_symbols else f"{ticker}.US"
+        if symbol in used_symbols:
+            continue
+        used_symbols.add(symbol)
+        inserts.append({
+            "symbol": symbol, "eodhd_symbol": eodhd_symbol,
+            "currency": listing.get("Currency") or "USD", "name": name,
+            "country_code": country, "country": COUNTRY_NAMES_FR.get(country, country),
+            "sector": GROUP_LABELS[group][0], "sector_en": GROUP_LABELS[group][1],
+            "sector_group": group, "region": REGION_BY_COUNTRY.get(country, "europe"),
+            "initials": re.sub(r"[^A-Z0-9]", "", name.upper())[:2] or ticker[:2],
+            "logo_url": None, "isin": isin,
+        })
+
+    report(inserts, [], skipped)
+    return emit("Grandes valeurs mondiales : Europe, Canada, Hong Kong et "
+                "valeurs connues cotées à New York.", inserts, [])
 
 
 # ------------------------------------------------------------------- Indices
@@ -642,15 +1014,17 @@ def existing_listings() -> dict[str, str]:
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("index", choices=["sp500", "sbf120"])
+    parser.add_argument("index", choices=["sp500", "sbf120", "global"])
     parser.add_argument("--offline", action="store_true",
                         help="n'utilise que le cache réseau déjà téléchargé")
     args = parser.parse_args()
 
     if args.index == "sp500":
         sql = build_sp500(args.offline)
-    else:
+    elif args.index == "sbf120":
         sql = build_sbf120(args.offline, existing_listings())
+    else:
+        sql = build_global(args.offline, existing_listings())
 
     seed = ROOT / "supabase" / "seed" / f"{args.index}.sql"
     seed.parent.mkdir(parents=True, exist_ok=True)
