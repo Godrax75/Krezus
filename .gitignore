@@ -14,3 +14,4 @@ Krezus/Config/Secrets.xcconfig
 # Secrets locaux des Edge Functions (chargés par `supabase functions serve`)
 supabase/functions/.env
 supabase/.temp/
+__pycache__/
