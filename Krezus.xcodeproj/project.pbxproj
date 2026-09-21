@@ -25,6 +25,7 @@
 		25A76D760D134C23A3FE3727 /* SubscriptionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E7B008E777540D83E6569D7 /* SubscriptionService.swift */; };
 		26C4B2DA11889C0BD2E39C88 /* PortfolioChartCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA48BA091FB815B7386194F7 /* PortfolioChartCard.swift */; };
 		2845DD306715FDE7CFA8D9D4 /* ArenaFeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 003C6E7D18ADE06B0A3AFF4A /* ArenaFeedView.swift */; };
+		29BD5C8EAAD5087B052DEC49 /* CrisisBacktestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4343D061775FF45E3219ADD8 /* CrisisBacktestTests.swift */; };
 		2C55FFA997624C97EC9F024E /* PortfolioScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3C6A1C2A0472FE6618D28F /* PortfolioScreen.swift */; };
 		2C6910A8773E55EF4612CE5F /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 852A1B438D5653FEABBFADFE /* AuthService.swift */; };
 		308F59F4A0A30BDCAABC56FF /* Inter-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 46E8D148D6C97FF78A3B512D /* Inter-Bold.ttf */; };
@@ -71,10 +72,12 @@
 		964CC2765063644D38786B3F /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49D4E85F2FF97A737F5DFF04 /* AppConfig.swift */; };
 		98430E9862461A396C43616B /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6B994D7F118EB87FD9F6A77 /* AppState.swift */; };
 		9903ED2182B652A663A29081 /* ArenaFriendsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4252D187E8DE10504CF1C92B /* ArenaFriendsView.swift */; };
+		99AF6834314CB07B77139F31 /* market_crises.json in Resources */ = {isa = PBXBuildFile; fileRef = 429ADED2A38917448D6C69DD /* market_crises.json */; };
 		9AA7976A93F21562F25E41B4 /* KrezusComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C89E97FD84109FF0DE731D0 /* KrezusComponents.swift */; };
 		9B1F7F0FA92A0E1F4A692AA2 /* ArenaRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = E816B3DE766F008B7DB1DFE8 /* ArenaRepository.swift */; };
 		9BF0CEA9B6EE24968C77E538 /* LocalizationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FB811413A022C7F4BE9EA26 /* LocalizationTests.swift */; };
 		9F963C7EAA32FED44BF9C28B /* ProfileRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E233157E5D407FB35177F51 /* ProfileRepository.swift */; };
+		A311351EAEF57CB1EE59B422 /* CrisisHistoryRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844E350D343310F62F6C468F /* CrisisHistoryRepository.swift */; };
 		A5F938E9B08BC60DEFB425D5 /* LearningStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88205400226EE215001D62A3 /* LearningStore.swift */; };
 		A78722FCC0DD5940322ED69A /* ArenaStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709A290CAF7B6CEB9B1A5D28 /* ArenaStore.swift */; };
 		AB559A5F6B35E1D12BE6C7B6 /* PaywallScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ABC2C9DEE8E7FC126C4963E /* PaywallScreen.swift */; };
@@ -85,12 +88,15 @@
 		AEA7D23EE36F0AF603CB817A /* KrezusFormComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A90ACB48050AB3A2461DB9 /* KrezusFormComponents.swift */; };
 		AFE8D5B4D619EDE816909D4A /* SecuritiesRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 205EEB56B61B62F52F70D04C /* SecuritiesRepository.swift */; };
 		B172830124255ACC3C5C1B91 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F8C66FCBB20235A787D64D6 /* Models.swift */; };
+		B5833470FFFF8016C766E97B /* CrisisBacktest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787155DF82CAE3B10D5A615F /* CrisisBacktest.swift */; };
 		B98A8B7485379249003D1B05 /* LessonScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA6CA3369A57F3836806F979 /* LessonScreen.swift */; };
 		B996CF8E8F5A299D4C13E370 /* oracle_scenarios.json in Resources */ = {isa = PBXBuildFile; fileRef = D9884031927AD2D1D1D14A72 /* oracle_scenarios.json */; };
 		BBE856A4F9B8CE0B3D808889 /* DemoCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F3B872D226E0431A602D5F /* DemoCatalog.swift */; };
 		BC0B752BA93C76CCCE5F119D /* HerculeRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B55B11C85C6BD0FDD7C637F /* HerculeRepository.swift */; };
 		C00942A0417A581F15CAA3FB /* HerculeChatScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E48F9BC0E55E1D0B4997D7 /* HerculeChatScreen.swift */; };
+		C441878882CF5E2C2C930165 /* OracleScenariosView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 872332EBB712C5F343E1FFE6 /* OracleScenariosView.swift */; };
 		C73654E02A842795B7129C39 /* LockedFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CDAD2F4D9881CE6E04C99B4 /* LockedFeature.swift */; };
+		C7DC08512D5079CECD0BA95C /* market_crises.en.json in Resources */ = {isa = PBXBuildFile; fileRef = 96920D63BCF8391473D36F24 /* market_crises.en.json */; };
 		C7E6DD4915DF66F2E1DEBC30 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = F865A70B5EA23C8B3532112C /* PrivacyInfo.xcprivacy */; };
 		C8058C10E85528C014E39061 /* ArenaScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD1BB32B488A1F201D8FFA78 /* ArenaScreen.swift */; };
 		C8284D44D7A2B76E1910FA2C /* WeeklyBonus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81C687F58099AADFA610090A /* WeeklyBonus.swift */; };
@@ -156,6 +162,8 @@
 		3CDAD2F4D9881CE6E04C99B4 /* LockedFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockedFeature.swift; sourceTree = "<group>"; };
 		3E8CAEDC30E668847F943013 /* SellScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SellScreen.swift; sourceTree = "<group>"; };
 		4252D187E8DE10504CF1C92B /* ArenaFriendsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArenaFriendsView.swift; sourceTree = "<group>"; };
+		429ADED2A38917448D6C69DD /* market_crises.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = market_crises.json; sourceTree = "<group>"; };
+		4343D061775FF45E3219ADD8 /* CrisisBacktestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrisisBacktestTests.swift; sourceTree = "<group>"; };
 		46E8D148D6C97FF78A3B512D /* Inter-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Bold.ttf"; sourceTree = "<group>"; };
 		49D4E85F2FF97A737F5DFF04 /* AppConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfig.swift; sourceTree = "<group>"; };
 		4C803CEC06E2350490D7D53B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -179,16 +187,20 @@
 		709A290CAF7B6CEB9B1A5D28 /* ArenaStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArenaStore.swift; sourceTree = "<group>"; };
 		72639BB020BD080B96E208AB /* MarketDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketDataTests.swift; sourceTree = "<group>"; };
 		77C612E286223B6CC44CF85D /* CameraPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPicker.swift; sourceTree = "<group>"; };
+		787155DF82CAE3B10D5A615F /* CrisisBacktest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrisisBacktest.swift; sourceTree = "<group>"; };
 		78F3B872D226E0431A602D5F /* DemoCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoCatalog.swift; sourceTree = "<group>"; };
 		7BEE71D6DDE3C1CD5B89B125 /* MarketLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketLabel.swift; sourceTree = "<group>"; };
 		81C687F58099AADFA610090A /* WeeklyBonus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyBonus.swift; sourceTree = "<group>"; };
 		83A449C66F5C86F6D8254329 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		844E350D343310F62F6C468F /* CrisisHistoryRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrisisHistoryRepository.swift; sourceTree = "<group>"; };
 		852A1B438D5653FEABBFADFE /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		86494A8950446B0354E34742 /* ModeSwitchSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModeSwitchSheet.swift; sourceTree = "<group>"; };
+		872332EBB712C5F343E1FFE6 /* OracleScenariosView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OracleScenariosView.swift; sourceTree = "<group>"; };
 		88205400226EE215001D62A3 /* LearningStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningStore.swift; sourceTree = "<group>"; };
 		8B8042588AE769EAEA642852 /* ReferralScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferralScreen.swift; sourceTree = "<group>"; };
 		8BD941373818378FD892FBF3 /* KrezusColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KrezusColor.swift; sourceTree = "<group>"; };
 		8C89E97FD84109FF0DE731D0 /* KrezusComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KrezusComponents.swift; sourceTree = "<group>"; };
+		96920D63BCF8391473D36F24 /* market_crises.en.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = market_crises.en.json; sourceTree = "<group>"; };
 		99CE15D457BF9A1DB6AAABE4 /* WelcomeFlowScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeFlowScreen.swift; sourceTree = "<group>"; };
 		9FB811413A022C7F4BE9EA26 /* LocalizationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizationTests.swift; sourceTree = "<group>"; };
 		A52B91CC498A41181118E98D /* PortfolioHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioHistory.swift; sourceTree = "<group>"; };
@@ -277,6 +289,7 @@
 			isa = PBXGroup;
 			children = (
 				F0281C9CB708F1121F67E01A /* BackendErrorTests.swift */,
+				4343D061775FF45E3219ADD8 /* CrisisBacktestTests.swift */,
 				9FB811413A022C7F4BE9EA26 /* LocalizationTests.swift */,
 				72639BB020BD080B96E208AB /* MarketDataTests.swift */,
 				FE75A431720DF1CF0F29C37D /* PaperOrderTests.swift */,
@@ -288,6 +301,7 @@
 		089B4DEC240E8118026AFE5D /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				787155DF82CAE3B10D5A615F /* CrisisBacktest.swift */,
 				78F3B872D226E0431A602D5F /* DemoCatalog.swift */,
 				0F8C66FCBB20235A787D64D6 /* Models.swift */,
 				A52B91CC498A41181118E98D /* PortfolioHistory.swift */,
@@ -357,6 +371,7 @@
 			children = (
 				C20E25B9D7379FB7AFC179C8 /* OracleCoachView.swift */,
 				F78F64E6EAAC67527B8D3262 /* OracleProfileView.swift */,
+				872332EBB712C5F343E1FFE6 /* OracleScenariosView.swift */,
 				B6D9B82EABDE83897DCCBF86 /* OracleScreen.swift */,
 			);
 			path = Oracle;
@@ -435,6 +450,8 @@
 				20A168AE58FB639C9DDC52FD /* lessons.en.json */,
 				602CB27DD2A460D6DA431BD7 /* lessons.json */,
 				F0A42DFA76EE7E9E882FF154 /* Localizable.xcstrings */,
+				96920D63BCF8391473D36F24 /* market_crises.en.json */,
+				429ADED2A38917448D6C69DD /* market_crises.json */,
 				C0FC3304F58E4550EB7C97F3 /* oracle_scenarios.en.json */,
 				D9884031927AD2D1D1D14A72 /* oracle_scenarios.json */,
 				F865A70B5EA23C8B3532112C /* PrivacyInfo.xcprivacy */,
@@ -530,6 +547,7 @@
 				E816B3DE766F008B7DB1DFE8 /* ArenaRepository.swift */,
 				852A1B438D5653FEABBFADFE /* AuthService.swift */,
 				F6F37CA26B15AFD3A4374D8A /* BiometricLock.swift */,
+				844E350D343310F62F6C468F /* CrisisHistoryRepository.swift */,
 				5B55B11C85C6BD0FDD7C637F /* HerculeRepository.swift */,
 				3703310CFEC1EC8DCAC5B93B /* MarketDataService.swift */,
 				D56DD5C97E21F8583296870C /* NotificationsRepository.swift */,
@@ -708,6 +726,8 @@
 				CA1AD1DCA85C7A57ED506ACE /* investor_questions.json in Resources */,
 				E365B80FDFA1CE4CEDC4A691 /* lessons.en.json in Resources */,
 				56B3BD771FE67D2E34826797 /* lessons.json in Resources */,
+				C7DC08512D5079CECD0BA95C /* market_crises.en.json in Resources */,
+				99AF6834314CB07B77139F31 /* market_crises.json in Resources */,
 				0AA11C87D8AC841C4868CCFB /* oracle_scenarios.en.json in Resources */,
 				B996CF8E8F5A299D4C13E370 /* oracle_scenarios.json in Resources */,
 				FCE3879C30025FCB5EC4D0E8 /* ranks.en.json in Resources */,
@@ -723,6 +743,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3A9EF4228831B0A86978C03C /* BackendErrorTests.swift in Sources */,
+				29BD5C8EAAD5087B052DEC49 /* CrisisBacktestTests.swift in Sources */,
 				9BF0CEA9B6EE24968C77E538 /* LocalizationTests.swift in Sources */,
 				739F36AB580BB52E0854458D /* MarketDataTests.swift in Sources */,
 				512C9F4B9ED2722D966BCEBA /* PaperOrderTests.swift in Sources */,
@@ -751,6 +772,8 @@
 				EC5A0E1B068B8C0EBF43D9E5 /* BuyScreen.swift in Sources */,
 				1758C3968C581B069DCF4B86 /* CameraPicker.swift in Sources */,
 				5FBC3E54F04543B3ACEC2924 /* Country.swift in Sources */,
+				B5833470FFFF8016C766E97B /* CrisisBacktest.swift in Sources */,
+				A311351EAEF57CB1EE59B422 /* CrisisHistoryRepository.swift in Sources */,
 				85E27AD698E0E7186F9CB9D9 /* DebugLaunch.swift in Sources */,
 				BBE856A4F9B8CE0B3D808889 /* DemoCatalog.swift in Sources */,
 				06FE3F9E417452BC90FB0A74 /* EditUsernameScreen.swift in Sources */,
@@ -784,6 +807,7 @@
 				0580C1EB3D5434BC1CBA1AD6 /* OracleCoachView.swift in Sources */,
 				6465FCD0E00B6DE6E36D6567 /* OracleProfileView.swift in Sources */,
 				09592B83FDC9BAE0FE3BC683 /* OracleRepository.swift in Sources */,
+				C441878882CF5E2C2C930165 /* OracleScenariosView.swift in Sources */,
 				24A9B730CBCAE82F83E9E7B2 /* OracleScreen.swift in Sources */,
 				EB00367A3008EDCD57EA1C7C /* OracleStore.swift in Sources */,
 				AB559A5F6B35E1D12BE6C7B6 /* PaywallScreen.swift in Sources */,
