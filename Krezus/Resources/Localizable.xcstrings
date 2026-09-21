@@ -9850,13 +9850,13 @@
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Énergie & services publics"
+            "value": "Énergie & pétrole"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Energy & utilities"
+            "value": "Energy & oil"
           }
         }
       }
@@ -9976,6 +9976,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Telecom & media"
+          }
+        }
+      }
+    },
+    "sector.utilities": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Services aux collectivités"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Utilities"
           }
         }
       }

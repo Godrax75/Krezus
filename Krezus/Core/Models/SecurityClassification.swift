@@ -11,7 +11,7 @@ enum AssetType: String, Sendable {
 /// regrouper. Ces treize familles servent au marché comme à la répartition du
 /// portefeuille. Les trois dernières n'ont de sens que pour les ETF.
 enum SectorGroup: String, CaseIterable, Sendable {
-    case technology, finance, consumer, industry, energy, health, auto,
+    case technology, finance, consumer, industry, energy, utilities, health, auto,
          materials, telecom, realestate, broad, bonds, commodities
 
     var label: String { t("sector.\(rawValue)") }
@@ -31,6 +31,10 @@ enum SectorGroup: String, CaseIterable, Sendable {
             || s.contains("financ") { return .finance }
         if s.contains("luxe") || s.contains("cosmét") || s.contains("boisson")
             || s.contains("agroalim") || s.contains("distribution") || s.contains("hôtel") { return .consumer }
+        // L'eau, l'électricité et le gaz distribués sont des services
+        // régulés : ils ne suivent pas le baril.
+        if s.contains("collectivit") || s.contains("électricité-distribution")
+            || s.contains("environnement") { return .utilities }
         if s.contains("pétrole") || s.contains("énergie") || s.contains("eau") { return .energy }
         if s.contains("pharma") || s.contains("santé") || s.contains("optique")
             || s.contains("laborat") || s.contains("biotech") { return .health }

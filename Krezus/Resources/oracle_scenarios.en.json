@@ -19,7 +19,8 @@
       "auto": 6,
       "materials": 4,
       "broad": 6,
-      "commodities": 2
+      "commodities": 2,
+      "utilities": 8
     },
     "fallback": 5
   },
@@ -44,7 +45,8 @@
       "health": -3,
       "telecom": -4,
       "broad": -6,
-      "commodities": 8
+      "commodities": 8,
+      "utilities": -4
     },
     "fallback": -5,
     "analogue": "inflation_2022"
@@ -70,7 +72,8 @@
       "realestate": -25,
       "broad": -22,
       "bonds": 4,
-      "commodities": -15
+      "commodities": -15,
+      "utilities": -8
     },
     "fallback": -20,
     "analogue": "subprimes_2008"
@@ -96,7 +99,8 @@
       "realestate": -6,
       "broad": -15,
       "bonds": 2,
-      "commodities": -3
+      "commodities": -3,
+      "utilities": -2
     },
     "fallback": -8,
     "analogue": "inflation_2022"

@@ -56,7 +56,7 @@ SECTORS = {
     "Energy":                 ("Énergie-pétrole", "Energy and oil", "energy"),
     "Materials":              ("Matériaux", "Materials", "materials"),
     "Real Estate":            ("Immobilier", "Real estate", "realestate"),
-    "Utilities":              ("Services aux collectivités", "Utilities", "energy"),
+    "Utilities":              ("Services aux collectivités", "Utilities", "utilities"),
 }
 
 # La sous-industrie affine la famille quand le secteur GICS la noie : une
