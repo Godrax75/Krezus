@@ -39,6 +39,9 @@ import {
 /** Au-delà, la vue « 1 jour » n'en a plus besoin : le quotidien prend le relais. */
 const INTRADAY_RETENTION_DAYS = 4;
 
+/** Pas d'échantillonnage de la série intraday, en minutes. */
+const INTRADAY_SAMPLE_MINUTES = 5;
+
 Deno.serve(async (request: Request): Promise<Response> => {
   const startedAt = Date.now();
   const session = currentSession(new Date());
@@ -95,16 +98,25 @@ Deno.serve(async (request: Request): Promise<Response> => {
     // Série intraday pour la courbe « 1 jour » du portefeuille. Secondaire :
     // un échec ici ne doit pas faire échouer le rafraîchissement du cache,
     // dont dépend le moteur d'ordres.
+    //
+    // Un relevé toutes les cinq minutes, pas toutes les minutes : l'app
+    // regroupe déjà les points par tranche de cinq minutes (PortfolioHistory
+    // .bucket), et depuis l'entrée du S&P 500 le référentiel compte cinq
+    // cents titres — écrire chaque minute gonflerait la table de cinq fois
+    // ce que la courbe sait afficher.
     let intradayError: string | null = null;
+    const minute = new Date();
+    minute.setUTCSeconds(0, 0);
+    const sampleIntraday = minute.getUTCMinutes() % INTRADAY_SAMPLE_MINUTES === 0;
     try {
-      const minute = new Date();
-      minute.setUTCSeconds(0, 0);
-      await upsertRows(
-        config,
-        "price_intraday",
-        rows.map((row) => ({ symbol: row.symbol, ts: minute.toISOString(), price: row.price })),
-        "symbol,ts",
-      );
+      if (sampleIntraday) {
+        await upsertRows(
+          config,
+          "price_intraday",
+          rows.map((row) => ({ symbol: row.symbol, ts: minute.toISOString(), price: row.price })),
+          "symbol,ts",
+        );
+      }
       const cutoff = new Date(Date.now() - INTRADAY_RETENTION_DAYS * 86_400_000);
       await deleteRows(config, "price_intraday", `ts=lt.${encodeURIComponent(cutoff.toISOString())}`);
     } catch (error) {
