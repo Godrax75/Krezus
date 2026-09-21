@@ -163,4 +163,19 @@ struct MarketDataTests {
         let untranslated = StockInfo(security: Self.security(descriptionEn: nil), quote: nil)
         #expect(untranslated.whatLocalized == "Air Liquide produit les gaz industriels.")
     }
+
+    @Test func uneActionSeRangeSelonLePaysDeSonSiege() {
+        #expect(MarketZone.of(countryCode: "FR", region: .fr, isETF: false) == .france)
+        #expect(MarketZone.of(countryCode: "GB", region: .europe, isETF: false) == .europe)
+        #expect(MarketZone.of(countryCode: "CA", region: .world, isETF: false) == .americas)
+        #expect(MarketZone.of(countryCode: "HK", region: .asia_em, isETF: false) == .china)
+        #expect(MarketZone.of(countryCode: "JP", region: .asia_em, isETF: false) == .japan)
+        #expect(MarketZone.of(countryCode: "KR", region: .asia_em, isETF: false) == .asiaPacific)
+    }
+
+    @Test func unETFSeRangeSelonCeQuIlDetientPasSelonSaDomiciliation() {
+        // Un ETF actions américaines domicilié en Irlande reste américain.
+        #expect(MarketZone.of(countryCode: "IE", region: .us, isETF: true) == .usa)
+        #expect(MarketZone.of(countryCode: "IE", region: .world, isETF: true) == .world)
+    }
 }

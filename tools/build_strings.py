@@ -1375,6 +1375,20 @@ LANGUAGES = ("fr", "en")
 
 # Familles de clés assemblées à l'exécution : le vérificateur ne peut pas les
 # lire dans le code, on les déclare ici pour qu'une clé manquante se voie.
+# ------------------------------------------------------------- Zones d'Explorer
+
+add({
+    "zone.all":         ("Toutes", "All"),
+    "zone.france":      ("France", "France"),
+    "zone.europe":      ("Europe", "Europe"),
+    "zone.usa":         ("États-Unis", "United States"),
+    "zone.americas":    ("Amériques", "Americas"),
+    "zone.japan":       ("Japon", "Japan"),
+    "zone.china":       ("Chine & Hong Kong", "China & Hong Kong"),
+    "zone.asiaPacific": ("Asie-Pacifique", "Asia-Pacific"),
+    "zone.world":       ("Monde", "Global"),
+})
+
 # ------------------------------------------------ Accueil d'un nouveau compte
 
 add({
@@ -1431,7 +1445,7 @@ DYNAMIC_FAMILIES = (
     "locked.", "mission.", "coach.advice.", "coach.axis.", "help.faq.",
     "onboarding.", "archetype.", "hercule.answer.", "country.", "dna.",
     "portfolio.range.", "portfolio.range_caption.",
-    "sector.", "region.", "arena.period.", "arena.period_subtitle.", "arena.scope.",
+    "sector.", "region.", "zone.", "arena.period.", "arena.period_subtitle.", "arena.scope.",
 )
 
 

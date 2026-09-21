@@ -67,3 +67,64 @@ enum Region: String, CaseIterable, Sendable {
         }
     }
 }
+
+/// Zone géographique affichée dans « Explorer » : le filtre et le
+/// regroupement par zone.
+///
+/// Plus fine que `Region` (cinq grandes familles, qui sert au calcul de
+/// l'exposition du portefeuille) : avec plus de mille titres, « Europe »
+/// ou « Asie et émergents » ne suffisent plus à s'y retrouver. Une action
+/// est rangée selon le pays de son siège ; un ETF selon ce qu'il détient,
+/// son pays de domiciliation (souvent l'Irlande) ne disant rien de son
+/// exposition.
+enum MarketZone: String, CaseIterable, Identifiable, Sendable {
+    case france, europe, usa, americas, japan, china, asiaPacific, world
+
+    var id: String { rawValue }
+    var label: String { t("zone.\(rawValue)") }
+
+    var emoji: String {
+        switch self {
+        case .france:      return "🇫🇷"
+        case .europe:      return "🇪🇺"
+        case .usa:         return "🇺🇸"
+        case .americas:    return "🌎"
+        case .japan:       return "🇯🇵"
+        case .china:       return "🇨🇳"
+        case .asiaPacific: return "🌏"
+        case .world:       return "🌐"
+        }
+    }
+
+    private static let europeCodes: Set<String> = [
+        "AT", "BE", "CH", "CY", "CZ", "DE", "DK", "EE", "ES", "FI", "GB", "GR", "HU",
+        "IE", "IS", "IT", "JE", "LT", "LU", "LV", "MC", "MT", "NL", "NO", "PL", "PT",
+        "RO", "SE", "SI", "SK",
+    ]
+    private static let americasCodes: Set<String> = ["CA", "BR", "MX", "AR", "CL", "CO", "PE", "UY"]
+    private static let chinaCodes: Set<String> = ["CN", "HK", "MO"]
+    private static let asiaPacificCodes: Set<String> = [
+        "KR", "TW", "IN", "SG", "AU", "NZ", "ID", "TH", "MY", "PH", "VN", "IL", "AE", "SA",
+    ]
+
+    static func of(countryCode: String, region: Region, isETF: Bool) -> MarketZone {
+        if isETF {
+            switch region {
+            case .fr:      return .france
+            case .europe:  return .europe
+            case .us:      return .usa
+            case .asia_em: return .asiaPacific
+            case .world:   return .world
+            }
+        }
+        let code = countryCode.uppercased()
+        if code == "FR" { return .france }
+        if code == "US" { return .usa }
+        if code == "JP" { return .japan }
+        if europeCodes.contains(code) { return .europe }
+        if americasCodes.contains(code) { return .americas }
+        if chinaCodes.contains(code) { return .china }
+        if asiaPacificCodes.contains(code) { return .asiaPacific }
+        return .world
+    }
+}

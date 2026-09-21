@@ -55,7 +55,10 @@ struct RootView: View {
                     .transition(.move(edge: .bottom).combined(with: .opacity))
             }
         }
-        .task { store.startLiveTicks() }
+        .task {
+            store.startLiveTicks()
+            if DebugLaunch.market { router.push(.market) }
+        }
     }
 
     private var rootContent: some View {

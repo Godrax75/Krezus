@@ -66,6 +66,12 @@ struct StockInfo: Identifiable, Sendable {
             ?? Region.guess(countryCode: cc, isETF: isETF)
     }
 
+    /// Zone d'« Explorer » : pays du siège pour une action, exposition pour
+    /// un ETF.
+    var zone: MarketZone {
+        MarketZone.of(countryCode: cc, region: region, isETF: isETF)
+    }
+
     /// Vrai quand le titre a une cotation exploitable.
     ///
     /// Un titre sans cotation n'a pas un cours de 0 € : il a un cours **inconnu**.

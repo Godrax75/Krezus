@@ -1,8 +1,8 @@
 import SwiftUI
 
-/// « Explorer » — le catalogue, actions et ETF séparés, regroupés par
-/// famille de secteur ou par zone géographique, avec recherche, prix,
-/// variation et badge « déjà en portefeuille ».
+/// « Explorer » — le catalogue, actions et ETF séparés, filtrables par zone
+/// géographique, regroupés par famille de secteur ou par zone, avec
+/// recherche, prix, variation et badge « déjà en portefeuille ».
 struct MarketScreen: View {
     @Environment(TradingStore.self) private var store
     @Environment(Router.self) private var router
@@ -10,6 +10,8 @@ struct MarketScreen: View {
     @State private var searchOpen = false
     @State private var kind: AssetType = .stock
     @State private var grouping: Grouping = .sector
+    /// `nil` = toutes les zones.
+    @State private var zone: MarketZone?
 
     enum Grouping: Hashable { case sector, region }
 
@@ -17,7 +19,7 @@ struct MarketScreen: View {
     /// zones. Un ordre stable vaut mieux qu'un tri par effectif : on retrouve
     /// « Finance » au même endroit d'une visite à l'autre.
     private var sections: [(id: String, title: String, items: [StockInfo])] {
-        let shown = results.filter { $0.assetType == kind }
+        let shown = results.filter { $0.assetType == kind && (zone == nil || $0.zone == zone) }
         let byName: (StockInfo, StockInfo) -> Bool = {
             $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending
         }
@@ -29,16 +31,27 @@ struct MarketScreen: View {
                 return (group.rawValue, group.label, items.sorted(by: byName))
             }
         case .region:
-            let groups = Dictionary(grouping: shown, by: \.region)
-            return Region.allCases.compactMap { region in
-                guard let items = groups[region], !items.isEmpty else { return nil }
-                return (region.rawValue, region.label, items.sorted(by: byName))
+            let groups = Dictionary(grouping: shown, by: \.zone)
+            return MarketZone.allCases.compactMap { zone in
+                guard let items = groups[zone], !items.isEmpty else { return nil }
+                return (zone.rawValue, "\(zone.emoji) \(zone.label)", items.sorted(by: byName))
             }
         }
     }
 
     private func count(_ type: AssetType) -> Int {
-        results.filter { $0.assetType == type }.count
+        results.filter { $0.assetType == type && (zone == nil || $0.zone == zone) }.count
+    }
+
+    /// Titres de chaque zone pour le type choisi : une zone vide n'est pas
+    /// proposée, un filtre qui ne renvoie rien ne sert à rien.
+    private var zoneCounts: [(zone: MarketZone, count: Int)] {
+        let counts = Dictionary(grouping: results.filter { $0.assetType == kind }, by: \.zone)
+            .mapValues(\.count)
+        return MarketZone.allCases.compactMap { zone in
+            guard let count = counts[zone], count > 0 else { return nil }
+            return (zone, count)
+        }
     }
 
     private var results: [StockInfo] {
@@ -79,6 +92,8 @@ struct MarketScreen: View {
                     options: [(AssetType.stock, t("market.kind.stocks", count(.stock))),
                               (AssetType.etf, t("market.kind.etfs", count(.etf)))],
                     selection: $kind)
+
+                zoneFilter
 
                 HStack(spacing: 6) {
                     Text(t("market.group_by"))
@@ -124,9 +139,52 @@ struct MarketScreen: View {
             .scrollIndicators(.hidden)
             .animation(.snappy(duration: 0.2), value: kind)
             .animation(.snappy(duration: 0.2), value: grouping)
+            .animation(.snappy(duration: 0.2), value: zone)
         }
         .background(KrezusColor.bg.ignoresSafeArea())
         .navigationBarBackButtonHidden()
+    }
+
+    /// Filtre par zone : « Toutes », puis chaque zone représentée, avec son
+    /// effectif. Défile horizontalement, la liste des zones dépassant la
+    /// largeur d'un iPhone.
+    private var zoneFilter: some View {
+        ScrollView(.horizontal) {
+            HStack(spacing: 6) {
+                zoneChip(nil, label: t("zone.all"), count: nil)
+                ForEach(zoneCounts, id: \.zone) { item in
+                    zoneChip(item.zone, label: "\(item.zone.emoji) \(item.zone.label)", count: item.count)
+                }
+            }
+            .padding(.horizontal, 1)
+        }
+        .scrollIndicators(.hidden)
+        // Un filtre devenu vide (après un changement de type) retombe sur
+        // « Toutes » plutôt que d'afficher une liste blanche.
+        .onChange(of: kind) { _, _ in
+            if let zone, !zoneCounts.contains(where: { $0.zone == zone }) { self.zone = nil }
+        }
+    }
+
+    private func zoneChip(_ value: MarketZone?, label: String, count: Int?) -> some View {
+        let selected = zone == value
+        return Button { zone = value } label: {
+            HStack(spacing: 5) {
+                Text(label).lineLimit(1)
+                if let count {
+                    Text("\(count)")
+                        .foregroundStyle(selected ? KrezusColor.brandText.opacity(0.7) : KrezusColor.fg4)
+                        .tabularNumbers()
+                }
+            }
+            .font(KrezusFont.body(12.5, .semibold))
+            .foregroundStyle(selected ? KrezusColor.brandText : KrezusColor.fg2)
+            .padding(.horizontal, 12).padding(.vertical, 7)
+            .background(selected ? KrezusColor.tintStrong : KrezusColor.tint)
+            .clipShape(Capsule())
+        }
+        .buttonStyle(.plain)
+        .accessibilityAddTraits(selected ? [.isButton, .isSelected] : .isButton)
     }
 
     private func groupingChip(_ value: Grouping, label: String) -> some View {

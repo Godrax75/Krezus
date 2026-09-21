@@ -8,6 +8,8 @@ enum DebugLaunch {
     static var welcome: Bool { flag("-krzWelcome") }
     /// Ouvre l'app sans connexion, sur les données de démo.
     static var home: Bool { flag("-krzHome") }
+    /// Ouvre « Explorer le marché » (avec -krzHome).
+    static var market: Bool { flag("-krzMarket") }
     /// Montre la célébration du versement hebdomadaire, seule à l'écran.
     static var bonus: Bool { flag("-krzBonus") }
 
