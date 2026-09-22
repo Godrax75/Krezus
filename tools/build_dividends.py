@@ -63,25 +63,22 @@ def yield_of(row: dict, token: str, since: str) -> tuple[str, float] | None:
     if not isinstance(payments, list):
         return None
 
-    listed = (row["currency"] or "").upper()
-    total = 0.0
-    for payment in payments:
-        currency = (payment.get("currency") or listed).upper()
-        value = payment.get("value")
-        if value is None:
-            continue
-        # Londres cote en pence et verse parfois en pence, parfois en livres.
-        if currency == listed:
-            total += float(value)
-        elif listed == "GBX" and currency == "GBP":
-            total += float(value) * 100
-        elif listed == "GBP" and currency == "GBX":
-            total += float(value) / 100
-        else:
-            return None                              # devises incomparables
+    # Le dividende est servi dans l'unité du cours, quelle que soit la devise
+    # annoncée : Pearson verse « 17.4 GBP » pour 17,4 pence, sur un cours de
+    # 1 198 pence. Convertir sur la foi du libellé donnait des rendements de
+    # 200 %. On divise donc sans rien convertir.
+    total = sum(float(payment["value"]) for payment in payments
+                if payment.get("value") is not None)
     if total <= 0:
         return None
-    return row["symbol"], round(total / float(row["price_native"]) * 100, 2)
+    computed = total / float(row["price_native"]) * 100
+    # Au-delà de vingt pour cent, c'est presque toujours une unité qui ne
+    # correspond pas, pas un dividende exceptionnel : on préfère ne rien
+    # afficher qu'un chiffre faux.
+    if computed > 20:
+        print(f"  écarté : {row['symbol']} → {computed:.0f} %")
+        return None
+    return row["symbol"], round(computed, 2)
 
 
 def main() -> None:
@@ -116,6 +113,9 @@ def main() -> None:
         "-- Un titre absent de la liste n'a rien versé sur la période : sa fiche",
         "-- affiche « — », ce qui est la vérité, et non un rendement de zéro.",
         "-- =====================================================================",
+        "",
+        "-- Les rendements d'hier ne valent plus : on repart de rien.",
+        "update public.securities set dividend_yield = null where asset_type = 'stock';",
         "",
         "update public.securities s set dividend_yield = v.yield",
         "from (values",

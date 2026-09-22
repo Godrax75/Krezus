@@ -12,11 +12,20 @@ struct SecuritiesRepository {
     /// dépasse depuis l'entrée du S&P 500, d'où la lecture par pages.
     private static let pageSize = 1_000
 
+    /// Colonnes du catalogue, description exclue.
+    ///
+    /// Les fiches pèsent quelques centaines de caractères chacune : sur mille
+    /// deux cents titres, les embarquer au lancement ajouterait près d'un
+    /// mégaoctet à chaque ouverture de l'app, pour un texte qu'on ne lit que
+    /// sur la fiche d'une action. Elles se chargent donc à l'ouverture de
+    /// celle-ci (`fetch(symbol:)`).
+    private static let listColumns = "symbol, eodhd_symbol, currency, asset_type, name, country_code, country, sector, sector_en, sector_group, region, founded, logo_asset, logo_url, initials, dividend_yield, market_cap_label, pe_ratio, peg_ratio, ceo"
+
     func fetchAll() async throws -> [Security] {
         let client = try SupabaseService.shared.requireClient()
         return try await fetchPaged { from, to in
             client.from("securities")
-                .select()
+                .select(Self.listColumns)
                 .order("name", ascending: true)
                 .range(from: from, to: to)
         }

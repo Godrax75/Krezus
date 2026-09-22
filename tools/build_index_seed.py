@@ -670,7 +670,9 @@ def wiki_index_rows(key: str, offline: bool) -> list[dict]:
             name_cell = row[name_col]
             rows.append({
                 "ticker": row[ticker_col]["text"],
-                "name": re.sub(r"\[\d+\]", "", name_cell["text"]).strip(),
+                # « arGEN-X [nl] » : renvoi vers l'article d'une autre langue.
+                # Le marqueur appartient à Wikipédia, pas à la société.
+                "name": re.sub(r"\[\d+\]|\s*\[[a-z]{2,3}\]", "", name_cell["text"]).strip(),
                 "article": name_cell["link"] or name_cell["text"],
                 "sector": row[sector_col]["text"] if sector_col is not None and sector_col < len(row) else "",
             })

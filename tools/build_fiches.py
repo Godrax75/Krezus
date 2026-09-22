@@ -25,6 +25,7 @@ vides sont complétées, les textes écrits à la main ne bougent pas.
 
 import argparse
 import concurrent.futures
+import hashlib
 import json
 import pathlib
 import re
@@ -89,7 +90,7 @@ def articles_by_isin(isins: list[str]) -> dict[str, tuple[str, str]]:
           OPTIONAL {{ ?en schema:about ?item ; schema:isPartOf <https://en.wikipedia.org/> }}
         }}"""
         data = fetch_json("https://query.wikidata.org/sparql?format=json&query="
-                          + urllib.parse.quote(query), f"wikidata-isin-{start}.json")
+                          + urllib.parse.quote(query), f"wikidata-isin-{digest(batch)}.json")
         for binding in data["results"]["bindings"]:
             isin = binding["isin"]["value"]
             if "fr" in binding:
@@ -97,6 +98,35 @@ def articles_by_isin(isins: list[str]) -> dict[str, tuple[str, str]]:
             elif "en" in binding:
                 found[isin] = (title_of(binding["en"]["value"]), "en")
     return found
+
+
+# Sociétés dont l'article ne se déduit ni du nom ni de l'ISIN : changement
+# de raison sociale, homonymie, ou nom de marque différent du nom légal.
+ARTICLES = {
+    "EBAY": ("eBay", "en"), "ON": ("Onsemi", "en"), "PDD": ("PDD Holdings", "en"),
+    "ONON": ("On (company)", "en"), "AMC": ("AMC Theatres", "en"),
+    "NSIS-B": ("Novozymes", "en"), "1876": ("Budweiser Brewing Company APAC", "en"),
+    "AED": ("Aedifica", "en"), "INDU-C": ("Industrivärden", "en"),
+    "LIFCO-B": ("Lifco", "en"), "NIBE-B": ("NIBE Industrier", "en"),
+    "ARGX": ("Argenx", "en"), "MELE": ("Melexis", "en"),
+    "WDP": ("Warehouses De Pauw", "en"), "MANTA": ("Mandatum", "en"),
+    "KALMAR": ("Kalmar (company)", "en"),
+}
+
+
+def search_article(name: str) -> tuple[str, str] | None:
+    for language in ("fr", "en"):
+        data = fetch_json(
+            f"https://{language}.wikipedia.org/w/api.php?action=query&list=search"
+            "&srlimit=3&format=json&formatversion=2&srsearch="
+            + urllib.parse.quote(f"{name} entreprise" if language == "fr" else f"{name} company"),
+            f"search-{language}-{digest([name])}.json")
+        wanted = index_seed.normalized_name(name)
+        for hit in data.get("query", {}).get("search", []):
+            title = hit["title"]
+            if wanted and wanted in index_seed.normalized_name(title):
+                return (title, language)
+    return None
 
 
 def title_of(url: str) -> str:
@@ -112,16 +142,24 @@ def extracts(titles: list[str], language: str) -> dict[str, str]:
             f"https://{language}.wikipedia.org/w/api.php?action=query&prop=extracts"
             "&exintro=1&explaintext=1&exlimit=20&redirects=1&format=json&formatversion=2"
             "&titles=" + urllib.parse.quote("|".join(batch)),
-            f"extracts-{language}-{start}.json")
+            # Le nom du cache tient au contenu du lot, pas à son rang : deux
+            # exécutions n'ont pas les mêmes titres aux mêmes places.
+            f"extracts-{language}-{digest(batch)}.json")
         for page in data.get("query", {}).get("pages", []):
             text = (page.get("extract") or "").strip()
             if text:
                 found[page["title"]] = text
-        # Les redirections changent le titre : on garde les deux entrées.
-        for item in data.get("query", {}).get("redirects", []):
-            if item["to"] in found:
-                found[item["from"]] = found[item["to"]]
+        # L'API renomme (« eBay » -> « EBay ») et suit les redirections : le
+        # titre demandé n'est pas celui qui revient. On garde les deux.
+        for key in ("normalized", "redirects"):
+            for item in data.get("query", {}).get(key, []):
+                if item["to"] in found:
+                    found[item["from"]] = found[item["to"]]
     return found
+
+
+def digest(parts: list[str]) -> str:
+    return hashlib.sha1("|".join(parts).encode()).hexdigest()[:12]
 
 
 def fetch_json(url: str, cache_name: str) -> dict:
@@ -259,11 +297,28 @@ def main() -> None:
         elif row.get("isin"):
             unmatched.append(row)
     if unmatched:
-        by_isin = articles_by_isin([row["isin"] for row in unmatched])
+        by_isin = articles_by_isin([row["isin"] for row in unmatched if row.get("isin")])
         for row in unmatched:
-            hit = by_isin.get(row["isin"])
+            hit = by_isin.get(row.get("isin") or "")
             if hit:
                 matched[row["symbol"]] = hit
+
+    # Dernier recours : la recherche Wikipédia sur le nom. On n'accepte le
+    # résultat que si le nom de la société se retrouve dans le titre — une
+    # recherche rend toujours quelque chose, et une fiche sur la mauvaise
+    # entreprise serait pire que pas de fiche du tout.
+    for row in todo:
+        if row["symbol"] in matched:
+            continue
+        found = search_article(row["name"])
+        if found:
+            matched[row["symbol"]] = found
+
+    # Les articles connus l'emportent : ils corrigent les cas où le nom du
+    # titre (« Nibe Industrier B ») ne désigne aucun article.
+    for symbol, article in ARTICLES.items():
+        if any(row["symbol"] == symbol for row in todo):
+            matched[symbol] = article
     print(f"{len(matched)} articles Wikipédia retrouvés")
 
     # Extraits, groupés par langue d'article.

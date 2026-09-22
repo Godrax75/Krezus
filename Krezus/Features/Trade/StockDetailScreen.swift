@@ -9,6 +9,24 @@ struct StockDetailScreen: View {
 
     private var stock: StockInfo? { store.stock(symbol) }
 
+    /// Description et éclairage d'Hercule, chargés à l'ouverture de la fiche :
+    /// le catalogue ne les transporte plus.
+    @State private var detail: Security?
+
+    private var about: String {
+        let text = L10n.language == .en
+            ? (detail?.descriptionEn ?? detail?.descriptionFr)
+            : detail?.descriptionFr
+        return text ?? stock?.whatLocalized ?? ""
+    }
+
+    private var herculeNote: String {
+        let text = L10n.language == .en
+            ? (detail?.herculeNoteEn ?? detail?.herculeNoteFr)
+            : detail?.herculeNoteFr
+        return text ?? stock?.herculeLocalized ?? ""
+    }
+
     var body: some View {
         VStack(spacing: 0) {
             PushHeader(title: stock?.name ?? t("stock.fallback_title"))
@@ -35,6 +53,10 @@ struct StockDetailScreen: View {
         // Le catalogue ne tourne plus à la minute : la fiche ouverte réclame
         // son propre cours frais.
         .task { await store.refreshQuotes([symbol]) }
+        .task(id: symbol) {
+            guard AppConfig.isConfigured else { return }
+            detail = try? await SecuritiesRepository().fetch(symbol: symbol)
+        }
     }
 
     private func identity(_ s: StockInfo) -> some View {
@@ -103,14 +125,14 @@ struct StockDetailScreen: View {
     /// une bulle vide vaudrait moins que pas de bulle du tout.
     @ViewBuilder
     private func herculeCard(_ s: StockInfo) -> some View {
-        if !s.herculeLocalized.isEmpty {
+        if !herculeNote.isEmpty {
         KrzCard {
             HStack(alignment: .top, spacing: 12) {
                 HerculeAvatar(size: 40)
                 VStack(alignment: .leading, spacing: 6) {
                     Text(t("stock.hercule_explains")).font(KrezusFont.body(10, .bold)).tracking(0.8)
                         .foregroundStyle(KrezusColor.amberText)
-                    Text(s.herculeLocalized).font(KrezusFont.bodyMd).foregroundStyle(KrezusColor.ink)
+                    Text(herculeNote).font(KrezusFont.bodyMd).foregroundStyle(KrezusColor.ink)
                 }
             }
         }
@@ -121,8 +143,8 @@ struct StockDetailScreen: View {
         KrzCard {
             VStack(alignment: .leading, spacing: 10) {
                 Text(t("stock.about_title")).font(KrezusFont.cardTitle).foregroundStyle(KrezusColor.ink)
-                if !s.whatLocalized.isEmpty {
-                    Text(s.whatLocalized).font(KrezusFont.bodyMd).foregroundStyle(KrezusColor.fg2)
+                if !about.isEmpty {
+                    Text(about).font(KrezusFont.bodyMd).foregroundStyle(KrezusColor.fg2)
                 }
                 factRow(t("stock.fact.country"), Country.name(s.cc))
                 factRow(t("stock.fact.founded"), s.founded)
