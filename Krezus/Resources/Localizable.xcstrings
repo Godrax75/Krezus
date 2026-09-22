@@ -11391,6 +11391,40 @@
         }
       }
     },
+    "topic.bonus.subtitle": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le rappel du lundi, quand tes 300 € sont remis en jeu"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Monday reminder, when your €300 is back in play"
+          }
+        }
+      }
+    },
+    "topic.bonus.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Versement hebdomadaire"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Weekly top-up"
+          }
+        }
+      }
+    },
     "topic.hercule.subtitle": {
       "extractionState": "manual",
       "localizations": {

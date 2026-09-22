@@ -928,6 +928,9 @@ add({
         "Krezus never sends promotional notifications about a stock, nor alerts "
         "nudging you to place an order. The only market alerts concern positions you "
         "already hold."),
+    "topic.bonus.title":    ("Versement hebdomadaire", "Weekly top-up"),
+    "topic.bonus.subtitle": ("Le rappel du lundi, quand tes 300 € sont remis en jeu",
+                             "The Monday reminder, when your €300 is back in play"),
     "topic.market.title":     ("Marché", "Market"),
     "topic.market.subtitle":  ("Mouvements marquants sur tes positions", "Notable moves on your holdings"),
     "topic.academy.title":    ("Academy", "Academy"),

@@ -1,4 +1,24 @@
 import SwiftUI
+import Observation
+
+/// Les trente derniers relevés quotidiens du portefeuille, pour la courbe de
+/// l'accueil. Chargés une fois par session : un relevé de plus n'arrive
+/// qu'après la clôture du soir.
+@MainActor
+@Observable
+final class HomeHistoryModel {
+    private(set) var points: [PortfolioPoint] = []
+    private var loadedFor: UUID?
+
+    private let repository = PortfolioHistoryRepository()
+
+    func load(userID: UUID?) async {
+        guard AppConfig.isConfigured, let userID else { points = []; return }
+        guard loadedFor != userID else { return }
+        points = (try? await repository.snapshots(userID: userID, days: 30)) ?? []
+        loadedFor = userID
+    }
+}
 
 /// Onglet Accueil — « Krezus Forum ». Carte conseil Hercule, valeur du portefeuille,
 /// missions du jour, mes actions, solde papier. Branché sur le `TradingStore`.
@@ -7,6 +27,9 @@ struct HomeScreen: View {
     @Environment(TradingStore.self) private var store
     @Environment(LearningStore.self) private var learning
     @Environment(Router.self) private var router
+    @Environment(AuthService.self) private var auth
+
+    @State private var history = HomeHistoryModel()
 
     var body: some View {
         ScrollView {
@@ -23,6 +46,7 @@ struct HomeScreen: View {
             .padding(.bottom, 140)
         }
         .scrollIndicators(.hidden)
+        .task(id: auth.userID) { await history.load(userID: auth.userID) }
     }
 
     private var title: some View {
@@ -85,21 +109,40 @@ struct HomeScreen: View {
         .accessibilityHint(t("a11y.open_portfolio"))
     }
 
+    /// Trente jours de valeur du portefeuille, relevés du serveur, terminés
+    /// par la valeur en direct.
+    ///
+    /// La courbe dessinait une suite de points inventés : jolie, et fausse.
+    /// Tant qu'il n'y a pas deux relevés — compte tout juste ouvert —, elle
+    /// ne s'affiche pas plutôt que d'inventer une histoire.
+    @ViewBuilder
     private var sparkline: some View {
-        GeometryReader { geo in
-            let pts: [CGFloat] = [0.5, 0.42, 0.55, 0.38, 0.6, 0.32, 0.45, 0.2, 0.3, 0.12]
-            Path { p in
-                for (i, v) in pts.enumerated() {
-                    let x = geo.size.width * CGFloat(i) / CGFloat(pts.count - 1)
-                    let y = geo.size.height * v
-                    if i == 0 { p.move(to: CGPoint(x: x, y: y)) }
-                    else { p.addLine(to: CGPoint(x: x, y: y)) }
+        let points = sparklinePoints
+        if points.count > 1 {
+            GeometryReader { geo in
+                let values = points.map { Double($0.valueCents) }
+                let low = values.min() ?? 0
+                let high = values.max() ?? 0
+                let span = max(high - low, 1)
+                Path { path in
+                    for (index, value) in values.enumerated() {
+                        let x = geo.size.width * CGFloat(index) / CGFloat(values.count - 1)
+                        // Écart au plus bas, inversé : l'origine d'un cadre
+                        // SwiftUI est en haut.
+                        let y = geo.size.height * (1 - CGFloat((value - low) / span))
+                        if index == 0 { path.move(to: CGPoint(x: x, y: y)) }
+                        else { path.addLine(to: CGPoint(x: x, y: y)) }
+                    }
                 }
+                .stroke(.white.opacity(0.85), style: StrokeStyle(lineWidth: 2, lineJoin: .round))
             }
-            .stroke(.white.opacity(0.85), style: StrokeStyle(lineWidth: 2, lineJoin: .round))
+            .frame(height: 48)
+            .accessibilityHidden(true)
         }
-        .frame(height: 48)
-        .accessibilityHidden(true)
+    }
+
+    private var sparklinePoints: [PortfolioPoint] {
+        history.points + [PortfolioPoint(date: Date(), valueCents: store.totalValueCents)]
     }
 
     private var missionsCard: some View {

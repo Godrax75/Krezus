@@ -106,6 +106,40 @@ struct PortfolioHistoryRepository {
                            currencies: currencies, fx: fx, fallbackFx: fallback)
     }
 
+    /// Relevés quotidiens déjà calculés par le serveur (`portfolio_snapshots`),
+    /// des `days` derniers jours.
+    ///
+    /// C'est la lecture la moins chère de l'historique : une requête, une
+    /// trentaine de lignes, aucun cours à reconstituer. De quoi tracer la
+    /// courbe de l'accueil sans refaire le travail de l'onglet Portefeuille.
+    func snapshots(userID: UUID, days: Int) async throws -> [PortfolioPoint] {
+        let client = try SupabaseService.shared.requireClient()
+        let meta: PortfolioMeta = try await client
+            .from("portfolios")
+            .select("id, created_at, reset_at")
+            .eq("user_id", value: userID)
+            .eq("mode", value: "paper")
+            .single()
+            .execute()
+            .value
+
+        let from = Calendar.current.date(byAdding: .day, value: -days, to: Date()) ?? Date()
+        let rows: [SnapshotRow] = try await client
+            .from("portfolio_snapshots")
+            .select("date, total_value_cents")
+            .eq("portfolio_id", value: meta.id)
+            .gte("date", value: Self.isoDay(max(from, meta.resetAt ?? meta.createdAt)))
+            .order("date", ascending: true)
+            .execute()
+            .value
+
+        return rows.compactMap { row in
+            Self.parseDay(row.date).map {
+                PortfolioPoint(date: $0, valueCents: row.totalValueCents)
+            }
+        }
+    }
+
     /// Relevés intraday en euros depuis `since`, par symbole.
     func loadIntraday(symbols: [String], since: Date) async throws -> [String: [DatedValue]] {
         guard !symbols.isEmpty else { return [:] }
@@ -156,6 +190,15 @@ struct PortfolioHistoryRepository {
     private struct SecurityCurrency: Decodable {
         let symbol: String
         let currency: String
+    }
+
+    private struct SnapshotRow: Decodable {
+        let date: String
+        let totalValueCents: Int
+        enum CodingKeys: String, CodingKey {
+            case date
+            case totalValueCents = "total_value_cents"
+        }
     }
 
     private struct IntradayRow: Decodable {

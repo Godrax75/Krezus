@@ -17,11 +17,13 @@ struct ProfileRepository {
             .value
     }
 
-    func updatePreferences(userID: UUID, darkMode: Bool, locale: String) async throws {
+    func updatePreferences(userID: UUID, darkMode: Bool, locale: String,
+                           weeklyBonusPush: Bool = true) async throws {
         let client = try SupabaseService.shared.requireClient()
         try await client
             .from("profiles")
-            .update(["dark_mode": AnyJSON.bool(darkMode), "locale": .string(locale)])
+            .update(["dark_mode": AnyJSON.bool(darkMode), "locale": .string(locale),
+                     "push_weekly_bonus": .bool(weeklyBonusPush)])
             .eq("id", value: userID)
             .execute()
     }

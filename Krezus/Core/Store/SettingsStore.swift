@@ -27,12 +27,13 @@ enum KrezusAppearance: String, CaseIterable, Sendable {
 /// Catégories de notifications, telles qu'exposées dans les réglages et
 /// telles que filtrées côté serveur avant l'envoi d'un push.
 enum NotificationTopic: String, CaseIterable, Identifiable, Sendable {
-    case market, academy, arena, hercule
+    case bonus, market, academy, arena, hercule
 
     var id: String { rawValue }
 
     var title: String {
         switch self {
+        case .bonus:   return t("topic.bonus.title")
         case .market:  return t("topic.market.title")
         case .academy: return t("topic.academy.title")
         case .arena:   return t("topic.arena.title")
@@ -42,6 +43,7 @@ enum NotificationTopic: String, CaseIterable, Identifiable, Sendable {
 
     var subtitle: String {
         switch self {
+        case .bonus:   return t("topic.bonus.subtitle")
         case .market:  return t("topic.market.subtitle")
         case .academy: return t("topic.academy.subtitle")
         case .arena:   return t("topic.arena.subtitle")
@@ -51,6 +53,7 @@ enum NotificationTopic: String, CaseIterable, Identifiable, Sendable {
 
     var icon: String {
         switch self {
+        case .bonus:   return "banknote.fill"
         case .market:  return "chart.line.uptrend.xyaxis"
         case .academy: return "book.fill"
         case .arena:   return "trophy.fill"
@@ -110,7 +113,8 @@ final class SettingsStore {
     private enum Key: String {
         case appearance     = "krz.appearance"
         case locale         = "krz.locale"
-        case topics         = "krz.notificationTopics"
+        case topics         = "krz.notificationTopics.v2"
+        case legacyTopics   = "krz.notificationTopics"
         case biometricLock  = "krz.biometricLock"
         case onboarding     = "krz.hasSeenOnboarding"
     }
@@ -125,10 +129,20 @@ final class SettingsStore {
         language = defaults.string(forKey: Key.locale.rawValue)
             .flatMap(AppLanguage.init(rawValue:)) ?? .systemDefault
         L10n.use(language)
+        // Les thèmes sont enregistrés en toutes lettres. Un thème ajouté après
+        // coup manquerait de la liste d'un ancien réglage, et se trouverait
+        // désactivé sans que personne l'ait demandé : la clé porte donc une
+        // version, et une liste d'avant la reprend avec les nouveaux thèmes
+        // activés.
         if let raw = defaults.string(forKey: Key.topics.rawValue) {
             enabledTopics = Set(raw.split(separator: ",").compactMap {
                 NotificationTopic(rawValue: String($0))
             })
+        } else if let legacy = defaults.string(forKey: Key.legacyTopics.rawValue) {
+            let known = Set(legacy.split(separator: ",").compactMap {
+                NotificationTopic(rawValue: String($0))
+            })
+            enabledTopics = known.union([.bonus])
         }
         biometricLock = defaults.bool(forKey: Key.biometricLock.rawValue)
         hasSeenOnboarding = defaults.bool(forKey: Key.onboarding.rawValue)
@@ -140,6 +154,9 @@ final class SettingsStore {
 
     func setTopic(_ topic: NotificationTopic, enabled: Bool) {
         if enabled { enabledTopics.insert(topic) } else { enabledTopics.remove(topic) }
+        // Le rappel du versement part d'un cron : c'est le serveur, pas
+        // l'app, qui doit savoir si on en veut encore.
+        if topic == .bonus { syncProfile() }
     }
 
     func completeOnboarding() {
@@ -159,7 +176,10 @@ final class SettingsStore {
         defaults.set(value, forKey: key.rawValue)
     }
 
-    /// Recopie apparence et langue dans `profiles`. Silencieux : un échec
+    /// Vrai tant que le rappel hebdomadaire est accepté.
+    var weeklyBonusPush: Bool { enabledTopics.contains(.bonus) }
+
+    /// Recopie apparence, langue et consentement au rappel dans `profiles`. Silencieux : un échec
     /// réseau ne doit pas empêcher le réglage local de s'appliquer.
     private func syncProfile() {
         guard let userID, AppConfig.isConfigured else { return }
@@ -167,7 +187,8 @@ final class SettingsStore {
         let locale = language.rawValue
         Task {
             try? await repository.updatePreferences(
-                userID: userID, darkMode: darkMode, locale: locale)
+                userID: userID, darkMode: darkMode, locale: locale,
+                weeklyBonusPush: weeklyBonusPush)
         }
     }
 }
