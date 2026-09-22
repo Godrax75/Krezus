@@ -38,16 +38,18 @@ remarque, un cron qui n'envoie rien en silence, non.
    qu'une fois. Les dix caractères du nom sont le *Key ID*.
 3. Relever le **Team ID** (Membership details) — le même que dans
    `Secrets.xcconfig`.
-4. Déposer le tout côté Supabase, depuis le dossier du projet :
+4. Déposer le tout côté Supabase, en une commande :
 
    ```bash
-   npx supabase secrets set --project-ref nxvqupjaqkdulhddnlvy \
-     APNS_KEY_ID=XXXXXXXXXX APNS_TEAM_ID=9989UCJKD6 APNS_TOPIC=com.krezus.app \
-     APNS_ENV=production APNS_KEY_P8="$(cat ~/Downloads/AuthKey_XXXXXXXXXX.p8)"
+   tools/setup_push.sh ~/Downloads/AuthKey_XXXXXXXXXX.p8
    ```
 
-   La clé ne transite que par ton terminal. Range ensuite le `.p8` ailleurs
-   que dans Téléchargements, et ne le mets jamais dans le dépôt.
+   Le script vérifie que la clé est lisible, lit l'identifiant dans le nom du
+   fichier et le Team ID dans `Secrets.xcconfig`, dépose les secrets, puis
+   appelle la fonction pour confirmer qu'elle ne répond plus 503. La clé ne
+   quitte pas ton disque autrement : elle ne s'affiche pas, n'entre pas dans
+   le dépôt. Range ensuite le `.p8` ailleurs que dans Téléchargements — Apple
+   ne le propose qu'une fois.
 
 `APNS_ENV` vaut `production` pour une build TestFlight ou App Store, et
 `sandbox` pour une build lancée depuis Xcode : ce sont deux réseaux de jetons

@@ -34,7 +34,16 @@ confidentialité vers lesquelles l'app renvoie.
 
    Les valeurs exactes sont celles de ton écran Resend : recopie-les, ne les
    invente pas.
-3. Attendre la pastille **Verified** (quelques minutes, parfois une heure).
+3. Vérifier la recopie avant de cliquer sur *Verify* :
+
+   ```bash
+   tools/check_email_dns.sh
+   ```
+
+   Le script dit lequel des enregistrements manque ou est mal recopié, et
+   contrôle au passage que le SPF du domaine racine — celui de ta messagerie
+   IONOS — n'a pas été écrasé. Attendre ensuite la pastille **Verified**
+   (quelques minutes, parfois une heure).
 4. **API Keys → Create API Key**, droit *Sending access*, domaine
    `krezus-card.com`. La clé (`re_…`) ne s'affiche qu'une fois.
 
