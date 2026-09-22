@@ -196,6 +196,8 @@ proscrits) : la fiche décrit une entreprise, elle ne recommande pas un titre ;
 - pas de superlatif publicitaire repris tel quel (« leader mondial » ne passe \
 que si l'extrait l'établit) ;
 - phrases courtes, présent de l'indicatif, pas de jargon ;
+- pas de chiffre daté de plus de trois ans : un volume de ventes de 2014 \
+donne une fiche fausse aujourd'hui. Seule la date de création fait exception ;
 - si l'extrait ne parle pas de l'activité, écris une seule phrase factuelle \
 avec ce qu'il y a.
 
@@ -248,7 +250,7 @@ def anthropic_key() -> str:
 
 # ----------------------------------------------------------------------- SQL
 
-def emit(fiches: list[tuple[str, dict]]) -> str:
+def emit(fiches: list[tuple[str, dict]], overwrite: bool = False) -> str:
     lines = [
         "-- =====================================================================",
         "-- Fiches « Que fait l'entreprise ? »",
@@ -262,8 +264,10 @@ def emit(fiches: list[tuple[str, dict]]) -> str:
         "-- =====================================================================",
         "",
         "update public.securities s set",
-        "  description_fr = coalesce(nullif(s.description_fr, ''), v.fr),",
-        "  description_en = coalesce(nullif(s.description_en, ''), v.en)",
+        ("  description_fr = v.fr," if overwrite
+         else "  description_fr = coalesce(nullif(s.description_fr, ''), v.fr),"),
+        ("  description_en = v.en" if overwrite
+         else "  description_en = coalesce(nullif(s.description_en, ''), v.en)"),
         "from (values",
     ]
     rows = ",\n".join(
@@ -279,10 +283,18 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--all", action="store_true", help="refait aussi les fiches existantes")
     parser.add_argument("--limit", type=int, default=0, help="s'arrête après N titres")
+    parser.add_argument("--symbols", default="", help="refait ces symboles, séparés par des virgules")
     args = parser.parse_args()
 
     rows = catalogue()
-    todo = [row for row in rows if args.all or not row["description_fr"].strip()]
+    forced = {symbol.strip() for symbol in args.symbols.split(",") if symbol.strip()}
+    if forced:
+        # Une fiche à refaire ne doit pas ressortir du cache.
+        for symbol in forced:
+            (CACHE / f"fiche-{symbol.replace('/', '_')}.json").unlink(missing_ok=True)
+        todo = [row for row in rows if row["symbol"] in forced]
+    else:
+        todo = [row for row in rows if args.all or not row["description_fr"].strip()]
     if args.limit:
         todo = todo[:args.limit]
     print(f"{len(rows)} actions au catalogue · {len(todo)} fiches à écrire")
@@ -349,7 +361,7 @@ def main() -> None:
     if not fiches:
         raise SystemExit("aucune fiche produite")
     fiches.sort()
-    SEED.write_text(emit(fiches))
+    SEED.write_text(emit(fiches, overwrite=bool(forced) or args.all))
     print(f"{len(fiches)} fiches écrites → {SEED.relative_to(ROOT)}")
     missing = [row["symbol"] for row in todo if row["symbol"] not in dict(fiches)]
     if missing:
