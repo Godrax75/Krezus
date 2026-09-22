@@ -1,0 +1,35 @@
+<table width="100%" cellpadding="0" cellspacing="0" style="background:#F5F6FA;padding:28px 0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;">
+  <tr><td align="center">
+    <table width="100%" cellpadding="0" cellspacing="0" style="max-width:520px;background:#FFFFFF;border-radius:16px;padding:32px;">
+      <tr><td style="font-size:20px;font-weight:800;color:#0F2572;padding-bottom:20px;">Krezus</td></tr>
+
+      <tr><td style="font-size:22px;font-weight:700;color:#0A0D24;padding-bottom:10px;">Confirme ton adresse</td></tr>
+      <tr><td style="font-size:15px;line-height:23px;color:#3B4161;padding-bottom:22px;">
+        Encore un clic et ton compte Krezus est ouvert, avec 1 000 € fictifs pour commencer à investir.
+      </td></tr>
+      <tr><td align="center" style="padding-bottom:18px;">
+        <a href="{{ .ConfirmationURL }}" style="display:inline-block;background:#0F2572;color:#FFFFFF;text-decoration:none;font-size:15px;font-weight:700;padding:14px 28px;border-radius:12px;">Confirmer mon adresse</a>
+      </td></tr>
+      <tr><td style="font-size:13px;line-height:20px;color:#6B7190;padding-bottom:6px;">
+        Si le bouton ne fonctionne pas, copie ce lien dans ton navigateur :
+      </td></tr>
+      <tr><td style="font-size:12px;line-height:18px;color:#0F2572;word-break:break-all;padding-bottom:18px;">{{ .ConfirmationURL }}</td></tr>
+      <tr><td style="font-size:13px;line-height:20px;color:#6B7190;padding-bottom:22px;">
+        Ou saisis ce code dans l'app : <strong style="color:#0A0D24;letter-spacing:2px;">{{ .Token }}</strong><br>
+        Ce lien expire dans 24 heures. Tu n'es pas à l'origine de cette inscription ? Ignore ce message, aucun compte ne sera ouvert.
+      </td></tr>
+
+      <tr><td style="border-top:1px solid #E6E8F0;padding-top:22px;font-size:14px;font-weight:700;color:#0A0D24;padding-bottom:8px;">Confirm your email address</td></tr>
+      <tr><td style="font-size:13px;line-height:20px;color:#3B4161;padding-bottom:12px;">
+        One more click and your Krezus account is open, with €1,000 in paper money to start investing.
+        Use the button above, or the code <strong style="color:#0A0D24;letter-spacing:2px;">{{ .Token }}</strong> in the app.
+        The link expires in 24 hours — if you didn't sign up, ignore this message.
+      </td></tr>
+
+      <tr><td style="font-size:12px;line-height:18px;color:#8C93B4;padding-top:16px;">
+        Krezus — argent fictif, vrais cours de bourse. Aucune transaction réelle.<br>
+        Une question ? Réponds simplement à ce message.
+      </td></tr>
+    </table>
+  </td></tr>
+</table>

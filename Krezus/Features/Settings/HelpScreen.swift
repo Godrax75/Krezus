@@ -37,14 +37,14 @@ struct HelpScreen: View {
                     KrzGroupLabel(text: t("help.group.contact"))
                     KrzSettingsGroup {
                         KrzSettingsRow(icon: "envelope.fill", title: t("help.contact_support"),
-                                       subtitle: "bonjour@krezus.app") {
-                            if let url = URL(string: "mailto:bonjour@krezus.app") { openURL(url) }
+                                       subtitle: "bonjour@krezus-card.com") {
+                            if let url = URL(string: "mailto:bonjour@krezus-card.com") { openURL(url) }
                         }
                         KrzRowDivider()
                         KrzSettingsRow(icon: "exclamationmark.bubble.fill",
                                        title: t("help.report_issue"),
                                        subtitle: t("help.report_issue_detail")) {
-                            if let url = URL(string: "mailto:bonjour@krezus.app?subject=Signalement") {
+                            if let url = URL(string: "mailto:bonjour@krezus-card.com?subject=Signalement") {
                                 openURL(url)
                             }
                         }

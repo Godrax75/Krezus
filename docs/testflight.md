@@ -20,8 +20,8 @@ identité juridique et un moyen de paiement.
 | 5 | Créer la **fiche d'app** (nom, langue principale : français, bundle ID, SKU) | App Store Connect | Le nom « Krezus » doit être disponible |
 | 6 | Créer l'**abonnement** `com.krezus.hercule.monthly` à 5,99 €/mois | App Store Connect → Monétisation | Tant qu'il n'existe pas, `Product.products(for:)` rend une liste vide et le paywall affiche « Abonnement indisponible » — comportement voulu, mais à vérifier une fois créé |
 | 7 | Créer une **clé d'API App Store Connect** pour l'envoi en ligne de commande | Users and Access → Integrations | Voir §3 |
-| 8 | Publier les pages **CGU** et **confidentialité** | krezus.app | Le paywall y renvoie (`legal.terms_url`, `legal.privacy_url`) : des liens morts sont un motif de rejet |
-| 9 | Ouvrir la boîte **bonjour@krezus.app** | — | Adresse affichée dans le Centre d'aide |
+| 8 | Publier les pages **CGU** et **confidentialité** | krezus-card.com | Le paywall y renvoie (`legal.terms_url`, `legal.privacy_url`) : des liens morts sont un motif de rejet |
+| 9 | Ouvrir la boîte **bonjour@krezus-card.com** et brancher l'envoi (voir `docs/emails.md`) | — | Adresse affichée dans le Centre d'aide |
 
 **Décision à prendre avant d'archiver** : renseigner ou non les secrets Supabase
 dans `Secrets.xcconfig`. À vide, la build TestFlight tourne en **mode démo**
@@ -128,7 +128,7 @@ parcours d'inscription.
 > (carte, KYC, fiscalité) sont volontairement verrouillés : aucun partenariat
 > courtier n'est signé.
 >
-> Un souci, une idée : bonjour@krezus.app
+> Un souci, une idée : bonjour@krezus-card.com
 
 ### English
 
@@ -150,7 +150,7 @@ parcours d'inscription.
 > Hercule's answers are scripted in beta. Real-mode screens (card, KYC, tax)
 > are deliberately locked: no broker partnership is signed.
 >
-> Anything broken, any idea: bonjour@krezus.app
+> Anything broken, any idea: bonjour@krezus-card.com
 
 ### Notes pour la revue (test externe uniquement)
 
