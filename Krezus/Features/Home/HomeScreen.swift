@@ -83,11 +83,12 @@ struct HomeScreen: View {
                     Text(t("home.portfolio_value"))
                         .font(KrezusFont.body(12)).foregroundStyle(.white.opacity(0.65))
                     Spacer()
-                    HStack(spacing: 5) {
-                        Circle().fill(Color(hex: 0x6EE7A0)).frame(width: 6, height: 6)
-                        Text(t("common.live")).font(KrezusFont.body(10.5, .semibold))
-                    }
-                    .foregroundStyle(Color(hex: 0x6EE7A0))
+                    // Sur fond bleu nuit, la pastille garde ses couleurs
+                    // claires : le vert et l'ambre du design system s'y
+                    // perdraient.
+                    KrzQuoteAge(age: store.portfolioQuoteAge)
+                        .foregroundStyle(Color(hex: 0x6EE7A0))
+                        .environment(\.colorScheme, .dark)
                 }
                 Text(Money.euros(cents: store.totalValueCents))
                     .font(KrezusFont.totalValue).foregroundStyle(.white)

@@ -243,3 +243,37 @@ struct HerculeAvatar: View {
             .accessibilityHidden(true)
     }
 }
+
+/// Âge d'une cotation, en pastille.
+///
+/// Le catalogue ne se rafraîchit plus à la minute depuis qu'il compte plus de
+/// mille titres : un cours peut avoir un quart d'heure. Afficher « En direct »
+/// par-dessus serait un mensonge d'interface — celui qu'on s'interdit partout
+/// ailleurs dans l'app.
+struct KrzQuoteAge: View {
+    /// `nil` = cours simulé (mode démo) : il est bien en direct.
+    let age: TimeInterval?
+
+    private var minutes: Int { Int((age ?? 0) / 60) }
+
+    private var tint: Color {
+        guard let age else { return KrezusColor.upDeep }
+        if age < 120 { return KrezusColor.upDeep }
+        return age < MarketDataService.staleThreshold ? KrezusColor.amberText : KrezusColor.fg3
+    }
+
+    private var label: String {
+        guard let age, age >= 120 else { return t("common.live") }
+        return minutes < 60 ? t("quote.minutes_ago", minutes) : t("quote.hours_ago", minutes / 60)
+    }
+
+    var body: some View {
+        HStack(spacing: 4) {
+            Circle().fill(tint).frame(width: 6, height: 6)
+            Text(label).font(KrezusFont.body(10.5, .semibold))
+        }
+        .foregroundStyle(tint)
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel(t("a11y.quote_age", label))
+    }
+}

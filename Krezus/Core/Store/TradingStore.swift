@@ -301,6 +301,20 @@ final class TradingStore {
     /// Cotation en cache d'un titre, en mode serveur uniquement.
     func quote(_ symbol: String) -> Quote? { quotes[symbol] }
 
+    /// Âge de la cotation d'un titre. `nil` en démo, où les cours sont
+    /// simulés en continu.
+    func quoteAge(_ symbol: String) -> TimeInterval? {
+        guard source == .server, let quote = quotes[symbol] else { return nil }
+        return Date().timeIntervalSince(quote.fetchedAt)
+    }
+
+    /// Fraîcheur de la cotation la plus ancienne parmi les titres détenus :
+    /// c'est elle qui date la valeur du portefeuille.
+    var portfolioQuoteAge: TimeInterval? {
+        let ages = positions.keys.compactMap(quoteAge)
+        return ages.max()
+    }
+
     /// Vrai quand le cours est trop vieux pour que le moteur accepte un ordre
     /// (KR004). On le sait avant que l'utilisateur remplisse le formulaire ;
     /// le laisser saisir un montant pour échouer à l'envoi serait cruel.

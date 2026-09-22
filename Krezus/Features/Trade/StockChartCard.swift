@@ -124,6 +124,7 @@ final class StockHistoryModel {
 /// Cours, variation sur la période, courbe et sélecteur, pour la fiche action.
 struct StockChartCard: View {
     let stock: StockInfo
+    @Environment(TradingStore.self) private var store
     @State private var model: StockHistoryModel
     @State private var range: PortfolioRange = .year
     @State private var selectedDate: Date?
@@ -147,13 +148,10 @@ struct StockChartCard: View {
                         .foregroundStyle(stock.hasQuote ? KrezusColor.ink : KrezusColor.fg4)
                         .tabularNumbers()
                         .contentTransition(.numericText())
-                    // La pastille « Live » ne qualifie que le cours en direct.
+                    // La pastille ne qualifie que le cours en direct, et dit
+                    // son âge dès qu'il en a un.
                     if stock.hasQuote && summary.selected == nil {
-                        HStack(spacing: 4) {
-                            Circle().fill(KrezusColor.up).frame(width: 6, height: 6)
-                            Text(t("common.live")).font(KrezusFont.body(10.5, .semibold))
-                                .foregroundStyle(KrezusColor.upDeep)
-                        }
+                        KrzQuoteAge(age: store.quoteAge(stock.symbol))
                     }
                 }
                 if points.count >= 2 {
