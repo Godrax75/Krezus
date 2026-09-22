@@ -568,8 +568,8 @@ WIKI_INDICES = {
                     ticker="Ticker", name="Company", sector="ICB Sector"),
     "ibex35":  dict(page="IBEX 35", exchange="MC", country="ES",
                     ticker="Ticker", name="Company", sector="Sector"),
-    "ftsemib": dict(page="FTSE MIB", exchange="MI", country="IT",
-                    ticker="Ticker", name="Company", sector="ICB Sector"),
+    # Milan manque : la Borsa Italiana n'est pas dans l'abonnement EODHD,
+    # et un titre sans cours n'a rien à faire au catalogue.
     "omxs30":  dict(page="OMX Stockholm 30", exchange="ST", country="SE",
                     ticker="Ticker", name="Company", sector="GICS sector"),
     "c25":     dict(page="OMX Copenhagen 25", exchange="CO", country="DK",

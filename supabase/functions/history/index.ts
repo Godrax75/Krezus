@@ -12,6 +12,7 @@
 //   days=400     profondeur d'historique (défaut 400 ≈ 1 an de séances + marge,
 //                jusqu'à 20 000 ≈ 55 ans pour rejouer les crises passées)
 //   symbols=MC,AI  restreint à quelques titres (rattrapage ciblé)
+//   fx=0         ne relit pas les taux de change (rattrapage par lots)
 //   part=0/4     ne traite qu'une part du catalogue (un titre sur quatre) :
 //                le cron quotidien en lance quatre, à quelques minutes
 //                d'intervalle
@@ -55,6 +56,9 @@ Deno.serve(async (request: Request): Promise<Response> => {
   const only = (params.get("symbols") ?? "")
     .split(",").map((s) => s.trim()).filter((s) => s.length > 0);
   const part = parsePart(params.get("part"));
+  // Un rattrapage ciblé se fait par lots : les taux de change, eux, n'ont
+  // besoin d'être relus qu'une fois pour tout le rattrapage.
+  const skipFx = params.get("fx") === "0";
 
   try {
     const catalogue = await selectAllRows<SecurityRef>(
@@ -100,7 +104,7 @@ Deno.serve(async (request: Request): Promise<Response> => {
     // Clôtures de change, pour convertir chaque titre au taux de sa propre
     // date dans la courbe du portefeuille : une paire par devise du
     // catalogue, un appel chacune. Une seule part s'en charge.
-    if (part === null || part.index === 0) {
+    if (!skipFx && (part === null || part.index === 0)) {
       const pairs = [...new Set(catalogue.map((s) => fxPairFor(s.currency))
         .filter((pair): pair is string => pair !== null))];
       for (const pair of pairs) {
