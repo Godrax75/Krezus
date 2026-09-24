@@ -18,6 +18,14 @@ struct ArenaFriendsView: View {
             if !arena.requests.isEmpty { requestsCard }
             friendsCard
         }
+        // Les photos des amis et des demandes reçues, à l'ouverture.
+        .task(id: arena.friends.count + arena.requests.count) {
+            await arena.loadAvatars(for: arena.friends.map(\.id) + arena.requests.map(\.id))
+        }
+        // Celles des résultats de recherche, quand ils arrivent.
+        .task(id: results.map(\.id)) {
+            await arena.loadAvatars(for: results.map(\.id))
+        }
         // Recherche après une courte pause de frappe : pas un appel par lettre.
         .task(id: query) {
             let trimmed = query.trimmingCharacters(in: .whitespaces)
@@ -84,9 +92,15 @@ struct ArenaFriendsView: View {
         }
     }
 
+    /// Initiale affichée à défaut de photo.
+    private func initial(_ username: String) -> String {
+        String(username.first.map(String.init)?.uppercased() ?? "?")
+    }
+
     private func searchRow(_ player: PlayerSearchResult, index: Int) -> some View {
         HStack(spacing: 11) {
-            Text(player.rankEmoji).font(.system(size: 22))
+            KrzAvatar(initial: initial(player.username), size: 32,
+                      image: arena.avatars[player.id])
             Text(player.username)
                 .font(KrezusFont.body(13.5, .semibold)).foregroundStyle(KrezusColor.ink)
             Spacer(minLength: 0)
@@ -171,7 +185,8 @@ struct ArenaFriendsView: View {
 
     private func requestRow(_ request: FriendRequest) -> some View {
         HStack(spacing: 11) {
-            Text(request.rankEmoji).font(.system(size: 22))
+            KrzAvatar(initial: initial(request.username), size: 32,
+                      image: arena.avatars[request.id])
 
             VStack(alignment: .leading, spacing: 1) {
                 Text(request.username)
@@ -243,7 +258,8 @@ struct ArenaFriendsView: View {
 
     private func friendRow(_ friend: ArenaPlayer) -> some View {
         HStack(spacing: 11) {
-            Text(friend.rankEmoji).font(.system(size: 22))
+            KrzAvatar(initial: initial(friend.username), size: 32,
+                      image: arena.avatars[friend.id])
 
             VStack(alignment: .leading, spacing: 1) {
                 Text(friend.username)

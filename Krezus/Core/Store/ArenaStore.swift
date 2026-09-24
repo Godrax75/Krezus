@@ -119,11 +119,21 @@ final class ArenaStore {
     private(set) var ranking: [ArenaPlayer] = []
     private(set) var isRankingLoading = false
 
+    /// Photos des joueurs affichés, déjà décodées. Un joueur sans photo n'y
+    /// figure pas : la vue retombe sur son initiale.
+    private(set) var avatars: [UUID: UIImage] = [:]
+    /// Comptes déjà interrogés — avec ou sans photo — pour ne pas redemander
+    /// à chaque défilement.
+    private var avatarsChecked: Set<UUID> = []
+
     /// Groupe dont le classement est affiché ; `nil` = cercle d'amis.
     var selectedGroup: ArenaGroup?
 
     // Mode serveur
     private let repository = ArenaRepository()
+    /// Sert à télécharger la photo d'un joueur : le dépôt est le même que
+    /// celui du profil, seule la politique de lecture a changé (0027).
+    private let profiles = ProfileRepository()
     private var userID: UUID?
     /// Appartenance aux groupes du serveur, pour restreindre le classement.
     private var serverGroupMembers: [UUID: Set<UUID>] = [:]
@@ -212,6 +222,47 @@ final class ArenaStore {
     }
 
     private func emoji(for level: Int) -> String { rankEmojis[level] ?? "🏛️" }
+
+    // MARK: Photos
+
+    /// Charge les photos manquantes des joueurs donnés.
+    ///
+    /// Le cache local est indexé sur la date de la photo : une photo changée
+    /// depuis un autre appareil porte une autre date, donc se retélécharge.
+    /// Les téléchargements partent ensemble, mais par groupes de six : une
+    /// liste de cent joueurs ne doit pas ouvrir cent connexions.
+    func loadAvatars(for ids: [UUID]) async {
+        guard source == .server else { return }
+        let wanted = ids.filter { !avatarsChecked.contains($0) }
+        guard !wanted.isEmpty else { return }
+        avatarsChecked.formUnion(wanted)
+
+        guard let versions = try? await repository.fetchAvatarVersions(ids: wanted) else {
+            // Rien d'appris : on pourra redemander.
+            avatarsChecked.subtract(wanted)
+            return
+        }
+
+        for group in stride(from: 0, to: versions.count, by: 6) {
+            let slice = Array(versions)[group..<min(group + 6, versions.count)]
+            await withTaskGroup(of: (UUID, UIImage?).self) { tasks in
+                for (id, version) in slice {
+                    tasks.addTask { [profiles] in
+                        if let cached = AvatarCache.load(userID: id, version: version) {
+                            return (id, cached)
+                        }
+                        guard let data = try? await profiles.downloadAvatar(userID: id),
+                              let image = UIImage(data: data) else { return (id, nil) }
+                        AvatarCache.store(data, userID: id, version: version)
+                        return (id, image)
+                    }
+                }
+                for await (id, image) in tasks {
+                    if let image { avatars[id] = image }
+                }
+            }
+        }
+    }
 
     // MARK: Classement
 

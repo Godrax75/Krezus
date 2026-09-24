@@ -123,6 +123,33 @@ struct ArenaRepository {
     /// et `arena_feed.actor_id` référencent `auth.users`, pas `public.profiles`.
     /// Il n'existe donc aucune clé étrangère entre ces tables et `profiles`, et
     /// PostgREST ne sait embarquer que le long d'une relation déclarée.
+    /// Date de la photo de chaque joueur : la clé du cache local, et le seul
+    /// moyen de savoir qu'une photo a changé depuis le dernier passage.
+    /// Absente de la ligne = pas de photo.
+    func fetchAvatarVersions(ids: [UUID]) async throws -> [UUID: Date] {
+        guard !ids.isEmpty else { return [:] }
+        struct Row: Decodable {
+            let id: UUID
+            let avatarUpdatedAt: Date?
+            enum CodingKeys: String, CodingKey {
+                case id
+                case avatarUpdatedAt = "avatar_updated_at"
+            }
+        }
+        let client = try SupabaseService.shared.requireClient()
+        do {
+            let rows: [Row] = try await client
+                .from("profiles")
+                .select("id, avatar_updated_at")
+                .in("id", values: ids.map(\.uuidString))
+                .execute()
+                .value
+            return Dictionary(uniqueKeysWithValues: rows.compactMap { row in
+                row.avatarUpdatedAt.map { (row.id, $0) }
+            })
+        } catch { throw mapPostgrestError(error) }
+    }
+
     func fetchProfiles(ids: [UUID]) async throws -> [UUID: (username: String?, rankLevel: Int)] {
         guard !ids.isEmpty else { return [:] }
         struct Row: Decodable {

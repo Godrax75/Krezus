@@ -147,6 +147,7 @@ struct ArenaScreen: View {
                                     myStreak: learning.streakDays,
                                     myRank: learning.rankLevel,
                                     myEmoji: learning.currentRank?.emoji ?? "🏛️")
+            await arena.loadAvatars(for: arena.ranking.map(\.id))
         }
     }
 
@@ -176,7 +177,10 @@ struct ArenaScreen: View {
                 .frame(width: 26, alignment: .leading)
                 .tabularNumbers()
 
-            Text(player.rankEmoji).font(.system(size: 20))
+            // La photo plutôt que l'emoji de rang : on reconnaît un ami à
+            // son visage, pas à son niveau.
+            KrzAvatar(initial: initial(player.username), size: 30,
+                      image: arena.avatars[player.id])
 
             VStack(alignment: .leading, spacing: 1) {
                 Text(player.username)
@@ -198,6 +202,11 @@ struct ArenaScreen: View {
         }
         .padding(.vertical, 10)
         .background(player.isMe ? KrezusColor.tintStrong.opacity(0.5) : .clear)
+    }
+
+    /// Initiale affichée à défaut de photo.
+    private func initial(_ username: String) -> String {
+        String(username.first.map(String.init)?.uppercased() ?? "?")
     }
 
     private func medal(_ rank: Int) -> String {
